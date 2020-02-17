@@ -1,4 +1,4 @@
-package br.com.jeramovies.data.entity
+package br.com.jeramovies.domain.entity
 
 import com.google.gson.annotations.SerializedName
 import java.util.*

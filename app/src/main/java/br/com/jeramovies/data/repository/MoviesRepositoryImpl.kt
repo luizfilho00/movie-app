@@ -1,7 +1,7 @@
 package br.com.jeramovies.data.repository
 
 import br.com.jeramovies.data.remote.ApiService
-import br.com.jeramovies.domain.MoviesRepository
+import br.com.jeramovies.domain.repository.MoviesRepository
 
 class MoviesRepositoryImpl(
     private val apiService: ApiService

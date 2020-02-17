@@ -1,6 +1,6 @@
 package br.com.jeramovies.data.remote
 
-import br.com.jeramovies.data.entity.MoviesResponse
+import br.com.jeramovies.domain.entity.MoviesResponse
 import retrofit2.http.GET
 
 interface ApiService {

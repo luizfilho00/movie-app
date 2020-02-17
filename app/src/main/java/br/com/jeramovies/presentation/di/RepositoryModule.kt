@@ -1,7 +1,7 @@
 package br.com.jeramovies.presentation.di
 
 import br.com.jeramovies.data.repository.MoviesRepositoryImpl
-import br.com.jeramovies.domain.MoviesRepository
+import br.com.jeramovies.domain.repository.MoviesRepository
 import org.koin.dsl.module
 
 val repositoryModule = module {
