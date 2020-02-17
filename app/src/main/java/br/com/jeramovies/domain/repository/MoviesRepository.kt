@@ -4,5 +4,5 @@ import br.com.jeramovies.domain.entity.Movie
 
 interface MoviesRepository {
 
-    suspend fun getMovies(): List<Movie>
+    suspend fun getMovies(page: Int? = null): List<Movie>
 }

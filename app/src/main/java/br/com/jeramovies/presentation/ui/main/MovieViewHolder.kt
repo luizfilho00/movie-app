@@ -7,14 +7,18 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ItemMovieBinding
 import br.com.jeramovies.domain.entity.Movie
+import br.com.jeramovies.presentation.util.extensions.setVisible
 import coil.api.load
 
 class MovieViewHolder(
     private val binding: ItemMovieBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: Movie) {
-        binding.imageView.load(movie.getPosterUrl())
+    fun bind(movie: Movie, showLoading: Boolean = false) {
+        with(binding) {
+            imageView.load(movie.getPosterUrl())
+            loadingPlaceholder.setVisible(showLoading)
+        }
     }
 
     companion object {

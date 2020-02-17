@@ -7,5 +7,5 @@ class MoviesRepositoryImpl(
     private val apiService: ApiService
 ) : MoviesRepository {
 
-    override suspend fun getMovies() = apiService.getMovies().movies
+    override suspend fun getMovies(page: Int?) = apiService.getMovies(page).movies
 }

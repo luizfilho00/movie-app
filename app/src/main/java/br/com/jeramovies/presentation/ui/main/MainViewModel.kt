@@ -8,7 +8,9 @@ import androidx.lifecycle.viewModelScope
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.presentation.util.exceptionHandler.ExceptionHandler
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
 
 class MainViewModel(
     private val repository: MoviesRepository,
@@ -20,8 +22,13 @@ class MainViewModel(
     private val _movies by lazy { MutableLiveData<List<Movie>>() }
 
     init {
+        loadMovies()
+    }
+
+    fun loadMovies(page: Int? = null) {
         viewModelScope.launch {
-            runCatching { repository.getMovies() }
+            delay(1000L)
+            runCatching { repository.getMovies(page) }
                 .onSuccess { movies ->
                     _movies.value = movies
                 }.onFailure {
