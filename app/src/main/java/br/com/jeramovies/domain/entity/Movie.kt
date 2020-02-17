@@ -18,4 +18,12 @@ data class Movie(
     @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("overview") val overview: String,
     @SerializedName("release_date") val releaseDate: Date
-)
+) {
+
+    fun getPosterUrl(size: String = W185) = "https://image.tmdb.org/t/p/$size/$posterPath"
+
+    companion object {
+        const val W185 = "w185"
+        const val W500 = "w500"
+    }
+}

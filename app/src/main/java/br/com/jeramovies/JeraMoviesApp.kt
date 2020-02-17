@@ -2,6 +2,7 @@ package br.com.jeramovies
 
 import android.app.Application
 import br.com.jeramovies.presentation.di.apiModule
+import br.com.jeramovies.presentation.di.appModule
 import br.com.jeramovies.presentation.di.repositoryModule
 import br.com.jeramovies.presentation.di.viewModelModule
 import org.koin.android.ext.koin.androidContext
@@ -15,11 +16,14 @@ class JeraMoviesApp : Application() {
         startKoin {
             androidLogger()
             androidContext(this@JeraMoviesApp)
-            modules(listOf(
-                apiModule,
-                repositoryModule,
-                viewModelModule
-            ))
+            modules(
+                listOf(
+                    apiModule,
+                    repositoryModule,
+                    viewModelModule,
+                    appModule
+                )
+            )
         }
     }
 }
