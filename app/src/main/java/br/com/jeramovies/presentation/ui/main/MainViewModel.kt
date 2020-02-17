@@ -14,7 +14,7 @@ class MainViewModel(
 
     val movies: LiveData<List<Movie>> get() = _movies
 
-    val _movies by lazy { MutableLiveData<List<Movie>>() }
+    private val _movies by lazy { MutableLiveData<List<Movie>>() }
 
     init {
         viewModelScope.launch {
