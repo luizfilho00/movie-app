@@ -2,10 +2,11 @@ package br.com.jeramovies.presentation.util.exceptionHandler
 
 import android.content.Context
 import br.com.jeramovies.R
+import br.com.jeramovies.domain.entity.Error
 import com.google.gson.Gson
-import com.google.gson.annotations.SerializedName
 import okhttp3.ResponseBody
 import retrofit2.HttpException
+import java.net.SocketTimeoutException
 import java.net.UnknownHostException
 
 class ExceptionHandlerImpl(
@@ -17,7 +18,8 @@ class ExceptionHandlerImpl(
             when (throwable) {
                 is UnknownHostException -> getString(R.string.error_network)
                 is HttpException -> extractError(throwable.response()?.errorBody())
-                    ?: getString(R.string.unknown_error)
+                    ?: getString(R.string.http_error)
+                is SocketTimeoutException -> getString(R.string.socket_timeout_error)
                 else -> getString(R.string.unknown_error)
             }
         }
@@ -25,20 +27,15 @@ class ExceptionHandlerImpl(
 
     private fun extractError(body: ResponseBody?): String? {
         return body?.let {
-            toApiErrors(Gson().fromJson(body.string(), ApiError::class.java))
+            toApiErrors(Gson().fromJson(body.string(), Error::class.java))
         }
     }
 
-    private fun toApiErrors(apiError: ApiError): String? {
-        return if (!apiError.errors.isNullOrEmpty()) {
-            apiError.errors.joinToString("\n")
+    private fun toApiErrors(errorEntity: Error): String? {
+        return if (!errorEntity.errors.isNullOrEmpty()) {
+            errorEntity.errors.joinToString("\n")
         } else {
-            apiError.message
+            errorEntity.message
         }
     }
-
-    data class ApiError(
-        @SerializedName("status_message") val message: String?,
-        val errors: List<String>?
-    )
 }

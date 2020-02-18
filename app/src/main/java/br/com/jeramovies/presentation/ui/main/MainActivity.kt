@@ -2,6 +2,7 @@ package br.com.jeramovies.presentation.ui.main
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -18,11 +19,24 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.run {
+            lifecycleOwner = this@MainActivity
+            vModel = viewModel
+        }
         setupUi()
+        setupRecyclerView()
         subscribeUi()
     }
 
     private fun setupUi() {
+        with(binding) {
+            editTextQuery.doOnTextChanged { text, _, _, _ ->
+                viewModel.searchMovies(text.toString())
+            }
+        }
+    }
+
+    private fun setupRecyclerView() {
         with(binding.recyclerView) {
             adapter = this@MainActivity.adapter
             layoutManager = LinearLayoutManager(context)
@@ -30,8 +44,8 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun subscribeUi() {
-        viewModel.movies.observe(this, Observer { movies ->
-            adapter.submitList(movies)
+        viewModel.movies.observe(this, Observer { (movies, reload) ->
+            adapter.submitList(movies, reload)
         })
     }
 }

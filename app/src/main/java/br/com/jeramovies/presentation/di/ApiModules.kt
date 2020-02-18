@@ -59,6 +59,7 @@ val apiModule = module {
                 val originalHttpUrl = original.url
                 val url = originalHttpUrl.newBuilder()
                     .addQueryParameter("api_key", API_KEY)
+                    .addQueryParameter("language", "pt-BR")
                     .build()
                 val requestBuilder = original.newBuilder().url(url)
                 val request = requestBuilder.build()

@@ -28,6 +28,11 @@ class MoviesAdapter(
         }
     }
 
+    fun submitList(list: List<Movie>?, reload: Boolean = false) {
+        if (reload) loadedList.clear()
+        submitList(list)
+    }
+
     override fun submitList(list: List<Movie>?) {
         list?.let(loadedList::addAll)
         super.submitList(loadedList)

@@ -16,7 +16,9 @@ class MovieViewHolder(
 
     fun bind(movie: Movie, showLoading: Boolean = false) {
         with(binding) {
-            imageView.load(movie.getPosterUrl())
+            imageView.load(movie.getPosterUrl()) {
+                crossfade(true)
+            }
             loadingPlaceholder.setVisible(showLoading)
         }
     }
