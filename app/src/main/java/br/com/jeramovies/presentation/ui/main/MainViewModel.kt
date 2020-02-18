@@ -8,9 +8,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.presentation.util.exceptionHandler.ExceptionHandler
-import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
-import java.util.concurrent.TimeUnit
 
 class MainViewModel(
     private val repository: MoviesRepository,
@@ -27,7 +25,6 @@ class MainViewModel(
 
     fun loadMovies(page: Int? = null) {
         viewModelScope.launch {
-            delay(1000L)
             runCatching { repository.getMovies(page) }
                 .onSuccess { movies ->
                     _movies.value = movies
