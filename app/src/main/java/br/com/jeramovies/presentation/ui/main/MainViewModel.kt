@@ -16,17 +16,14 @@ class MainViewModel(
 ) : BaseViewModel() {
 
     var movies: LiveData<PagedList<Movie>>
-    val moviesSearch: LiveData<List<Movie>> get() = _moviesSearch
 
-    private val _movies by lazy { MutableLiveData<PagedList<Movie>>() }
     private val _moviesSearch by lazy { MutableLiveData<List<Movie>>() }
     private var localText = ""
 
     init {
-//        loadMovies()
         val config = PagedList.Config.Builder()
-            .setPageSize(30)
-            .setEnablePlaceholders(false)
+            .setPageSize(10)
+            .setEnablePlaceholders(true)
             .build()
         val dataSourceFactory = object : DataSource.Factory<Int, Movie>() {
             override fun create(): DataSource<Int, Movie> {
@@ -34,17 +31,6 @@ class MainViewModel(
             }
         }
         movies = LivePagedListBuilder<Int, Movie>(dataSourceFactory, config).build()
-    }
-
-    fun loadMovies(page: Int? = null) {
-//        launchAsync(
-//            block = { repository.getMovies(page) },
-//            onSuccess = { list -> _movies.value = list },
-//            onFailure = { error ->
-//                Log.d("GetMovies", error)
-//                _movies.value = listOf()
-//            }
-//        )
     }
 
     fun searchMovies(text: String) {
@@ -55,9 +41,6 @@ class MainViewModel(
     }
 
     private fun searchMovies(page: Int = 1) {
-        launchAsync(
-            block = { repository.searchMovies(localText, page) },
-            onSuccess = { list -> _moviesSearch.value = list }
-        )
+        //TODO -> SearchMoviews with paging
     }
 }

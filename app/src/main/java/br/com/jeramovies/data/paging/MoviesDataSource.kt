@@ -17,7 +17,7 @@ class MoviesDataSource(
         callback: LoadInitialCallback<Int, Movie>
     ) {
         scope.launch {
-            val response = repository.getMoviesResponse()
+            val response = repository.getMovies()
             callback.onResult(
                 response.movies,
                 0,
@@ -30,14 +30,14 @@ class MoviesDataSource(
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
-            val response = repository.getMoviesResponse(page = params.key)
+            val response = repository.getMovies(page = params.key)
             callback.onResult(response.movies, response.page + 1)
         }
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
-            val response = repository.getMoviesResponse(page = params.key)
+            val response = repository.getMovies(page = params.key)
             callback.onResult(response.movies, response.page - 1)
         }
     }
