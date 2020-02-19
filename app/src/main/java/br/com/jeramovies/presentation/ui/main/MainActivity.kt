@@ -14,7 +14,7 @@ class MainActivity : AppCompatActivity() {
 
     private val viewModel: MainViewModel by viewModel()
     private lateinit var binding: ActivityMainBinding
-    private val adapter by lazy { MoviesAdapter(viewModel::loadMovies) }
+    private val adapter by lazy { MoviesAdapter() }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
