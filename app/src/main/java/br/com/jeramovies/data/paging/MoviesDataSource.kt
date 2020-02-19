@@ -2,13 +2,13 @@ package br.com.jeramovies.data.paging
 
 import androidx.paging.PageKeyedDataSource
 import br.com.jeramovies.domain.entity.Movie
-import br.com.jeramovies.domain.repository.MoviesRepository
+import br.com.jeramovies.domain.entity.MoviesResponse
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.launch
 
 class MoviesDataSource(
-    private val repository: MoviesRepository,
+    private val request: suspend (page: Int) -> MoviesResponse,
     private val scope: CoroutineScope
 ) : PageKeyedDataSource<Int, Movie>() {
 
@@ -17,7 +17,7 @@ class MoviesDataSource(
         callback: LoadInitialCallback<Int, Movie>
     ) {
         scope.launch {
-            val response = repository.getMovies()
+            val response = request(1)
             callback.onResult(
                 response.movies,
                 0,
@@ -30,14 +30,14 @@ class MoviesDataSource(
 
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
-            val response = repository.getMovies(page = params.key)
+            val response = request(params.key)
             callback.onResult(response.movies, response.page + 1)
         }
     }
 
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
-            val response = repository.getMovies(page = params.key)
+            val response = request(params.key)
             callback.onResult(response.movies, response.page - 1)
         }
     }

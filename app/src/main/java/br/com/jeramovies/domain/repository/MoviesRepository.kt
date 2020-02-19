@@ -1,9 +1,12 @@
 package br.com.jeramovies.domain.repository
 
-import br.com.jeramovies.domain.entity.MoviesResponse
+import androidx.lifecycle.LiveData
+import androidx.paging.PagedList
+import br.com.jeramovies.domain.entity.Movie
+import kotlinx.coroutines.CoroutineScope
 
 interface MoviesRepository {
 
-    suspend fun getMovies(page: Int? = null): MoviesResponse
-    suspend fun searchMovies(text: String, page: Int): MoviesResponse
+    fun getMovies(scope: CoroutineScope): LiveData<PagedList<Movie>>
+    fun searchMovies(text: String, scope: CoroutineScope): LiveData<PagedList<Movie>>
 }
