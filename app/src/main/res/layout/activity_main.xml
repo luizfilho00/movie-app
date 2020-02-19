@@ -17,16 +17,16 @@
         android:layout_height="match_parent"
         android:padding="16dp">
 
-        <EditText
+        <androidx.appcompat.widget.SearchView
             android:id="@+id/edit_text_query"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0"
             android:hint="@string/search_movie"
-            app:layout_constraintBottom_toTopOf="@id/recycler_view" />
+            app:layout_constraintBottom_toTopOf="@id/recycler_view"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0" />
 
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/recycler_view"
@@ -39,18 +39,5 @@
             app:layout_constraintTop_toBottomOf="@id/edit_text_query"
             app:layout_constraintVertical_bias="0"
             tools:listitem="@layout/item_movie" />
-
-        <ImageView
-            android:id="@+id/image_view_empty"
-            android:layout_width="300dp"
-            android:layout_height="200dp"
-            android:layout_gravity="center"
-            android:src="@drawable/ic_empty"
-            android:visibility="@{vModel.emptyList ? View.VISIBLE : View.GONE}"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            tools:visibility="gone" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>
