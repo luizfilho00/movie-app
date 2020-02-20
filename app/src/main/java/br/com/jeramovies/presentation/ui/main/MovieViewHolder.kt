@@ -15,8 +15,8 @@ class MovieViewHolder(
 
     fun bind(movie: Movie?) {
         with(binding) {
-            movie?.let {
-                imageView.load(movie.getPosterUrl()) {
+            if (!movie?.getPosterUrl().isNullOrBlank()) {
+                imageView.load(movie?.getPosterUrl()) {
                     crossfade(true)
                 }
             }

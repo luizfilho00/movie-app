@@ -19,6 +19,7 @@ class MainViewModel(
     val searchMovies: LiveData<PagedList<Movie>>
 
     private val config = PagedList.Config.Builder()
+        .setEnablePlaceholders(true)
         .setPageSize(10)
         .build()
 
