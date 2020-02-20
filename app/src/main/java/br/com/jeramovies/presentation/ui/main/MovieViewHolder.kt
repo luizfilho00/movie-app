@@ -15,10 +15,11 @@ class MovieViewHolder(
 
     fun bind(movie: Movie?) {
         with(binding) {
-            if (!movie?.getPosterUrl().isNullOrBlank()) {
-                imageView.load(movie?.getPosterUrl()) {
-                    crossfade(true)
-                }
+            if (movie?.posterPath.isNullOrEmpty())
+                imageView.background = root.context.getDrawable(R.drawable.movie_placeholder)
+            else imageView.load(movie?.getPosterUrl()) {
+                crossfade(true)
+                placeholder(R.drawable.movie_placeholder)
             }
         }
     }
