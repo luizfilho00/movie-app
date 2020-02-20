@@ -1,11 +1,9 @@
 package br.com.jeramovies.domain.repository
 
-import androidx.paging.DataSource
-import br.com.jeramovies.domain.entity.Movie
-import kotlinx.coroutines.CoroutineScope
+import br.com.jeramovies.domain.entity.MoviesResponse
 
 interface MoviesRepository {
 
-    fun getMovies(scope: CoroutineScope): DataSource.Factory<Int, Movie>
-    fun searchMovies(text: String, scope: CoroutineScope): DataSource.Factory<Int, Movie>
+    suspend fun getMovies(page: Int): MoviesResponse
+    suspend fun searchMovies(text: String, page: Int): MoviesResponse
 }

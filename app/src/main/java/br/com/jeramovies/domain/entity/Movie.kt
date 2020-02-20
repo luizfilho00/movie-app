@@ -1,7 +1,6 @@
 package br.com.jeramovies.domain.entity
 
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class Movie(
     @SerializedName("popularity") val popularity: Double,
@@ -17,7 +16,7 @@ data class Movie(
     @SerializedName("title") val title: String,
     @SerializedName("vote_average") val voteAverage: Double,
     @SerializedName("overview") val overview: String,
-    @SerializedName("release_date") val releaseDate: Date
+    @SerializedName("release_date") val releaseDate: String
 ) {
 
     fun getPosterUrl(size: String = W185) = "https://image.tmdb.org/t/p/$size/$posterPath"

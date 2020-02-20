@@ -45,5 +45,8 @@ class MainActivity : AppCompatActivity() {
         viewModel.movies.observe(this, Observer { movies ->
             movies?.let(adapter::submitList)
         })
+        viewModel.searchMovies.observe(this, Observer { movies ->
+            movies?.let(adapter::submitList)
+        })
     }
 }
