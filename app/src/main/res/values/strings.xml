@@ -5,4 +5,6 @@
     <string name="http_error">Ocorreu um erro ao processar sua requisição, por favor tente novamente.</string>
     <string name="socket_timeout_error">Não conseguimos processar sua requisição a tempo, por favor tente novamente.</string>
     <string name="search_movie">Buscar filme</string>
+    <string name="ok">OK</string>
+    <string name="cancel">Cancelar</string>
 </resources>

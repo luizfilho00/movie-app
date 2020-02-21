@@ -12,7 +12,7 @@
             android:id="@+id/image_view"
             android:layout_width="185dp"
             android:layout_height="278dp"
-            android:layout_marginBottom="16dp"
+            android:layout_marginBottom="@dimen/spacing_16"
             tools:ignore="ContentDescription" />
     </LinearLayout>
 </layout>

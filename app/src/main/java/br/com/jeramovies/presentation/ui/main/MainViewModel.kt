@@ -5,8 +5,8 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import br.com.jeramovies.data.paging.MoviesDataSource
-import br.com.jeramovies.data.paging.SearchMoviesDataSourceFactory
+import br.com.jeramovies.data.paging.dataSource.MoviesDataSource
+import br.com.jeramovies.data.paging.factory.SearchMoviesDataSourceFactory
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.presentation.util.base.BaseViewModel
@@ -23,11 +23,20 @@ class MainViewModel(
         .setPageSize(10)
         .build()
 
-    private val dataSourceFactory = SearchMoviesDataSourceFactory(repository, viewModelScope)
+    private val dataSourceFactory =
+        SearchMoviesDataSourceFactory(
+            repository,
+            viewModelScope,
+            onFailure = { showDialog(it) }
+        )
 
     private val movieFactory = object : DataSource.Factory<Int, Movie>() {
         override fun create(): DataSource<Int, Movie> {
-            return MoviesDataSource(repository, viewModelScope)
+            return MoviesDataSource(
+                repository,
+                viewModelScope,
+                onFailure = { showDialog(it) }
+            )
         }
     }
     private val searchMovieFactory = object : DataSource.Factory<Int, Movie>() {
