@@ -52,6 +52,10 @@ class MainViewModel(
 
     fun searchMovies(text: String) {
         dataSourceFactory.text = text
+        reloadSearch()
+    }
+
+    private fun reloadSearch() {
         searchMovies.value?.dataSource?.invalidate()
     }
 }
