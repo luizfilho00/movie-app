@@ -43,7 +43,7 @@ class MainActivity : BaseActivity() {
 
     private fun setupUi() {
         with(binding) {
-            editTextQuery.observeChanges(lifecycle, viewModel::searchMovies)
+            searchView.observeChanges(lifecycle, viewModel::searchMovies)
         }
     }
 

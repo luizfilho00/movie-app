@@ -48,6 +48,8 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:2.2.0"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:2.2.0"
     implementation "androidx.paging:paging-runtime-ktx:2.1.1"
+    implementation 'net.danlew:android.joda:2.10.3'
+    implementation 'com.mikhaellopez:circularprogressbar:3.0.3'
     // Koin for Android
     implementation "org.koin:koin-android:2.0.1"
     // Koin Android Scope feature

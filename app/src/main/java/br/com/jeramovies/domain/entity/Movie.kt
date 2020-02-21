@@ -1,6 +1,8 @@
 package br.com.jeramovies.domain.entity
 
+import br.com.jeramovies.domain.util.extensions.toDate
 import com.google.gson.annotations.SerializedName
+import org.joda.time.LocalDate
 
 data class Movie(
     @SerializedName("popularity") val popularity: Double,
@@ -19,9 +21,15 @@ data class Movie(
     @SerializedName("release_date") val releaseDate: String
 ) {
 
-    fun getPosterUrl(size: String = W185) = "https://image.tmdb.org/t/p/$size/$posterPath"
+    fun formattedDate(): String {
+        val date = LocalDate.fromDateFields(releaseDate.toDate())
+        return "${date.dayOfMonth} de ${date.monthOfYear().asText} de ${date.year}"
+    }
+
+    fun getPosterUrl(size: String = W500) = "https://image.tmdb.org/t/p/$size/$backdropPath"
 
     companion object {
+        const val DATE_PATTERN = "YYYY-MM-dd"
         const val W185 = "w185"
         const val W500 = "w500"
     }

@@ -15,12 +15,15 @@ class MovieViewHolder(
 
     fun bind(movie: Movie?) {
         with(binding) {
-            if (movie?.posterPath.isNullOrEmpty())
-                imageView.background = root.context.getDrawable(R.drawable.movie_placeholder)
-            else imageView.load(movie?.getPosterUrl()) {
-                crossfade(true)
-                placeholder(R.drawable.movie_placeholder)
-            }
+            if (!movie?.backdropPath.isNullOrEmpty())
+//                imageView.background = root.context.getDrawable(R.drawable.movie_placeholder)
+                imageView.load(movie?.getPosterUrl()) {
+                    crossfade(true)
+                }
+            progressBar.progress = movie?.voteAverage?.toFloat() ?: 100f
+            progressBar.progressMax = 10f
+            textViewTitle.text = movie?.title
+            textViewDate.text = movie?.formattedDate()
         }
     }
 

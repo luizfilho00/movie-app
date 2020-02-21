@@ -1,18 +1,73 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
-    <LinearLayout
+    <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_margin="@dimen/spacing_8"
+        android:elevation="4dp"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        app:cardCornerRadius="4dp"
+        app:cardElevation="4dp">
 
-        <ImageView
-            android:id="@+id/image_view"
-            android:layout_width="185dp"
-            android:layout_height="278dp"
-            android:layout_marginBottom="@dimen/spacing_16"
-            tools:ignore="ContentDescription" />
-    </LinearLayout>
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/image_view"
+                android:layout_width="0dp"
+                android:layout_height="200dp"
+                android:scaleType="fitXY"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:background="@drawable/ic_tmdb"
+                tools:ignore="ContentDescription" />
+
+            <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="@dimen/spacing_4"
+                app:cpb_background_progressbar_color="#b6bbd8"
+                app:cpb_background_progressbar_width="2dp"
+                app:cpb_progress_direction="to_right"
+                app:cpb_progressbar_color="@color/colorAccent"
+                app:cpb_progressbar_width="3dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/image_view"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:cpb_round_border="false" />
+
+            <TextView
+                android:id="@+id/text_view_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/source_sans_pro_bold"
+                android:textSize="18sp"
+                android:textColor="#000"
+                android:layout_marginStart="@dimen/spacing_8"
+                app:layout_constraintStart_toEndOf="@id/progress_bar"
+                app:layout_constraintTop_toBottomOf="@id/image_view"
+                tools:text="Ad Astra" />
+
+            <TextView
+                android:id="@+id/text_view_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/source_sans_pro"
+                android:textSize="16sp"
+                android:layout_marginBottom="@dimen/spacing_4"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="@id/text_view_title"
+                app:layout_constraintTop_toBottomOf="@id/text_view_title"
+                tools:text="17 de Setembro de 2019" />
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </androidx.cardview.widget.CardView>
 </layout>
