@@ -16,8 +16,9 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     val dialog: LiveData<DialogData> get() = _dialog
 
     protected val stringResource by inject<StringResource>()
-    private val _dialog by lazy { MutableLiveData<DialogData>() }
+
     private val exceptionHandler by inject<ExceptionHandler>()
+    private val _dialog by lazy { MutableLiveData<DialogData>() }
 
     protected fun showDialog(
         message: String,
