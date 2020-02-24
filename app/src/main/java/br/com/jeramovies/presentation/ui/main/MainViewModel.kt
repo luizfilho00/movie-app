@@ -20,7 +20,7 @@ class MainViewModel(
 
     private val config = PagedList.Config.Builder()
         .setEnablePlaceholders(true)
-        .setPageSize(10)
+        .setPageSize(30)
         .build()
 
     private val dataSourceFactory =
