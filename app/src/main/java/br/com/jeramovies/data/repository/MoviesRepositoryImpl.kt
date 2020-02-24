@@ -9,5 +9,7 @@ class MoviesRepositoryImpl(
 
     override suspend fun getMovies(page: Int) = apiService.getMovies(page)
 
+    override suspend fun getMovieDetails(id: Int) = apiService.getMovieDetails(id)
+
     override suspend fun searchMovies(text: String, page: Int) = apiService.searchMovies(text, page)
 }

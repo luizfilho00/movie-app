@@ -17,7 +17,7 @@ class MainActivity : BaseActivity() {
 
     private val viewModel: MainViewModel by viewModel()
     private lateinit var binding: ActivityMainBinding
-    private val adapter by lazy { MoviesAdapter() }
+    private val adapter by lazy { MoviesAdapter(viewModel::onMovieClick) }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)

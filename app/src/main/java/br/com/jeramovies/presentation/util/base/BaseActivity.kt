@@ -5,6 +5,7 @@ import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import br.com.jeramovies.domain.entity.DialogData
+import br.com.jeramovies.presentation.util.navigation.NavData
 
 abstract class BaseActivity : AppCompatActivity() {
 
@@ -17,6 +18,7 @@ abstract class BaseActivity : AppCompatActivity() {
 
     protected open fun subscribeUi() {
         baseViewModel.dialog.observe(this, Observer { showDialog(it) })
+        baseViewModel.goTo.observe(this, Observer { navigateTo(it) })
     }
 
     private fun showDialog(dialogData: DialogData) {
@@ -31,5 +33,9 @@ abstract class BaseActivity : AppCompatActivity() {
             }
             .create()
             .show()
+    }
+
+    private fun navigateTo(navData: NavData) {
+        navData.navigate(this)
     }
 }

@@ -7,6 +7,7 @@ import androidx.lifecycle.viewModelScope
 import br.com.jeramovies.domain.entity.DialogData
 import br.com.jeramovies.domain.resource.StringResource
 import br.com.jeramovies.presentation.util.exceptionHandler.ExceptionHandler
+import br.com.jeramovies.presentation.util.navigation.NavData
 import kotlinx.coroutines.launch
 import org.koin.core.KoinComponent
 import org.koin.core.inject
@@ -14,11 +15,13 @@ import org.koin.core.inject
 abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     val dialog: LiveData<DialogData> get() = _dialog
+    val goTo: LiveData<NavData> get() = _goTo
 
     protected val stringResource by inject<StringResource>()
 
     private val exceptionHandler by inject<ExceptionHandler>()
     private val _dialog by lazy { MutableLiveData<DialogData>() }
+    private val _goTo by lazy { MutableLiveData<NavData>() }
 
     protected fun showDialog(
         message: String,
@@ -48,6 +51,10 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
                 onDismiss, onConfirm
             )
         )
+    }
+
+    protected fun goTo(navData: NavData) {
+        _goTo.postValue(navData)
     }
 
     protected fun <T> launchAsync(

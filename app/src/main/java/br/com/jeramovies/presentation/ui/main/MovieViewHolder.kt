@@ -13,12 +13,19 @@ class MovieViewHolder(
     private val binding: ItemMovieBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: Movie?) {
+    fun bind(movie: Movie?, onClick: (Movie) -> Unit) {
         with(binding) {
+            setupClickListener(movie, onClick)
             loadImage(movie)
             setupProgressBar(movie)
             textViewTitle.text = movie?.title
             textViewDate.text = movie?.formattedDate()
+        }
+    }
+
+    private fun setupClickListener(movie: Movie?, onClick: (Movie) -> Unit) {
+        binding.root.setOnClickListener {
+            movie?.let { onClick(it) }
         }
     }
 

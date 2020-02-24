@@ -9,6 +9,7 @@ import br.com.jeramovies.data.paging.dataSource.MoviesDataSource
 import br.com.jeramovies.data.paging.factory.SearchMoviesDataSourceFactory
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.repository.MoviesRepository
+import br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 
 class MainViewModel(
@@ -53,6 +54,10 @@ class MainViewModel(
     fun searchMovies(text: String) {
         dataSourceFactory.text = text
         reloadSearch()
+    }
+
+    fun onMovieClick(movie: Movie) {
+        goTo(MovieDetailsNavData(movie.id))
     }
 
     private fun reloadSearch() {
