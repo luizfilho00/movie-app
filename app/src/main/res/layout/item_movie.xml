@@ -26,33 +26,60 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:background="@drawable/ic_tmdb"
+                tools:background="@drawable/movie_empty_placeholder"
                 tools:ignore="ContentDescription" />
 
-            <com.mikhaellopez.circularprogressbar.CircularProgressBar
-                android:id="@+id/progress_bar"
-                android:layout_width="30dp"
-                android:layout_height="30dp"
-                android:layout_marginStart="@dimen/spacing_4"
-                app:cpb_background_progressbar_color="#b6bbd8"
-                app:cpb_background_progressbar_width="2dp"
-                app:cpb_progress_direction="to_right"
-                app:cpb_progressbar_color="@color/colorAccent"
-                app:cpb_progressbar_width="3dp"
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:id="@+id/frame_layout_progress"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/image_view"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:cpb_round_border="false" />
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <com.mikhaellopez.circularprogressbar.CircularProgressBar
+                    android:id="@+id/progress_bar"
+                    android:layout_width="36dp"
+                    android:layout_height="36dp"
+                    android:layout_marginStart="@dimen/spacing_4"
+                    app:cpb_background_progressbar_color="#b6bbd8"
+                    app:cpb_background_progressbar_width="2dp"
+                    app:cpb_progress_direction="to_right"
+                    app:cpb_progressbar_color="@color/colorAccent"
+                    app:cpb_progressbar_width="3dp"
+                    app:cpb_round_border="true"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    />
+
+                <TextView
+                    android:id="@+id/text_view_percent"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    tools:text="100%"
+                    android:textAlignment="center"
+                    android:textSize="12sp"
+                    android:fontFamily="@font/source_sans_pro"
+                    app:layout_constraintStart_toStartOf="@id/progress_bar"
+                    app:layout_constraintEnd_toEndOf="@id/progress_bar"
+                    app:layout_constraintTop_toTopOf="@id/progress_bar"
+                    app:layout_constraintBottom_toBottomOf="@id/progress_bar"/>
+            </androidx.constraintlayout.widget.ConstraintLayout>
 
             <TextView
                 android:id="@+id/text_view_title"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="@font/source_sans_pro_bold"
                 android:textSize="18sp"
                 android:textColor="#000"
                 android:layout_marginStart="@dimen/spacing_8"
-                app:layout_constraintStart_toEndOf="@id/progress_bar"
+                android:layout_marginEnd="@dimen/spacing_8"
+                app:layout_constraintHorizontal_bias="0"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toEndOf="@id/frame_layout_progress"
                 app:layout_constraintTop_toBottomOf="@id/image_view"
                 tools:text="Ad Astra" />
 
@@ -67,7 +94,6 @@
                 app:layout_constraintStart_toStartOf="@id/text_view_title"
                 app:layout_constraintTop_toBottomOf="@id/text_view_title"
                 tools:text="17 de Setembro de 2019" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.cardview.widget.CardView>
 </layout>

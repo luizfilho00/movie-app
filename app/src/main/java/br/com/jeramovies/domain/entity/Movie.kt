@@ -3,6 +3,7 @@ package br.com.jeramovies.domain.entity
 import br.com.jeramovies.domain.util.extensions.toDate
 import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
+import kotlin.math.roundToInt
 
 data class Movie(
     @SerializedName("popularity") val popularity: Double,
@@ -16,14 +17,18 @@ data class Movie(
     @SerializedName("original_title") val originalTitle: String,
     @SerializedName("genre_ids") val genreIds: List<Int>,
     @SerializedName("title") val title: String,
-    @SerializedName("vote_average") val voteAverage: Double,
+    @SerializedName("vote_average") val voteAverage: Double?,
     @SerializedName("overview") val overview: String,
-    @SerializedName("release_date") val releaseDate: String
+    @SerializedName("release_date") val releaseDate: String?
 ) {
 
-    fun formattedDate(): String {
-        val date = LocalDate.fromDateFields(releaseDate.toDate())
-        return "${date.dayOfMonth} de ${date.monthOfYear().asText} de ${date.year}"
+    fun userScore() = ((voteAverage ?: 0.0) * 10.0).roundToInt().toString()
+
+    fun formattedDate(): String? {
+        return if (!releaseDate.isNullOrEmpty()) {
+            val date = LocalDate.fromDateFields(releaseDate.toDate())
+            "${date.dayOfMonth} de ${date.monthOfYear().asText} de ${date.year}"
+        } else "Indefinido"
     }
 
     fun getPosterUrl(size: String = W500) = "https://image.tmdb.org/t/p/$size/$backdropPath"
