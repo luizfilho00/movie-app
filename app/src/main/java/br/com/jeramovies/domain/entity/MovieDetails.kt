@@ -28,4 +28,7 @@ data class MovieDetails(
     @SerializedName("video") val video: Boolean?,
     @SerializedName("vote_average") val voteAverage: Double?,
     @SerializedName("vote_count") val voteCount: Int?
-)
+) {
+
+    fun getPosterUrl(path: String?, size: String = Movie.W185) = "https://image.tmdb.org/t/p/$size/$path"
+}
