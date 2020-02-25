@@ -27,7 +27,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 app:contentScrim="@color/colorPrimary"
-                app:layout_scrollFlags="scroll|exitUntilCollapsed">
+                app:layout_scrollFlags="scroll|exitUntilCollapsed"
+                app:titleEnabled="false">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:layout_width="match_parent"
@@ -49,10 +50,11 @@
                         android:id="@+id/image_view_poster"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:minWidth="120dp"
-                        android:minHeight="220dp"
                         android:layout_marginStart="@dimen/spacing_20"
                         android:layout_marginTop="100dp"
+                        android:minWidth="130dp"
+                        android:minHeight="200dp"
+                        android:scaleType="fitXY"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="@id/image_view_toolbar_background"
                         tools:ignore="ContentDescription" />
@@ -61,33 +63,39 @@
                         android:id="@+id/text_view_movie_title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginStart="@dimen/spacing_20"
+                        android:layout_marginStart="@dimen/spacing_16"
+                        android:layout_marginTop="@dimen/spacing_8"
+                        android:fontFamily="@font/source_sans_pro_bold"
                         android:text="@{movie.title}"
-                        tools:text="Sonic The Hedgehog"
                         android:textColor="@android:color/white"
-                        android:textSize="18sp"
+                        android:textSize="24sp"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/image_view_poster"
-                        app:layout_constraintTop_toBottomOf="@id/image_view_toolbar_background" />
+                        app:layout_constraintTop_toBottomOf="@id/image_view_toolbar_background"
+                        tools:text="Sonic The Hedgehog" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="@dimen/spacing_8"
+                        android:layout_marginTop="@dimen/spacing_4"
+                        android:fontFamily="@font/source_sans_pro"
                         android:text="@{movie.releaseDate}"
-                        tools:text="(2020)"
-                        android:textColor="@android:color/white"
+                        android:textColor="@android:color/darker_gray"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="@id/text_view_movie_title"
-                        app:layout_constraintTop_toBottomOf="@id/text_view_movie_title" />
+                        app:layout_constraintTop_toBottomOf="@id/text_view_movie_title"
+                        tools:text="(2020)" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
-                    android:fitsSystemWindows="true"
-                    android:layout_marginTop="@dimen/spacing_24"
                     android:layout_height="58dp"
-                    app:layout_collapseMode="pin" />
+                    android:layout_marginTop="@dimen/spacing_24"
+                    android:fitsSystemWindows="true"
+                    app:layout_collapseMode="pin"
+                    app:titleTextColor="@android:color/white" />
             </com.google.android.material.appbar.CollapsingToolbarLayout>
         </com.google.android.material.appbar.AppBarLayout>
 

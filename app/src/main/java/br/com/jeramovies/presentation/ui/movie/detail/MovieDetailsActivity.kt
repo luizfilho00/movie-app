@@ -12,7 +12,9 @@ import br.com.jeramovies.domain.entity.MovieDetails
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.makeStatusBarTransparent
+import br.com.jeramovies.presentation.util.extensions.setupToolbar
 import coil.api.load
+import com.google.android.material.appbar.AppBarLayout
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
 
@@ -28,6 +30,7 @@ class MovieDetailsActivity : BaseActivity() {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details)
         makeStatusBarTransparent(window)
+        setupToolbar(binding.toolbar, true)
         viewModel.moveDetails.observe(this, Observer {
             setupUi(it)
         })
@@ -36,8 +39,28 @@ class MovieDetailsActivity : BaseActivity() {
     private fun setupUi(movie: MovieDetails) {
         with(binding) {
             this.movie = movie
+            setupToolbar(movie)
             imageViewToolbarBackground.load(movie.getPosterUrl(movie.backdropPath, Movie.W500))
-            imageViewPoster.load(movie.getPosterUrl(movie.posterPath, Movie.W500))
+            imageViewPoster.load(movie.getPosterUrl(movie.posterPath, Movie.W185))
+        }
+    }
+
+    private fun setupToolbar(movie: MovieDetails) {
+        var isShow = false
+        with(binding) {
+            appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                var scrollRange = -1
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.totalScrollRange
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    binding.toolbar.title = movie.title
+                    isShow = true
+                } else if (isShow) {
+                    binding.toolbar.title = ""
+                    isShow = false
+                }
+            })
         }
     }
 
