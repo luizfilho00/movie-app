@@ -8,4 +8,7 @@
     <string name="ok">OK</string>
     <string name="percent">%s%%</string>
     <string name="cancel">Cancelar</string>
+    <string name="release_year">(%s)</string>
+    <string name="release_date">%d de %s de %d</string>
+    <string name="undefined">Indefinido</string>
 </resources>

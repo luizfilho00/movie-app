@@ -1,11 +1,13 @@
 package br.com.jeramovies.domain.entity
 
+import br.com.jeramovies.domain.util.extensions.toDate
 import com.google.gson.annotations.SerializedName
+import org.joda.time.LocalDate
 
 data class MovieDetails(
     @SerializedName("adult") val adult: Boolean?,
     @SerializedName("backdrop_path") val backdropPath: String?,
-    @SerializedName("belongs_to_collection") val belongsToCollection: String?,
+    @SerializedName("belongs_to_collection") val belongsToCollection: Collection?,
     @SerializedName("budget") val budget: Int?,
     @SerializedName("genres") val genres: List<Genre>?,
     @SerializedName("homepage") val homepage: String?,
@@ -30,5 +32,7 @@ data class MovieDetails(
     @SerializedName("vote_count") val voteCount: Int?
 ) {
 
-    fun getPosterUrl(path: String?, size: String = Movie.W185) = "https://image.tmdb.org/t/p/$size/$path"
+    fun date() = LocalDate.fromDateFields(releaseDate?.toDate())
+    fun getPosterUrl(path: String?, size: String = Movie.W185) =
+        "https://image.tmdb.org/t/p/$size/$path"
 }

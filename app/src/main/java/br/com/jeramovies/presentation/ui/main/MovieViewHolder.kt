@@ -14,13 +14,10 @@ class MovieViewHolder(
 ) : RecyclerView.ViewHolder(binding.root) {
 
     fun bind(movie: Movie?, onClick: (Movie) -> Unit) {
-        with(binding) {
-            setupClickListener(movie, onClick)
-            loadImage(movie)
-            setupProgressBar(movie)
-            textViewTitle.text = movie?.title
-            textViewDate.text = movie?.formattedDate()
-        }
+        setupClickListener(movie, onClick)
+        loadImage(movie)
+        setupProgressBar(movie)
+        setupTexts(movie)
     }
 
     private fun setupClickListener(movie: Movie?, onClick: (Movie) -> Unit) {
@@ -34,6 +31,23 @@ class MovieViewHolder(
             progressBar.progressMax = 10f
             progressBar.setProgressWithAnimation(movie?.voteAverage?.toFloat() ?: 10f, 2000L)
             textViewPercent.text = root.context.getString(R.string.percent, movie?.userScore())
+        }
+    }
+
+    private fun setupTexts(movie: Movie?) {
+        with(binding) {
+            textViewTitle.text = movie?.title
+            textViewDate.text =
+                with(root.context) {
+                    movie?.date()?.let { date ->
+                        getString(
+                            R.string.release_date,
+                            date.dayOfMonth,
+                            date.monthOfYear()?.asText,
+                            date.year
+                        )
+                    } ?: getString(R.string.undefined)
+                }
         }
     }
 

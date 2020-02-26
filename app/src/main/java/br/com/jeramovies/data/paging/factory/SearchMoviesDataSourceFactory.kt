@@ -9,6 +9,7 @@ import kotlinx.coroutines.CoroutineScope
 class SearchMoviesDataSourceFactory(
     private val repository: MoviesRepository,
     private val scope: CoroutineScope,
+    private val onLoading: ((Boolean) -> Unit)? = null,
     private val onFailure: ((Throwable) -> Unit)? = null
 ) : DataSource.Factory<Int, Movie>() {
 
@@ -19,6 +20,7 @@ class SearchMoviesDataSourceFactory(
             text,
             repository,
             scope,
+            onLoading,
             onFailure
         )
     }

@@ -24,17 +24,12 @@ data class Movie(
 
     fun userScore() = ((voteAverage ?: 0.0) * 10.0).roundToInt().toString()
 
-    fun formattedDate(): String? {
-        return if (!releaseDate.isNullOrEmpty()) {
-            val date = LocalDate.fromDateFields(releaseDate.toDate())
-            "${date.dayOfMonth} de ${date.monthOfYear().asText} de ${date.year}"
-        } else "Indefinido"
-    }
+    fun date() = releaseDate?.toDate()?.let(LocalDate::fromDateFields)
 
     fun getPosterUrl(size: String = W500) = "https://image.tmdb.org/t/p/$size/$backdropPath"
 
     companion object {
-        const val DATE_PATTERN = "YYYY-MM-dd"
+        const val DATE_PATTERN = "yyyy-MM-dd"
         const val W185 = "w185"
         const val W500 = "w500"
     }

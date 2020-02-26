@@ -1,6 +1,7 @@
 package br.com.jeramovies.presentation.ui.main
 
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.DataSource
 import androidx.paging.PagedList
@@ -18,6 +19,9 @@ class MainViewModel(
 
     val movies: LiveData<PagedList<Movie>>
     val searchMovies: LiveData<PagedList<Movie>>
+    val loading: LiveData<Boolean> get() = _loading
+
+    private val _loading by lazy { MutableLiveData<Boolean>() }
 
     private val config = PagedList.Config.Builder()
         .setEnablePlaceholders(true)
@@ -28,6 +32,7 @@ class MainViewModel(
         SearchMoviesDataSourceFactory(
             repository,
             viewModelScope,
+            onLoading = { _loading.postValue(it) },
             onFailure = { showDialog(it) }
         )
 
@@ -36,6 +41,7 @@ class MainViewModel(
             return MoviesDataSource(
                 repository,
                 viewModelScope,
+                onLoading = { _loading.postValue(it) },
                 onFailure = { showDialog(it) }
             )
         }

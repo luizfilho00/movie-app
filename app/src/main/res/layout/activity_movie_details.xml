@@ -51,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_20"
-                        android:layout_marginTop="100dp"
+                        android:layout_marginTop="120dp"
                         android:minWidth="130dp"
                         android:minHeight="200dp"
                         android:scaleType="fitXY"
@@ -61,26 +61,29 @@
 
                     <TextView
                         android:id="@+id/text_view_movie_title"
-                        android:layout_width="wrap_content"
+                        android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="@dimen/spacing_16"
+                        android:layout_marginEnd="@dimen/spacing_8"
                         android:layout_marginTop="@dimen/spacing_8"
                         android:fontFamily="@font/source_sans_pro_bold"
                         android:text="@{movie.title}"
                         android:textColor="@android:color/white"
                         android:textSize="24sp"
+                        android:maxLines="2"
+                        android:ellipsize="end"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintHorizontal_bias="0"
                         app:layout_constraintStart_toEndOf="@id/image_view_poster"
                         app:layout_constraintTop_toBottomOf="@id/image_view_toolbar_background"
-                        tools:text="Sonic The Hedgehog" />
+                        tools:text="Aves de Rapina: Arlequina e sua Emancipação Fantabulosa" />
 
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="@dimen/spacing_4"
                         android:fontFamily="@font/source_sans_pro"
-                        android:text="@{movie.releaseDate}"
+                        android:text="@{@string/release_year(movie.date().year)}"
                         android:textColor="@android:color/darker_gray"
                         android:textSize="18sp"
                         app:layout_constraintStart_toStartOf="@id/text_view_movie_title"

@@ -9,6 +9,8 @@ import br.com.jeramovies.databinding.ActivityMainBinding
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.observeChanges
+import br.com.jeramovies.presentation.util.extensions.setVisible
+import kotlinx.android.synthetic.main.activity_main.*
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {

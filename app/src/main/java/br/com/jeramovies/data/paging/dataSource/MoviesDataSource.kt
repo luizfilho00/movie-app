@@ -9,6 +9,7 @@ import kotlinx.coroutines.launch
 class MoviesDataSource(
     private val repository: MoviesRepository,
     private val scope: CoroutineScope,
+    private val onLoading: ((Boolean) -> Unit)? = null,
     private val onFailure: ((Throwable) -> Unit)? = null
 ) : PageKeyedDataSource<Int, Movie>() {
 
@@ -18,14 +19,17 @@ class MoviesDataSource(
     ) {
         scope.launch {
             runCatching {
+                onLoading?.invoke(true)
                 repository.getMovies(1)
             }.onSuccess { response ->
+                onLoading?.invoke(false)
                 callback.onResult(
                     response.movies,
                     null,
                     response.page + 1
                 )
             }.onFailure {
+                onLoading?.invoke(false)
                 onFailure?.invoke(it)
             }
         }
@@ -34,10 +38,13 @@ class MoviesDataSource(
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
             runCatching {
+                onLoading?.invoke(true)
                 repository.getMovies(params.key)
             }.onSuccess { response ->
+                onLoading?.invoke(false)
                 callback.onResult(response.movies, if (params.key > 1) params.key - 1 else null)
             }.onFailure {
+                onLoading?.invoke(false)
                 onFailure?.invoke(it)
             }
         }
@@ -46,10 +53,13 @@ class MoviesDataSource(
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
             runCatching {
+                onLoading?.invoke(true)
                 repository.getMovies(params.key)
             }.onSuccess { response ->
+                onLoading?.invoke(false)
                 callback.onResult(response.movies, if (params.key > 1) params.key + 1 else null)
             }.onFailure {
+                onLoading?.invoke(false)
                 onFailure?.invoke(it)
             }
         }

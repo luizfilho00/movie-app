@@ -52,6 +52,15 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_behavior="@string/appbar_scrolling_view_behavior"
-            tools:listitem="@layout/item_movie" />
+            tools:listitem="@layout/item_movie"
+            tools:visibility="visible" />
+
+        <ProgressBar
+            android:id="@+id/loading_placeholder"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:visibility="@{vModel.loading ? View.VISIBLE : View.GONE}"
+            tools:visibility="gone" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>
