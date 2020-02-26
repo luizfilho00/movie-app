@@ -2,15 +2,15 @@ package br.com.jeramovies.presentation.ui.main
 
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ActivityMainBinding
+import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.observeChanges
-import br.com.jeramovies.presentation.util.extensions.setVisible
-import kotlinx.android.synthetic.main.activity_main.*
+import br.com.jeramovies.presentation.util.livedata.observe
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
@@ -35,12 +35,12 @@ class MainActivity : BaseActivity() {
 
     override fun subscribeUi() {
         super.subscribeUi()
-        viewModel.movies.observe(this, Observer { movies ->
-            adapter.submitList(movies)
-        })
-        viewModel.searchMovies.observe(this, Observer { movies ->
-            adapter.submitList(movies)
-        })
+        viewModel.movies.observe(this, ::onMoviesReceived)
+        viewModel.searchMovies.observe(this, ::onMoviesReceived)
+    }
+
+    private fun onMoviesReceived(list: PagedList<Movie>) {
+        adapter.submitList(list)
     }
 
     private fun setupUi() {
