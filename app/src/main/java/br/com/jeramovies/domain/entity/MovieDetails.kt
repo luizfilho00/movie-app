@@ -32,7 +32,7 @@ data class MovieDetails(
     @SerializedName("vote_count") val voteCount: Int?
 ) {
 
-    fun date() = LocalDate.fromDateFields(releaseDate?.toDate())
+    fun date() = releaseDate?.toDate()?.let(LocalDate::fromDateFields) ?: LocalDate()
     fun getPosterUrl(path: String?, size: String = Movie.W185) =
         "https://image.tmdb.org/t/p/$size/$path"
 }

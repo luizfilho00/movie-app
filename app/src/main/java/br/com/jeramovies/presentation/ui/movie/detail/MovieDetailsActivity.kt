@@ -40,8 +40,14 @@ class MovieDetailsActivity : BaseActivity() {
         with(binding) {
             this.movie = movie
             setupToolbar(movie)
-            imageViewToolbarBackground.load(movie.getPosterUrl(movie.backdropPath, Movie.W500))
-            imageViewPoster.load(movie.getPosterUrl(movie.posterPath, Movie.W185))
+            imageViewToolbarBackground.load(movie.getPosterUrl(movie.backdropPath, Movie.W500)) {
+                crossfade(true)
+                placeholder(R.drawable.movie_empty_placeholder)
+            }
+            imageViewPoster.load(movie.getPosterUrl(movie.posterPath, Movie.W185)) {
+                crossfade(true)
+                placeholder(R.drawable.poster_placeholder)
+            }
         }
     }
 
