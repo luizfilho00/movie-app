@@ -2,31 +2,16 @@ package br.com.jeramovies.data.paging.dataSource
 
 import androidx.paging.PageKeyedDataSource
 import br.com.jeramovies.domain.entity.Movie
-import br.com.jeramovies.domain.entity.MoviesResponse
 import br.com.jeramovies.domain.repository.MoviesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class SearchMoviesDataSource(
-    private val text: String,
+class PopularMoviesDataSource(
     private val repository: MoviesRepository,
     private val scope: CoroutineScope,
     private val onLoading: ((Boolean) -> Unit)? = null,
     private val onFailure: ((Throwable) -> Unit)? = null
 ) : PageKeyedDataSource<Int, Movie>() {
-
-    private var isFirst = true
-
-    private suspend fun makeRequest(page: Int = 1) =
-        if (text.isBlank() && isFirst) {
-            isFirst = false
-            MoviesResponse(page = 1, totalResults = 0, totalPages = 0, movies = listOf())
-        }
-        else if (text.isBlank()) {
-            repository.getPopularMovies(page)
-        } else {
-            repository.searchMovies(text, page)
-        }
 
     override fun loadInitial(
         params: LoadInitialParams<Int>,
@@ -35,7 +20,7 @@ class SearchMoviesDataSource(
         scope.launch {
             runCatching {
                 onLoading?.invoke(true)
-                makeRequest(1)
+                repository.getPopularMovies(1)
             }.onSuccess { response ->
                 onLoading?.invoke(false)
                 callback.onResult(
@@ -53,7 +38,7 @@ class SearchMoviesDataSource(
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
             runCatching {
-                makeRequest(params.key)
+                repository.getPopularMovies(params.key)
             }.onSuccess { response ->
                 callback.onResult(response.movies, if (params.key > 1) params.key - 1 else null)
             }.onFailure {
@@ -65,7 +50,7 @@ class SearchMoviesDataSource(
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
             runCatching {
-                makeRequest(params.key)
+                repository.getPopularMovies(params.key)
             }.onSuccess { response ->
                 callback.onResult(response.movies, if (params.key > 1) params.key + 1 else null)
             }.onFailure {

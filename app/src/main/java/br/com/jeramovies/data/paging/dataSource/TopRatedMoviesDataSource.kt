@@ -6,7 +6,7 @@ import br.com.jeramovies.domain.repository.MoviesRepository
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 
-class MoviesDataSource(
+class TopRatedMoviesDataSource(
     private val repository: MoviesRepository,
     private val scope: CoroutineScope,
     private val onLoading: ((Boolean) -> Unit)? = null,
@@ -20,7 +20,7 @@ class MoviesDataSource(
         scope.launch {
             runCatching {
                 onLoading?.invoke(true)
-                repository.getMovies(1)
+                repository.getTopRatedMovies(1)
             }.onSuccess { response ->
                 onLoading?.invoke(false)
                 callback.onResult(
@@ -38,13 +38,10 @@ class MoviesDataSource(
     override fun loadBefore(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
             runCatching {
-                onLoading?.invoke(true)
-                repository.getMovies(params.key)
+                repository.getTopRatedMovies(params.key)
             }.onSuccess { response ->
-                onLoading?.invoke(false)
                 callback.onResult(response.movies, if (params.key > 1) params.key - 1 else null)
             }.onFailure {
-                onLoading?.invoke(false)
                 onFailure?.invoke(it)
             }
         }
@@ -53,13 +50,10 @@ class MoviesDataSource(
     override fun loadAfter(params: LoadParams<Int>, callback: LoadCallback<Int, Movie>) {
         scope.launch {
             runCatching {
-                onLoading?.invoke(true)
-                repository.getMovies(params.key)
+                repository.getTopRatedMovies(params.key)
             }.onSuccess { response ->
-                onLoading?.invoke(false)
                 callback.onResult(response.movies, if (params.key > 1) params.key + 1 else null)
             }.onFailure {
-                onLoading?.invoke(false)
                 onFailure?.invoke(it)
             }
         }

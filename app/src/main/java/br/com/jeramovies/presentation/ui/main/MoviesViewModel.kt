@@ -6,18 +6,22 @@ import androidx.lifecycle.viewModelScope
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
-import br.com.jeramovies.data.paging.dataSource.MoviesDataSource
+import br.com.jeramovies.data.paging.dataSource.NowPlayingMoviesDataSource
+import br.com.jeramovies.data.paging.dataSource.PopularMoviesDataSource
+import br.com.jeramovies.data.paging.dataSource.TopRatedMoviesDataSource
 import br.com.jeramovies.data.paging.factory.SearchMoviesDataSourceFactory
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 
-class MainViewModel(
+class MoviesViewModel(
     private val repository: MoviesRepository
 ) : BaseViewModel() {
 
-    val movies: LiveData<PagedList<Movie>>
+    val popularMovies: LiveData<PagedList<Movie>>
+    val topRatedMovies: LiveData<PagedList<Movie>>
+    val nowPlayingMovies: LiveData<PagedList<Movie>>
     val searchMovies: LiveData<PagedList<Movie>>
     val loading: LiveData<Boolean> get() = _loading
 
@@ -36,9 +40,9 @@ class MainViewModel(
             onFailure = { showDialog(it) }
         )
 
-    private val movieFactory = object : DataSource.Factory<Int, Movie>() {
+    private val popularMoviesFactory = object : DataSource.Factory<Int, Movie>() {
         override fun create(): DataSource<Int, Movie> {
-            return MoviesDataSource(
+            return PopularMoviesDataSource(
                 repository,
                 viewModelScope,
                 onLoading = { _loading.postValue(it) },
@@ -46,6 +50,29 @@ class MainViewModel(
             )
         }
     }
+
+    private val topRatedMoviesFactory = object : DataSource.Factory<Int, Movie>() {
+        override fun create(): DataSource<Int, Movie> {
+            return TopRatedMoviesDataSource(
+                repository,
+                viewModelScope,
+                onLoading = { _loading.postValue(it) },
+                onFailure = { showDialog(it) }
+            )
+        }
+    }
+
+    private val nowPlayingMoviesFactory = object : DataSource.Factory<Int, Movie>() {
+        override fun create(): DataSource<Int, Movie> {
+            return NowPlayingMoviesDataSource(
+                repository,
+                viewModelScope,
+                onLoading = { _loading.postValue(it) },
+                onFailure = { showDialog(it) }
+            )
+        }
+    }
+
     private val searchMovieFactory = object : DataSource.Factory<Int, Movie>() {
         override fun create(): DataSource<Int, Movie> {
             return dataSourceFactory.create()
@@ -53,7 +80,9 @@ class MainViewModel(
     }
 
     init {
-        movies = movieFactory.toLiveData(config)
+        popularMovies = popularMoviesFactory.toLiveData(config)
+        topRatedMovies = topRatedMoviesFactory.toLiveData(config)
+        nowPlayingMovies = nowPlayingMoviesFactory.toLiveData(config)
         searchMovies = searchMovieFactory.toLiveData(config)
     }
 
