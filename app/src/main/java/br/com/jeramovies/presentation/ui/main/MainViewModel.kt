@@ -1,9 +1,6 @@
 package br.com.jeramovies.presentation.ui.main
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MediatorLiveData
-import androidx.lifecycle.Observer
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import androidx.paging.DataSource
 import androidx.paging.PagedList
 import androidx.paging.toLiveData
@@ -12,14 +9,13 @@ import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
-import br.com.jeramovies.presentation.util.livedata.SingleLiveEvent
 
 class MainViewModel(repository: MoviesRepository) : BaseViewModel() {
 
     val searchMovies: LiveData<PagedList<Movie>> get() = _mediatorSearch
     val jumpToTop: LiveData<Boolean> get() = _jumpToTop
 
-    private val _jumpToTop by lazy { SingleLiveEvent<Boolean>() }
+    private val _jumpToTop by lazy { MutableLiveData<Boolean>() }
     private val _mediatorSearch by lazy { MediatorLiveData<PagedList<Movie>>() }
     private val _pagedSearch by lazy { searchMovieFactory.toLiveData(config) }
 
