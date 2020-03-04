@@ -1,30 +1,38 @@
 package br.com.jeramovies.presentation.ui.main
 
+import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
-import br.com.jeramovies.presentation.ui.main.latest.NowPlayingMoviesFragment
-import br.com.jeramovies.presentation.ui.main.popular.PopularMoviesFragment
-import br.com.jeramovies.presentation.ui.main.topRated.TopRatedMoviesFragment
+import br.com.jeramovies.R
+import br.com.jeramovies.presentation.ui.main.movies.InTheatersMovies
+import br.com.jeramovies.presentation.ui.main.movies.MoviesFragment
+import br.com.jeramovies.presentation.ui.main.movies.PopularMovies
+import br.com.jeramovies.presentation.ui.main.movies.TopRatedMovies
 
-class PageAdapter(fragmentManager: FragmentManager) :
+class PageAdapter(
+    private val context: Context,
+    fragmentManager: FragmentManager
+) :
     FragmentPagerAdapter(fragmentManager, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT) {
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> PopularMoviesFragment()
-            1 -> NowPlayingMoviesFragment()
-            2 -> TopRatedMoviesFragment()
+            0 -> MoviesFragment.createInstance(PopularMovies())
+            1 -> MoviesFragment.createInstance(InTheatersMovies())
+            2 -> MoviesFragment.createInstance(TopRatedMovies())
             else -> throw Exception("That fragment not exists!")
         }
     }
 
     override fun getPageTitle(position: Int): CharSequence? {
-        return when (position) {
-            0 -> "Em Alta"
-            1 -> "Em Exibição"
-            2 -> "Mais votados"
-            else -> "Movies"
+        return with(context) {
+            when (position) {
+                0 -> getString(R.string.popular_movies)
+                1 -> getString(R.string.in_theaters_movies)
+                2 -> getString(R.string.top_rated_movies)
+                else -> getString(R.string.app_name)
+            }
         }
     }
 

@@ -11,4 +11,7 @@
     <string name="release_year">(%s)</string>
     <string name="release_date">%d de %s de %d</string>
     <string name="undefined">Indefinido</string>
+    <string name="popular_movies">Em alta</string>
+    <string name="in_theaters_movies">Nos cinemas</string>
+    <string name="top_rated_movies">Mais votados</string>
 </resources>

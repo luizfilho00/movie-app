@@ -7,22 +7,19 @@ import br.com.jeramovies.databinding.ActivityMainBinding
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.observeChanges
+import com.google.android.material.tabs.TabLayout
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
 
     override val baseViewModel: BaseViewModel get() = viewModel
 
-    private val viewModel: MoviesViewModel by viewModel()
+    private val viewModel: MainViewModel by viewModel()
     private lateinit var binding: ActivityMainBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        binding.run {
-            lifecycleOwner = this@MainActivity
-            vModel = viewModel
-        }
         subscribeUi()
         setupUi()
         setupPager()
@@ -30,14 +27,20 @@ class MainActivity : BaseActivity() {
 
     private fun setupPager() {
         with(binding) {
-            viewPager.adapter = PageAdapter(supportFragmentManager)
+            viewPager.adapter = PageAdapter(this@MainActivity, supportFragmentManager)
             tabLayout.setupWithViewPager(viewPager)
+            tabLayout.addOnTabSelectedListener(object : TabLayout.OnTabSelectedListener {
+                override fun onTabReselected(tab: TabLayout.Tab?) {
+                    viewModel.jumpToTop()
+                }
+
+                override fun onTabUnselected(tab: TabLayout.Tab?) {}
+                override fun onTabSelected(tab: TabLayout.Tab?) {}
+            })
         }
     }
 
     private fun setupUi() {
-        with(binding) {
-            searchView.observeChanges(lifecycle, viewModel::searchMovies)
-        }
+        binding.searchView.observeChanges(lifecycle, viewModel::searchMovies)
     }
 }

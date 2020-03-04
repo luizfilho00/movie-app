@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import androidx.paging.PagedList
 import br.com.jeramovies.domain.entity.DialogData
 import br.com.jeramovies.domain.resource.StringResource
 import br.com.jeramovies.presentation.util.exceptionHandler.ExceptionHandler
@@ -17,8 +18,14 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
 
     val dialog: LiveData<DialogData> get() = _dialog
     val goTo: SingleLiveEvent<NavData> get() = _goTo
+    val loading: LiveData<Boolean> get() = _loading
 
     protected val stringResource by inject<StringResource>()
+    protected val _loading by lazy { MutableLiveData<Boolean>() }
+    protected val config = PagedList.Config.Builder()
+        .setEnablePlaceholders(true)
+        .setPageSize(30)
+        .build()
 
     private val exceptionHandler by inject<ExceptionHandler>()
     private val _dialog by lazy { MutableLiveData<DialogData>() }
