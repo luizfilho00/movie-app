@@ -1,4 +1,4 @@
-package br.com.jeramovies.presentation.ui.main
+package br.com.jeramovies.presentation.ui.movies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
@@ -65,13 +65,14 @@ class MovieViewHolder(
     }
 
     companion object {
-        fun inflate(parent: ViewGroup) = MovieViewHolder(
-            DataBindingUtil.inflate(
-                LayoutInflater.from(parent.context),
-                R.layout.item_movie,
-                parent,
-                false
+        fun inflate(parent: ViewGroup) =
+            MovieViewHolder(
+                DataBindingUtil.inflate(
+                    LayoutInflater.from(parent.context),
+                    R.layout.item_movie,
+                    parent,
+                    false
+                )
             )
-        )
     }
 }

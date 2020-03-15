@@ -1,4 +1,4 @@
-package br.com.jeramovies.presentation.ui.main
+package br.com.jeramovies.presentation.ui.movies
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
@@ -7,10 +7,14 @@ import br.com.jeramovies.domain.entity.Movie
 
 class MoviesAdapter(
     private val onClick: (Movie) -> Unit
-) : PagedListAdapter<Movie, MovieViewHolder>(DiffUtilCallback) {
+) : PagedListAdapter<Movie, MovieViewHolder>(
+    DiffUtilCallback
+) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-        MovieViewHolder.inflate(parent)
+        MovieViewHolder.inflate(
+            parent
+        )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bind(getItem(position), onClick)

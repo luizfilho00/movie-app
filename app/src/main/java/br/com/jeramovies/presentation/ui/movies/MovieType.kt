@@ -1,4 +1,4 @@
-package br.com.jeramovies.presentation.ui.main.movies
+package br.com.jeramovies.presentation.ui.movies
 
 import java.io.Serializable
 

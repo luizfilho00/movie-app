@@ -31,6 +31,10 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     private val _dialog by lazy { MutableLiveData<DialogData>() }
     private val _goTo by lazy { SingleLiveEvent<NavData>() }
 
+    fun goTo(navData: NavData) {
+        _goTo.postValue(navData)
+    }
+
     protected fun showDialog(
         message: String,
         title: String? = null,
@@ -59,10 +63,6 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
                 onDismiss, onConfirm
             )
         )
-    }
-
-    protected fun goTo(navData: NavData) {
-        _goTo.postValue(navData)
     }
 
     protected fun <T> launchAsync(

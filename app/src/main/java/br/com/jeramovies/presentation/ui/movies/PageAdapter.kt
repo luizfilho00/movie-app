@@ -1,14 +1,14 @@
-package br.com.jeramovies.presentation.ui.main
+package br.com.jeramovies.presentation.ui.movies
 
 import android.content.Context
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import br.com.jeramovies.R
-import br.com.jeramovies.presentation.ui.main.movies.InTheatersMovies
-import br.com.jeramovies.presentation.ui.main.movies.MoviesFragment
-import br.com.jeramovies.presentation.ui.main.movies.PopularMovies
-import br.com.jeramovies.presentation.ui.main.movies.TopRatedMovies
+import br.com.jeramovies.presentation.ui.movies.InTheatersMovies
+import br.com.jeramovies.presentation.ui.movies.MoviesFragment
+import br.com.jeramovies.presentation.ui.movies.PopularMovies
+import br.com.jeramovies.presentation.ui.movies.TopRatedMovies
 
 class PageAdapter(
     private val context: Context,

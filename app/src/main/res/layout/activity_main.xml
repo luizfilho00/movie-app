@@ -16,46 +16,17 @@
             android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
             <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:layout_scrollFlags="scroll|enterAlways">
-
-                <ImageView
-                    android:id="@+id/toolbar"
-                    android:layout_width="match_parent"
-                    android:layout_height="64dp"
-                    android:layout_margin="@dimen/spacing_8"
-                    android:gravity="center_vertical"
-                    android:src="@drawable/ic_powered_tmdb"
-                    app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-                    tools:ignore="ContentDescription" />
-            </androidx.appcompat.widget.Toolbar>
-
-            <androidx.appcompat.widget.SearchView
-                android:id="@+id/search_view"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/spacing_8" />
+                app:layout_scrollFlags="scroll|enterAlways"
+                app:title="The Movies Database" />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <LinearLayout
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fragment_container"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-            <com.google.android.material.tabs.TabLayout
-                android:id="@+id/tab_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:tabMode="fixed" />
-
-            <androidx.viewpager.widget.ViewPager
-                android:id="@+id/view_pager"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_anchor="@id/tab_layout"
-                app:layout_anchorGravity="bottom" />
-        </LinearLayout>
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior" />
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

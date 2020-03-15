@@ -1,4 +1,4 @@
-package br.com.jeramovies.presentation.ui.main.movies
+package br.com.jeramovies.presentation.ui.movies
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.jeramovies.databinding.FragmentMoviesBinding
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.presentation.ui.main.MainViewModel
-import br.com.jeramovies.presentation.ui.main.MoviesAdapter
 import br.com.jeramovies.presentation.util.livedata.observe
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -23,7 +22,11 @@ class MoviesFragment : Fragment() {
     private val moviesObserver: MoviesObserver by inject()
     private val activityViewModel: MainViewModel by sharedViewModel()
     private val viewModel: MoviesViewModel by viewModel()
-    private val adapter by lazy { MoviesAdapter(activityViewModel::onMovieClick) }
+    private val adapter by lazy {
+        MoviesAdapter(
+            viewModel::onMovieClick
+        )
+    }
     private val movieType by lazy { arguments?.get(MOVIE_TYPE_EXTRA) as? MovieType }
 
     override fun onCreateView(
@@ -54,6 +57,7 @@ class MoviesFragment : Fragment() {
             viewModel,
             ::onMoviesReceived
         )
+        viewModel.goTo.observe(viewLifecycleOwner, activityViewModel::goTo)
         activityViewModel.jumpToTop.observe(viewLifecycleOwner) {
             binding.recyclerView.scrollToPosition(0)
         }

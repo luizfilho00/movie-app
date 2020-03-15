@@ -9,7 +9,7 @@
 
         <variable
             name="vModel"
-            type="br.com.jeramovies.presentation.ui.main.movies.MoviesViewModel" />
+            type="br.com.jeramovies.presentation.ui.movies.MoviesViewModel" />
     </data>
 
     <FrameLayout
