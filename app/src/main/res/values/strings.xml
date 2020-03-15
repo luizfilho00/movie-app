@@ -14,4 +14,7 @@
     <string name="popular_movies">Em alta</string>
     <string name="in_theaters_movies">Nos cinemas</string>
     <string name="top_rated_movies">Mais votados</string>
+    <string name="users_rating">Nota dos usuários</string>
+    <string name="play_trailer">Ver trailer</string>
+    <string name="overview">Sinópse</string>
 </resources>

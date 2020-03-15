@@ -40,11 +40,22 @@ class MovieDetailsActivity : BaseActivity() {
         with(binding) {
             this.movie = movie
             setupToolbar(movie)
-            imageViewToolbarBackground.load(movie.getPosterUrl(movie.backdropPath, Movie.W500)) {
+            setupUserRating(movie)
+            includedMovieToolbar.imageViewToolbarBackground.load(
+                movie.getPosterUrl(
+                    movie.backdropPath,
+                    Movie.W500
+                )
+            ) {
                 crossfade(true)
                 placeholder(R.drawable.movie_empty_placeholder)
             }
-            imageViewPoster.load(movie.getPosterUrl(movie.posterPath, Movie.W185)) {
+            includedMovieToolbar.imageViewPoster.load(
+                movie.getPosterUrl(
+                    movie.posterPath,
+                    Movie.W185
+                )
+            ) {
                 crossfade(true)
                 placeholder(R.drawable.poster_placeholder)
             }
@@ -67,6 +78,14 @@ class MovieDetailsActivity : BaseActivity() {
                     isShow = false
                 }
             })
+        }
+    }
+
+    private fun setupUserRating(movieDetails: MovieDetails) {
+        with(binding.includedMovieToolbar) {
+            progressBar.progressMax = 10f
+            progressBar.setProgressWithAnimation(movieDetails.voteAverage?.toFloat() ?: 10f, 2000L)
+            textViewPercent.text = root.context.getString(R.string.percent, movieDetails.userScore())
         }
     }
 
