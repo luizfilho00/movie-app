@@ -12,6 +12,7 @@ import br.com.jeramovies.databinding.ActivityMainBinding
 import br.com.jeramovies.presentation.ui.search.SearchMoviesFragment
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
+import br.com.jeramovies.presentation.util.extensions.observeChanges
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : BaseActivity() {
@@ -56,6 +57,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupSearchView(searchView: SearchView) {
+        searchView.observeChanges(lifecycle, viewModel::onSearchText)
         searchView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewDetachedFromWindow(p0: View?) {
                 supportFragmentManager.popBackStack()
