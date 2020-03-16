@@ -38,15 +38,17 @@ data class MovieDetails(
 ) {
 
     fun date() = releaseDate?.toDate()?.let(LocalDate::fromDateFields) ?: LocalDate()
+
     fun userScore() = ((voteAverage ?: 0.0) * 10.0).roundToInt().toString()
-    fun durationHours(): String = runtime?.let { (runtime / 60).toString() } ?: ""
-    fun durationMinutes(): String = runtime?.let { (runtime % 60).toString() } ?: ""
-    fun budgetCost(): String {
-        return budget?.toDouble()?.let { budgetDouble ->
-            val numberFormat = NumberFormat.getCurrencyInstance(Locale.US)
-            numberFormat.format(budgetDouble / 100.0)
-        } ?: ""
-    }
+
+    fun durationHours() = runtime?.let { (runtime / 60).toString() } ?: ""
+
+    fun durationMinutes() = runtime?.let { (runtime % 60).toString() } ?: ""
+
+    fun budgetCost() = budget?.toDouble()?.let { budgetDouble ->
+        val numberFormat = NumberFormat.getCurrencyInstance(Locale.US)
+        numberFormat.format(budgetDouble / 100.0)
+    } ?: ""
 
     fun getPosterUrl(path: String?, size: String = W185) = "$IMAGE_URL$size/$path"
 }
