@@ -5,6 +5,8 @@ import br.com.jeramovies.domain.util.W185
 import br.com.jeramovies.domain.util.extensions.toDate
 import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
+import java.text.NumberFormat
+import java.util.*
 import kotlin.math.roundToInt
 
 data class MovieDetails(
@@ -37,5 +39,14 @@ data class MovieDetails(
 
     fun date() = releaseDate?.toDate()?.let(LocalDate::fromDateFields) ?: LocalDate()
     fun userScore() = ((voteAverage ?: 0.0) * 10.0).roundToInt().toString()
+    fun durationHours(): String = runtime?.let { (runtime / 60).toString() } ?: ""
+    fun durationMinutes(): String = runtime?.let { (runtime % 60).toString() } ?: ""
+    fun budgetCost(): String {
+        return budget?.toDouble()?.let { budgetDouble ->
+            val numberFormat = NumberFormat.getCurrencyInstance(Locale.US)
+            numberFormat.format(budgetDouble / 100.0)
+        } ?: ""
+    }
+
     fun getPosterUrl(path: String?, size: String = W185) = "$IMAGE_URL$size/$path"
 }

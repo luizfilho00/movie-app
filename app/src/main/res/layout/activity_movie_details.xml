@@ -104,6 +104,102 @@
                     android:orientation="horizontal"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
                     tools:listitem="@layout/item_crew" />
+
+                <TextView
+                    style="@style/SansProBold18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_16"
+                    android:text="@string/label_release_date"
+                    android:textColor="#000" />
+
+                <TextView
+                    android:id="@+id/text_view_release_date"
+                    style="@style/SansProRegular16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_4"
+                    android:textColor="#000"
+                    tools:text="28 de Junho de 2020" />
+
+                <TextView
+                    style="@style/SansProBold18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_16"
+                    android:text="@string/original_title"
+                    android:textColor="#000" />
+
+                <TextView
+                    style="@style/SansProRegular16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_4"
+                    android:text="@{movie.originalTitle}"
+                    android:textColor="#000"
+                    tools:text="Aves de Rapina" />
+
+                <TextView
+                    style="@style/SansProBold18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_16"
+                    android:text="@string/duration"
+                    android:textColor="#000" />
+
+                <TextView
+                    style="@style/SansProRegular16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_4"
+                    android:text="@{@string/hour_template(movie.durationHours(), movie.durationMinutes())}"
+                    android:textColor="#000"
+                    tools:text="1h 35min" />
+
+                <TextView
+                    style="@style/SansProBold18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_16"
+                    android:text="@string/budget"
+                    android:visibility="@{movie.budgetCost().empty ? View.GONE : View.VISIBLE}"
+                    android:textColor="#000" />
+
+                <TextView
+                    style="@style/SansProRegular16"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_4"
+                    android:visibility="@{movie.budgetCost().empty ? View.GONE : View.VISIBLE}"
+                    android:text="@{movie.budgetCost()}"
+                    android:textColor="#000"
+                    tools:text="1h 35min" />
+
+                <TextView
+                    style="@style/SansProBold18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_16"
+                    android:text="@string/genres"
+                    android:textColor="#000" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_genders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginEnd="@dimen/spacing_20"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_genre" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

@@ -4,6 +4,7 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
+import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ActivityMovieDetailsBinding
@@ -27,6 +28,7 @@ class MovieDetailsActivity : BaseActivity() {
     private val movieId by lazy { intent.getIntExtra(MOVIE_ID_EXTRA, 0) }
     private val viewModel: MovieDetailsViewModel by viewModel { parametersOf(movieId) }
     private val crewAdapter by lazy { MovieCrewAdapter() }
+    private val genreAdapter by lazy { MovieGenresAdapter() }
     private lateinit var binding: ActivityMovieDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -43,11 +45,37 @@ class MovieDetailsActivity : BaseActivity() {
     }
 
     private fun setupUi(movie: MovieDetails) {
+        binding.movie = movie
+        setupToolbar(movie)
+        setupToolbarImages(movie)
+        setupUserRating(movie)
+        setupCrewRecycler()
+        setupInfos(movie)
+        setupGenresRecyclerView(movie)
+
+    }
+
+    private fun setupToolbar(movie: MovieDetails) {
+        var isShow = false
         with(binding) {
-            this.movie = movie
-            setupToolbar(movie)
-            setupUserRating(movie)
-            setupCrewRecycler()
+            appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
+                var scrollRange = -1
+                if (scrollRange == -1) {
+                    scrollRange = appBarLayout.totalScrollRange
+                }
+                if (scrollRange + verticalOffset == 0) {
+                    binding.toolbar.title = movie.title
+                    isShow = true
+                } else if (isShow) {
+                    toolbar.title = ""
+                    isShow = false
+                }
+            })
+        }
+    }
+
+    private fun setupToolbarImages(movie: MovieDetails) {
+        with(binding) {
             includedMovieToolbar.imageViewToolbarBackground.load(
                 movie.getPosterUrl(
                     movie.backdropPath,
@@ -66,25 +94,6 @@ class MovieDetailsActivity : BaseActivity() {
                 crossfade(true)
                 placeholder(R.drawable.poster_placeholder)
             }
-        }
-    }
-
-    private fun setupToolbar(movie: MovieDetails) {
-        var isShow = false
-        with(binding) {
-            appBarLayout.addOnOffsetChangedListener(AppBarLayout.OnOffsetChangedListener { appBarLayout, verticalOffset ->
-                var scrollRange = -1
-                if (scrollRange == -1) {
-                    scrollRange = appBarLayout.totalScrollRange
-                }
-                if (scrollRange + verticalOffset == 0) {
-                    binding.toolbar.title = movie.title
-                    isShow = true
-                } else if (isShow) {
-                    binding.toolbar.title = ""
-                    isShow = false
-                }
-            })
         }
     }
 
@@ -107,6 +116,28 @@ class MovieDetailsActivity : BaseActivity() {
                     false
                 )
         }
+    }
+
+    private fun setupInfos(movie: MovieDetails) {
+        binding.textViewReleaseDate.text = movie.date().let { date ->
+            getString(
+                R.string.release_date,
+                date.dayOfMonth,
+                date.monthOfYear()?.asText,
+                date.year
+            )
+        }
+    }
+
+    private fun setupGenresRecyclerView(movie: MovieDetails) {
+        binding.recyclerViewGenders.run {
+            adapter = genreAdapter
+            layoutManager = GridLayoutManager(
+                this@MovieDetailsActivity,
+                4
+            )
+        }
+        genreAdapter.submitList(movie.genres)
     }
 
     companion object {
