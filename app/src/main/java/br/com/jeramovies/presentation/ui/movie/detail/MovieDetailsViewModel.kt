@@ -7,6 +7,7 @@ import br.com.jeramovies.domain.entity.Actor
 import br.com.jeramovies.domain.entity.MovieCast
 import br.com.jeramovies.domain.entity.MovieDetails
 import br.com.jeramovies.domain.repository.MoviesRepository
+import br.com.jeramovies.presentation.ui.trailer.TrailerNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 
 class MovieDetailsViewModel(
@@ -29,6 +30,18 @@ class MovieDetailsViewModel(
         launchAsync(
             block = { repository.getMovieCrew(movieId) },
             onSuccess = { crew -> _movieCrew.postValue(crew) },
+            onFailure = { error -> showDialog(error) }
+        )
+    }
+
+    fun playTrailer() {
+        launchAsync(
+            block = { repository.getTrailers(movieId) },
+            onSuccess = { trailers ->
+                trailers.results?.firstOrNull()?.let { trailer ->
+                    goTo(TrailerNavData(trailer))
+                }
+            },
             onFailure = { error -> showDialog(error) }
         )
     }

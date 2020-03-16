@@ -3,6 +3,7 @@ package br.com.jeramovies.domain.repository
 import br.com.jeramovies.domain.entity.MovieCast
 import br.com.jeramovies.domain.entity.MovieDetails
 import br.com.jeramovies.domain.entity.MoviesResponse
+import br.com.jeramovies.domain.entity.VideoResponse
 
 interface MoviesRepository {
 
@@ -12,4 +13,5 @@ interface MoviesRepository {
     suspend fun getMovieDetails(id: Int): MovieDetails
     suspend fun searchMovies(text: String, page: Int): MoviesResponse
     suspend fun getMovieCrew(id: Int): MovieCast
+    suspend fun getTrailers(id: Int): VideoResponse
 }

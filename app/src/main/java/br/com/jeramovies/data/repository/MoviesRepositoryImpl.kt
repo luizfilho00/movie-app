@@ -1,6 +1,7 @@
 package br.com.jeramovies.data.repository
 
 import br.com.jeramovies.data.remote.ApiService
+import br.com.jeramovies.domain.entity.VideoResponse
 import br.com.jeramovies.domain.repository.MoviesRepository
 
 class MoviesRepositoryImpl(
@@ -18,4 +19,6 @@ class MoviesRepositoryImpl(
     override suspend fun searchMovies(text: String, page: Int) = apiService.searchMovies(text, page)
 
     override suspend fun getMovieCrew(id: Int) = apiService.getMovieCrew(id)
+
+    override suspend fun getTrailers(id: Int) = apiService.getMovieTrailers(id)
 }

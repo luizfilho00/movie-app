@@ -29,6 +29,11 @@
             android:name=".presentation.ui.movie.detail.MovieDetailsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".presentation.ui.trailer.TrailerActivity"
+            android:configChanges="keyboardHidden|orientation|screenSize"
+            android:screenOrientation="fullSensor"
+            android:theme="@style/AppThemeFullScreen" />
 
         <meta-data
             android:name="preloaded_fonts"

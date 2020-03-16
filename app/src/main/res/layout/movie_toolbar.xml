@@ -6,6 +6,10 @@
     <data>
 
         <variable
+            name="vModel"
+            type="br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsViewModel" />
+
+        <variable
             name="movie"
             type="br.com.jeramovies.domain.entity.MovieDetails" />
     </data>
@@ -111,8 +115,8 @@
                     android:layout_height="wrap_content"
                     android:fontFamily="@font/source_sans_pro"
                     android:textAlignment="center"
-                    android:textSize="14sp"
                     android:textColor="#FFF"
+                    android:textSize="14sp"
                     app:layout_constraintBottom_toBottomOf="@id/progress_bar"
                     app:layout_constraintEnd_toEndOf="@id/progress_bar"
                     app:layout_constraintStart_toStartOf="@id/progress_bar"
@@ -144,6 +148,8 @@
                 android:drawableStart="@drawable/ic_play"
                 android:drawablePadding="@dimen/spacing_8"
                 android:drawableTint="#FFF"
+                android:foreground="?attr/selectableItemBackgroundBorderless"
+                android:onClick="@{() -> vModel.playTrailer()}"
                 android:padding="@dimen/spacing_4"
                 android:text="@string/play_trailer" />
         </LinearLayout>

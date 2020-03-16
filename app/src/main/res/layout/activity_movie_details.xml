@@ -8,6 +8,10 @@
         <import type="android.view.View" />
 
         <variable
+            name="vModel"
+            type="br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsViewModel" />
+
+        <variable
             name="movie"
             type="br.com.jeramovies.domain.entity.MovieDetails" />
     </data>
@@ -33,7 +37,8 @@
                 <include
                     android:id="@+id/included_movie_toolbar"
                     layout="@layout/movie_toolbar"
-                    app:movie="@{movie}" />
+                    app:movie="@{movie}"
+                    app:vModel="@{vModel}" />
 
                 <androidx.appcompat.widget.Toolbar
                     android:id="@+id/toolbar"
@@ -169,8 +174,8 @@
                     android:layout_marginStart="@dimen/spacing_20"
                     android:layout_marginTop="@dimen/spacing_16"
                     android:text="@string/budget"
-                    android:visibility="@{movie.budgetCost().empty ? View.GONE : View.VISIBLE}"
-                    android:textColor="#000" />
+                    android:textColor="#000"
+                    android:visibility="@{movie.budgetCost().empty ? View.GONE : View.VISIBLE}" />
 
                 <TextView
                     style="@style/SansProRegular16"
@@ -178,9 +183,9 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/spacing_20"
                     android:layout_marginTop="@dimen/spacing_4"
-                    android:visibility="@{movie.budgetCost().empty ? View.GONE : View.VISIBLE}"
                     android:text="@{movie.budgetCost()}"
                     android:textColor="#000"
+                    android:visibility="@{movie.budgetCost().empty ? View.GONE : View.VISIBLE}"
                     tools:text="1h 35min" />
 
                 <TextView
