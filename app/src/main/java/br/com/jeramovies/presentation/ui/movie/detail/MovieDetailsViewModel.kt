@@ -1,8 +1,10 @@
 package br.com.jeramovies.presentation.ui.movie.detail
 
+import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import br.com.jeramovies.R
 import br.com.jeramovies.domain.entity.Actor
 import br.com.jeramovies.domain.entity.MovieCast
 import br.com.jeramovies.domain.entity.MovieDetails
@@ -12,6 +14,7 @@ import br.com.jeramovies.presentation.util.base.BaseViewModel
 
 class MovieDetailsViewModel(
     private val movieId: Int,
+    private val appContext: Context,
     private val repository: MoviesRepository
 ) : BaseViewModel() {
 
@@ -40,7 +43,7 @@ class MovieDetailsViewModel(
             onSuccess = { trailers ->
                 trailers.results?.firstOrNull()?.let { trailer ->
                     goTo(TrailerNavData(trailer))
-                }
+                } ?: showToast(appContext.getString(R.string.trailer_not_found))
             },
             onFailure = { error -> showDialog(error) }
         )

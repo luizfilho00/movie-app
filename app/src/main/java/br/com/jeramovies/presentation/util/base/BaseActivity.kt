@@ -2,6 +2,7 @@ package br.com.jeramovies.presentation.util.base
 
 import android.os.Bundle
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
@@ -30,6 +31,7 @@ abstract class BaseActivity : AppCompatActivity() {
     protected open fun subscribeUi() {
         baseViewModel.dialog.observe(this, Observer { showDialog(it) })
         baseViewModel.goTo.observe(this, Observer { navigateTo(it) })
+        baseViewModel.toast.observe(this, Observer { showToast(it) })
     }
 
     private fun showDialog(dialogData: DialogData) {
@@ -48,5 +50,9 @@ abstract class BaseActivity : AppCompatActivity() {
 
     private fun navigateTo(navData: NavData) {
         navData.navigate(this)
+    }
+
+    private fun showToast(message: String) {
+        Toast.makeText(this, message, Toast.LENGTH_LONG).apply { show() }
     }
 }
