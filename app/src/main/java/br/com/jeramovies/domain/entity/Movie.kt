@@ -1,5 +1,7 @@
 package br.com.jeramovies.domain.entity
 
+import br.com.jeramovies.domain.util.IMAGE_URL
+import br.com.jeramovies.domain.util.W500
 import br.com.jeramovies.domain.util.extensions.toDate
 import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
@@ -26,11 +28,5 @@ data class Movie(
 
     fun date() = releaseDate?.toDate()?.let(LocalDate::fromDateFields)
 
-    fun getPosterUrl(size: String = W500) = "https://image.tmdb.org/t/p/$size/$backdropPath"
-
-    companion object {
-        const val DATE_PATTERN = "yyyy-MM-dd"
-        const val W185 = "w185"
-        const val W500 = "w500"
-    }
+    fun getPosterUrl(size: String = W500) = "$IMAGE_URL$size/$backdropPath"
 }

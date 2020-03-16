@@ -16,4 +16,6 @@ class MoviesRepositoryImpl(
     override suspend fun getMovieDetails(id: Int) = apiService.getMovieDetails(id)
 
     override suspend fun searchMovies(text: String, page: Int) = apiService.searchMovies(text, page)
+
+    override suspend fun getMovieCrew(id: Int) = apiService.getMovieCrew(id)
 }

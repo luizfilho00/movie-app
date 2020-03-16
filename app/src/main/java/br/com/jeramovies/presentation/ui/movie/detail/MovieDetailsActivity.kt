@@ -4,15 +4,17 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.Observer
+import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ActivityMovieDetailsBinding
-import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.entity.MovieDetails
+import br.com.jeramovies.domain.util.W185
+import br.com.jeramovies.domain.util.W500
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.makeStatusBarTransparent
 import br.com.jeramovies.presentation.util.extensions.setupToolbar
+import br.com.jeramovies.presentation.util.livedata.observe
 import coil.api.load
 import com.google.android.material.appbar.AppBarLayout
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -24,6 +26,7 @@ class MovieDetailsActivity : BaseActivity() {
 
     private val movieId by lazy { intent.getIntExtra(MOVIE_ID_EXTRA, 0) }
     private val viewModel: MovieDetailsViewModel by viewModel { parametersOf(movieId) }
+    private val crewAdapter by lazy { MovieCrewAdapter() }
     private lateinit var binding: ActivityMovieDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -31,9 +34,12 @@ class MovieDetailsActivity : BaseActivity() {
         binding = DataBindingUtil.setContentView(this, R.layout.activity_movie_details)
         makeStatusBarTransparent(window)
         setupToolbar(binding.toolbar, true)
-        viewModel.moveDetails.observe(this, Observer {
-            setupUi(it)
-        })
+    }
+
+    override fun subscribeUi() {
+        super.subscribeUi()
+        viewModel.movieDetails.observe(this, ::setupUi)
+        viewModel.movieCrew.observe(this, crewAdapter::submitList)
     }
 
     private fun setupUi(movie: MovieDetails) {
@@ -41,10 +47,11 @@ class MovieDetailsActivity : BaseActivity() {
             this.movie = movie
             setupToolbar(movie)
             setupUserRating(movie)
+            setupCrewRecycler()
             includedMovieToolbar.imageViewToolbarBackground.load(
                 movie.getPosterUrl(
                     movie.backdropPath,
-                    Movie.W500
+                    W500
                 )
             ) {
                 crossfade(true)
@@ -53,7 +60,7 @@ class MovieDetailsActivity : BaseActivity() {
             includedMovieToolbar.imageViewPoster.load(
                 movie.getPosterUrl(
                     movie.posterPath,
-                    Movie.W185
+                    W185
                 )
             ) {
                 crossfade(true)
@@ -84,8 +91,21 @@ class MovieDetailsActivity : BaseActivity() {
     private fun setupUserRating(movieDetails: MovieDetails) {
         with(binding.includedMovieToolbar) {
             progressBar.progressMax = 10f
-            progressBar.setProgressWithAnimation(movieDetails.voteAverage?.toFloat() ?: 10f, 2000L)
-            textViewPercent.text = root.context.getString(R.string.percent, movieDetails.userScore())
+            progressBar.setProgressWithAnimation(movieDetails.voteAverage?.toFloat() ?: 10f, 3000L)
+            textViewPercent.text =
+                root.context.getString(R.string.percent, movieDetails.userScore())
+        }
+    }
+
+    private fun setupCrewRecycler() {
+        with(binding) {
+            recyclerView.adapter = crewAdapter
+            recyclerView.layoutManager =
+                LinearLayoutManager(
+                    this@MovieDetailsActivity,
+                    LinearLayoutManager.HORIZONTAL,
+                    false
+                )
         }
     }
 

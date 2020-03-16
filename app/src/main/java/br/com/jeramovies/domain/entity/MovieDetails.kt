@@ -1,5 +1,7 @@
 package br.com.jeramovies.domain.entity
 
+import br.com.jeramovies.domain.util.IMAGE_URL
+import br.com.jeramovies.domain.util.W185
 import br.com.jeramovies.domain.util.extensions.toDate
 import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
@@ -35,6 +37,5 @@ data class MovieDetails(
 
     fun date() = releaseDate?.toDate()?.let(LocalDate::fromDateFields) ?: LocalDate()
     fun userScore() = ((voteAverage ?: 0.0) * 10.0).roundToInt().toString()
-    fun getPosterUrl(path: String?, size: String = Movie.W185) =
-        "https://image.tmdb.org/t/p/$size/$path"
+    fun getPosterUrl(path: String?, size: String = W185) = "$IMAGE_URL$size/$path"
 }
