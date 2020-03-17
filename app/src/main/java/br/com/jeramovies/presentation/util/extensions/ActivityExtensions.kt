@@ -1,17 +1,19 @@
 package br.com.jeramovies.presentation.util.extensions
 
-import android.graphics.Color
+import android.content.Context
 import android.view.View
 import android.view.Window
 import android.view.WindowManager
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.core.content.res.ResourcesCompat
+import br.com.jeramovies.R
 
-fun makeStatusBarTransparent(window: Window) {
+fun Context.makeStatusBarTransparent(window: Window) {
     window.decorView.systemUiVisibility =
         (View.SYSTEM_UI_FLAG_LAYOUT_STABLE or View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN)
     setWindowFlag(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS, false, window)
-    window.statusBarColor = Color.TRANSPARENT
+    window.statusBarColor = ResourcesCompat.getColor(resources, R.color.colorBlackTransparent, theme)
 }
 
 fun setWindowFlag(bits: Int, on: Boolean, window: Window) {

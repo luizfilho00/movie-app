@@ -9,10 +9,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ActivityMovieDetailsBinding
 import br.com.jeramovies.domain.entity.MovieDetails
-import br.com.jeramovies.domain.entity.Trailer
 import br.com.jeramovies.domain.util.W185
 import br.com.jeramovies.domain.util.W500
-import br.com.jeramovies.presentation.ui.trailer.TrailerActivity
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.makeStatusBarTransparent

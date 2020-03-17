@@ -2,6 +2,7 @@ package br.com.jeramovies.presentation.di
 
 import br.com.jeramovies.BuildConfig
 import br.com.jeramovies.data.remote.ApiService
+import br.com.jeramovies.domain.util.PT_BR
 import com.google.gson.GsonBuilder
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
@@ -60,7 +61,7 @@ val apiModule = module {
                     .newBuilder()
                     .addQueryParameter("api_key", API_KEY)
                 if (!chain.request().url.toString().contains("video"))
-                    newUrl.addQueryParameter("language", "pt-BR")
+                    newUrl.addQueryParameter("language", PT_BR)
                 return chain.proceed(chain.request().newBuilder().url(newUrl.build()).build())
             }
         }
