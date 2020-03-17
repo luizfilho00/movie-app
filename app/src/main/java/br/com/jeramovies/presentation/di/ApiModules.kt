@@ -59,9 +59,9 @@ val apiModule = module {
                     .url
                     .newBuilder()
                     .addQueryParameter("api_key", API_KEY)
-                    .addQueryParameter("language", "pt-BR")
-                    .build()
-                return chain.proceed(chain.request().newBuilder().url(newUrl).build())
+                if (!chain.request().url.toString().contains("video"))
+                    newUrl.addQueryParameter("language", "pt-BR")
+                return chain.proceed(chain.request().newBuilder().url(newUrl.build()).build())
             }
         }
     }

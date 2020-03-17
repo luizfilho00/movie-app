@@ -26,7 +26,10 @@ interface ApiService {
     suspend fun getMovieCrew(@Path("id") id: Int): MovieCast
 
     @GET("movie/{id}/videos")
-    suspend fun getMovieTrailers(@Path("id") id: Int): VideoResponse
+    suspend fun getMovieTrailers(
+        @Path("id") id: Int,
+        @Query("language") language: String
+    ): VideoResponse
 
     @GET("search/movie")
     suspend fun searchMovies(

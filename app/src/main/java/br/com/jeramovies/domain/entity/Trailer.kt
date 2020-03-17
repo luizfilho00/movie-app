@@ -9,10 +9,9 @@ data class Trailer(
     val type: String?
 ) : Serializable {
 
-    fun isYoutubeVideo() = site == YOUTUBE_SITE && type == TRAILER_TYPE
+    fun isYoutubeVideo() = site == YOUTUBE_SITE
 
     companion object {
-        const val TRAILER_TYPE = "Trailer"
         const val YOUTUBE_SITE = "YouTube"
     }
 }
