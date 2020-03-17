@@ -4,11 +4,12 @@ import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
+import androidx.lifecycle.viewModelScope
+import androidx.paging.DataSource
+import androidx.paging.toLiveData
 import br.com.jeramovies.R
-import br.com.jeramovies.domain.entity.Actor
-import br.com.jeramovies.domain.entity.MovieCast
-import br.com.jeramovies.domain.entity.MovieDetails
-import br.com.jeramovies.domain.entity.VideoResponse
+import br.com.jeramovies.data.paging.dataSource.RecommendationsMoviesDataSource
+import br.com.jeramovies.domain.entity.*
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.presentation.ui.trailer.TrailerNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
@@ -21,9 +22,21 @@ class MovieDetailsViewModel(
 
     val movieDetails: LiveData<MovieDetails> get() = _movieDetails
     val movieCrew: LiveData<List<Actor>> get() = Transformations.map(_movieCrew) { it.cast }
+    val recommendedMovies by lazy { _recommendedMoviesFactory.toLiveData(config) }
 
     private val _movieDetails by lazy { MutableLiveData<MovieDetails>() }
     private val _movieCrew by lazy { MutableLiveData<MovieCast>() }
+    private val _recommendedMoviesFactory = object : DataSource.Factory<Int, Movie>() {
+        override fun create(): DataSource<Int, Movie> {
+            return RecommendationsMoviesDataSource(
+                repository,
+                viewModelScope,
+                movieId,
+                onLoading = { _loading.value = it },
+                onFailure = { showDialog(it) }
+            )
+        }
+    }
     private var trailers: VideoResponse? = null
 
     init {
@@ -43,6 +56,16 @@ class MovieDetailsViewModel(
         }
     }
 
+    fun playTrailer() {
+        trailers?.results?.firstOrNull()?.let { trailer ->
+            goTo(TrailerNavData(trailer))
+        } ?: showToast(appContext.getString(R.string.trailer_not_found))
+    }
+
+    fun onRecommendedClicked(movie: Movie) {
+        goTo(MovieDetailsNavData(movie.id))
+    }
+
     private fun getTrailerPtBR(onSuccess: (VideoResponse) -> Unit) {
         launchAsync(
             block = { repository.getTrailers(movieId) },
@@ -57,11 +80,5 @@ class MovieDetailsViewModel(
             onSuccess = { videos -> trailers = videos },
             onFailure = { error -> showDialog(error) }
         )
-    }
-
-    fun playTrailer() {
-        trailers?.results?.firstOrNull()?.let { trailer ->
-            goTo(TrailerNavData(trailer))
-        } ?: showToast(appContext.getString(R.string.trailer_not_found))
     }
 }

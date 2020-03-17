@@ -29,7 +29,8 @@
             android:scaleType="centerCrop"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"
+            tools:ignore="ContentDescription" />
 
         <ImageView
             android:id="@+id/image_view_poster"
@@ -150,7 +151,7 @@
                 android:drawableTint="#FFF"
                 android:foreground="?attr/selectableItemBackgroundBorderless"
                 android:onClick="@{() -> vModel.playTrailer()}"
-                android:padding="@dimen/spacing_4"
+                android:padding="@dimen/spacing_8"
                 android:text="@string/play_trailer" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>

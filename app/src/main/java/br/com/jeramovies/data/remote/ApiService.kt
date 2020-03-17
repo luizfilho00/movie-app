@@ -19,6 +19,12 @@ interface ApiService {
     @GET("movie/now_playing")
     suspend fun getNowPlayingMovies(@Query("page") page: Int? = 1): MoviesResponse
 
+    @GET("movie/{id}/recommendations")
+    suspend fun getRecommendations(
+        @Path("id") id: Int,
+        @Query("page") page: Int? = 1
+    ): MoviesResponse
+
     @GET("movie/{id}")
     suspend fun getMovieDetails(@Path("id") id: Int): MovieDetails
 

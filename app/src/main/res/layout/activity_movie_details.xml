@@ -205,6 +205,24 @@
                     android:layout_marginEnd="@dimen/spacing_20"
                     android:nestedScrollingEnabled="false"
                     tools:listitem="@layout/item_genre" />
+
+                <TextView
+                    style="@style/SansProBold18"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_20"
+                    android:layout_marginTop="@dimen/spacing_16"
+                    android:text="@string/recommended"
+                    android:textColor="#000" />
+
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recycler_view_recommended"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="@dimen/spacing_12"
+                    android:layout_marginEnd="@dimen/spacing_20"
+                    android:nestedScrollingEnabled="false"
+                    tools:listitem="@layout/item_genre" />
             </LinearLayout>
         </androidx.core.widget.NestedScrollView>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>

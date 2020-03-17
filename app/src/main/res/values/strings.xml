@@ -27,6 +27,7 @@
     <string name="duration">Duração</string>
     <string name="budget">Orçamento</string>
     <string name="genres">Gêneros</string>
+    <string name="recommended">Recomendados</string>
     <string name="hour_template">%sh %smin</string>
     <string name="trailer_not_found">Trailer não encontrado</string>
 </resources>

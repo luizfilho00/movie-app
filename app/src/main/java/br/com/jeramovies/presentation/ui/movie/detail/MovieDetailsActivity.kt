@@ -29,6 +29,7 @@ class MovieDetailsActivity : BaseActivity() {
     private val viewModel: MovieDetailsViewModel by viewModel { parametersOf(movieId) }
     private val crewAdapter by lazy { MovieCrewAdapter() }
     private val genreAdapter by lazy { MovieGenresAdapter() }
+    private val recommendedAdapter by lazy { RecommendedAdapter(viewModel::onRecommendedClicked) }
     private lateinit var binding: ActivityMovieDetailsBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -46,6 +47,7 @@ class MovieDetailsActivity : BaseActivity() {
         super.subscribeUi()
         viewModel.movieDetails.observe(this, ::setupUi)
         viewModel.movieCrew.observe(this, crewAdapter::submitList)
+        viewModel.recommendedMovies.observe(this, recommendedAdapter::submitList)
     }
 
     private fun setupUi(movie: MovieDetails) {
@@ -56,6 +58,7 @@ class MovieDetailsActivity : BaseActivity() {
         setupCrewRecycler()
         setupInfos(movie)
         setupGenresRecyclerView(movie)
+        setupRecommended()
     }
 
     private fun setupToolbar(movie: MovieDetails) {
@@ -141,6 +144,17 @@ class MovieDetailsActivity : BaseActivity() {
             )
         }
         genreAdapter.submitList(movie.genres)
+    }
+
+    private fun setupRecommended() {
+        binding.recyclerViewRecommended.run {
+            adapter = recommendedAdapter
+            layoutManager = LinearLayoutManager(
+                this@MovieDetailsActivity,
+                LinearLayoutManager.HORIZONTAL,
+                false
+            )
+        }
     }
 
     companion object {
