@@ -12,7 +12,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 class MyListFragment : Fragment() {
 
     private lateinit var binding: FragmentMyListBinding
-    private val myListMovieAdapter by lazy { MyListMovieAdapter() }
+    private val myListMovieAdapter by lazy { MyListMovieAdapter(viewModel::onMovieClicked) }
     private val viewModel: MyListViewModel by viewModel()
 
     override fun onCreateView(
@@ -24,11 +24,6 @@ class MyListFragment : Fragment() {
         setupRecyclerView()
         subscribeUi()
         return binding.root
-    }
-
-    override fun onStart() {
-        super.onStart()
-        binding.recyclerView.scrollToPosition(0)
     }
 
     private fun subscribeUi() {

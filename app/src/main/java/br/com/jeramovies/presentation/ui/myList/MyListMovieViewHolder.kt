@@ -13,11 +13,14 @@ class MyListMovieViewHolder(
     private val binding: ItemMovieMyListBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movieSaved: MovieSaved) {
+    fun bind(
+        movieSaved: MovieSaved,
+        onClick: (MovieSaved) -> Unit
+    ) {
         with(binding) {
             imageView.load(movieSaved.posterUrl)
             textViewMovieTitle.text = movieSaved.title
-            textViewRating.text = movieSaved.voteAverage.toString()
+            root.setOnClickListener { onClick(movieSaved) }
         }
     }
 

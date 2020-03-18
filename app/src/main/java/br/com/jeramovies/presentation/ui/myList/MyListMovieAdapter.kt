@@ -5,13 +5,15 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import br.com.jeramovies.domain.entity.MovieSaved
 
-class MyListMovieAdapter : ListAdapter<MovieSaved, MyListMovieViewHolder>(DiffUtilCallback) {
+class MyListMovieAdapter(
+    private val onClick: (MovieSaved) -> Unit
+) : ListAdapter<MovieSaved, MyListMovieViewHolder>(DiffUtilCallback) {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MyListMovieViewHolder.inflate(parent)
 
     override fun onBindViewHolder(holder: MyListMovieViewHolder, position: Int) {
-        holder.bind(getItem(position))
+        holder.bind(getItem(position), onClick)
     }
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<MovieSaved>() {

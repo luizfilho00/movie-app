@@ -4,6 +4,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import br.com.jeramovies.domain.entity.MovieSaved
 import br.com.jeramovies.domain.repository.MyListRepository
+import br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 
 class MyListViewModel(repository: MyListRepository) : BaseViewModel() {
@@ -14,5 +15,9 @@ class MyListViewModel(repository: MyListRepository) : BaseViewModel() {
 
     init {
         _savedMovies.value = repository.getSavedMovies()
+    }
+
+    fun onMovieClicked(movieSaved: MovieSaved) {
+        goTo(MovieDetailsNavData(movieSaved.id))
     }
 }
