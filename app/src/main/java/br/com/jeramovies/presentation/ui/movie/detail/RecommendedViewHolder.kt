@@ -15,7 +15,7 @@ class RecommendedViewHolder(
 
     fun bind(movie: Movie?, onClick: (Movie) -> Unit) {
         with(binding) {
-            imageView.load(movie?.getPosterUrl())
+            imageView.load(movie?.getBackdropUrl())
             textViewMovieTitle.text = movie?.title
             textViewRating.text = movie?.voteAverage?.toString() ?: "0"
             movie?.let { root.setOnClickListener { onClick(movie) } }

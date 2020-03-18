@@ -37,7 +37,7 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         _goTo.postValue(navData)
     }
 
-    protected fun showToast(message: String) {
+    fun showToast(message: String) {
         _toast.postValue(message)
     }
 

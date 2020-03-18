@@ -28,6 +28,12 @@
         <item name="android:textColor">#FFF</item>
     </style>
 
+    <style name="SansProRegular12" parent="TextAppearance.AppCompat">
+        <item name="android:fontFamily">@font/source_sans_pro</item>
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">#FFF</item>
+    </style>
+
     <style name="SansProRegular14" parent="TextAppearance.AppCompat">
         <item name="android:fontFamily">@font/source_sans_pro</item>
         <item name="android:textSize">14sp</item>

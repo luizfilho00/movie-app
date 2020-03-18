@@ -23,9 +23,7 @@ class MoviesFragment : Fragment() {
     private val activityViewModel: MainViewModel by sharedViewModel()
     private val viewModel: MoviesViewModel by viewModel()
     private val adapter by lazy {
-        MoviesAdapter(
-            viewModel::onMovieClick
-        )
+        MoviesAdapter(viewModel::onMovieClick, viewModel::onSaveClicked)
     }
     private val movieType by lazy { arguments?.get(MOVIE_TYPE_EXTRA) as? MovieType }
 
@@ -57,6 +55,7 @@ class MoviesFragment : Fragment() {
             viewModel,
             ::onMoviesReceived
         )
+        viewModel.toast.observe(viewLifecycleOwner, activityViewModel::showToast)
         viewModel.goTo.observe(viewLifecycleOwner, activityViewModel::goTo)
         activityViewModel.jumpToTop.observe(viewLifecycleOwner) {
             binding.recyclerView.scrollToPosition(0)

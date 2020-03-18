@@ -6,7 +6,8 @@ import androidx.recyclerview.widget.DiffUtil
 import br.com.jeramovies.domain.entity.Movie
 
 class MoviesAdapter(
-    private val onClick: (Movie) -> Unit
+    private val onClick: (Movie) -> Unit,
+    private val saveToListCallback: (Movie) -> Unit
 ) : PagedListAdapter<Movie, MovieViewHolder>(
     DiffUtilCallback
 ) {
@@ -17,7 +18,7 @@ class MoviesAdapter(
         )
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(getItem(position), onClick)
+        holder.bind(getItem(position), onClick, saveToListCallback)
     }
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<Movie>() {

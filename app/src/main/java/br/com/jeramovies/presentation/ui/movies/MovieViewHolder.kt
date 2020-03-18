@@ -2,6 +2,7 @@ package br.com.jeramovies.presentation.ui.movies
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.jeramovies.R
@@ -13,16 +14,42 @@ class MovieViewHolder(
     private val binding: ItemMovieBinding
 ) : RecyclerView.ViewHolder(binding.root) {
 
-    fun bind(movie: Movie?, onClick: (Movie) -> Unit) {
-        setupClickListener(movie, onClick)
+    fun bind(movie: Movie?, onClick: (Movie) -> Unit, saveToListCallback: (Movie) -> Unit) {
+        setupClickListener(movie, onClick, saveToListCallback)
         loadImage(movie)
         setupProgressBar(movie)
         setupTexts(movie)
     }
 
-    private fun setupClickListener(movie: Movie?, onClick: (Movie) -> Unit) {
-        binding.root.setOnClickListener {
-            movie?.let { onClick(it) }
+    private fun setupClickListener(
+        movie: Movie?,
+        onClick: (Movie) -> Unit,
+        saveToListCallback: (Movie) -> Unit
+    ) {
+        movie?.let {
+            binding.root.setOnClickListener {
+                onClick(movie)
+            }
+            with(binding.imageViewSave) {
+                setImageDrawable(movie.saved)
+                setupImageSaveClickListener(movie, this, saveToListCallback)
+            }
+        }
+    }
+
+    private fun ImageView.setImageDrawable(saved: Boolean?) {
+        setImageDrawable(context.getDrawable(if (saved == true) R.drawable.ic_saved else R.drawable.ic_save))
+    }
+
+    private fun setupImageSaveClickListener(
+        movie: Movie, imageView: ImageView, saveToListCallback: (Movie) -> Unit
+    ) {
+        with(imageView) {
+            setOnClickListener { _ ->
+                movie.saved = !movie.saved
+                setImageDrawable(movie.saved)
+                saveToListCallback(movie)
+            }
         }
     }
 
@@ -54,7 +81,7 @@ class MovieViewHolder(
     private fun loadImage(movie: Movie?) {
         with(binding.imageView) {
             if (!movie?.backdropPath.isNullOrEmpty()) {
-                load(movie?.getPosterUrl()) {
+                load(movie?.getBackdropUrl()) {
                     crossfade(true)
                     placeholder(R.drawable.movie_empty_placeholder)
                 }
