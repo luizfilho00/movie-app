@@ -22,9 +22,9 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     val loading: LiveData<Boolean> get() = _loading
     val toast: LiveData<Pair<String, Int>> get() = _toast
 
-    protected val stringResource by inject<StringResource>()
+    private val stringResource by inject<StringResource>()
     protected val _loading by lazy { MutableLiveData<Boolean>() }
-    protected val _toast by lazy { MutableLiveData<Pair<String, Int>>() }
+    private val _toast by lazy { MutableLiveData<Pair<String, Int>>() }
     protected val config = PagedList.Config.Builder()
         .setEnablePlaceholders(true)
         .setPageSize(30)

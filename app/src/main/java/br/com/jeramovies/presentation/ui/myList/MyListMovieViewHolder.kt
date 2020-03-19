@@ -8,6 +8,7 @@ import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ItemMovieMyListBinding
 import br.com.jeramovies.domain.entity.MovieSaved
 import coil.api.load
+import coil.transform.RoundedCornersTransformation
 
 class MyListMovieViewHolder(
     private val binding: ItemMovieMyListBinding
@@ -18,7 +19,9 @@ class MyListMovieViewHolder(
         onClick: (MovieSaved) -> Unit
     ) {
         with(binding) {
-            imageView.load(movieSaved.posterUrl)
+            imageView.load(movieSaved.posterUrl) {
+                transformations(RoundedCornersTransformation())
+            }
             textViewMovieTitle.text = movieSaved.title
             root.setOnClickListener { onClick(movieSaved) }
         }

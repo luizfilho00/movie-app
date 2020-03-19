@@ -34,4 +34,5 @@
     <string name="movies">Filmes</string>
     <string name="favorites">Favoritos</string>
     <string name="my_list">Minha lista</string>
+    <string name="empty_movie_list">Você ainda não adicionou nenhum filme à sua lista.</string>
 </resources>

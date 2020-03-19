@@ -24,6 +24,10 @@ class MyListFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentMyListBinding.inflate(inflater, container, false)
+        binding.run {
+            lifecycleOwner = viewLifecycleOwner
+            vModel = viewModel
+        }
         setupRecyclerView()
         subscribeUi()
         return binding.root

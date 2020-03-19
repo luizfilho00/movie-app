@@ -66,7 +66,7 @@
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="@color/colorGray"
+                    android:background="@color/colorDarkBlue"
                     android:orientation="vertical"
                     android:paddingStart="@dimen/spacing_20"
                     android:paddingEnd="@dimen/spacing_20"

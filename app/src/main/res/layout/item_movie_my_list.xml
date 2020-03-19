@@ -24,10 +24,12 @@
 
             <ImageView
                 android:id="@+id/image_view"
-                android:layout_width="170dp"
-                android:layout_height="185dp"
-                android:background="@drawable/movie_empty_placeholder"
-                android:scaleType="centerCrop"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:scaleType="centerInside"
+                android:minWidth="170dp"
+                android:minHeight="180dp"
+                android:adjustViewBounds="true"
                 tools:ignore="ContentDescription" />
 
             <androidx.constraintlayout.widget.ConstraintLayout

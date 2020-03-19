@@ -55,6 +55,7 @@ class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelect
             }
             R.id.action_my_list -> {
                 showFragment(MyListFragment())
+                binding.appBarLayout.setExpanded(true)
                 true
             }
             else -> false
