@@ -9,7 +9,7 @@
 
         <variable
             name="vModel"
-            type="br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsViewModel" />
+            type="br.com.jeramovies.presentation.ui.movieDetails.MovieDetailsViewModel" />
 
         <variable
             name="movie"

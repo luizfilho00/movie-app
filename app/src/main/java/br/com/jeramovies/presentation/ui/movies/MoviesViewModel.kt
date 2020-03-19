@@ -8,7 +8,7 @@ import br.com.jeramovies.data.paging.dataSource.PopularMoviesDataSource
 import br.com.jeramovies.data.paging.dataSource.TopRatedMoviesDataSource
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.repository.MoviesRepository
-import br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsNavData
+import br.com.jeramovies.presentation.ui.movieDetails.MovieDetailsNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 
 class MoviesViewModel(
