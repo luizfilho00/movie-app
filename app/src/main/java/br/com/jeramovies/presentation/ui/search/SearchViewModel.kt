@@ -1,5 +1,6 @@
 package br.com.jeramovies.presentation.ui.search
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.DataSource
@@ -7,11 +8,10 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import br.com.jeramovies.data.paging.factory.SearchMoviesDataSourceFactory
 import br.com.jeramovies.domain.entity.Movie
-import br.com.jeramovies.domain.entity.MovieSaved
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.domain.repository.MyListRepository
 import br.com.jeramovies.domain.resource.StringResource
-import br.com.jeramovies.presentation.ui.movie.detail.MovieDetailsNavData
+import br.com.jeramovies.presentation.ui.movieDetails.MovieDetailsNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 
 class SearchViewModel(
@@ -34,7 +34,6 @@ class SearchViewModel(
             return dataSourceFactory.create()
         }
     }
-    private val savedMovies = mutableSetOf<MovieSaved>()
 
     fun searchMovies(text: String) {
         if (!text.isBlank()) {
@@ -49,7 +48,7 @@ class SearchViewModel(
 
     fun onSaveClicked(movie: Movie) {
         if (myListRepository.saveMovie(movie))
-            showToast(strings.movieSavedToList)
+            showToast(strings.movieSavedToList, Toast.LENGTH_SHORT)
     }
 
     private fun reloadSearch() {

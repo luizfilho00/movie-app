@@ -55,7 +55,9 @@ class MoviesFragment : Fragment() {
             viewModel,
             ::onMoviesReceived
         )
-        viewModel.toast.observe(viewLifecycleOwner, activityViewModel::showToast)
+        viewModel.toast.observe(viewLifecycleOwner) { (msg, duration) ->
+            activityViewModel.showToast(msg, duration)
+        }
         viewModel.goTo.observe(viewLifecycleOwner, activityViewModel::goTo)
         activityViewModel.jumpToTop.observe(viewLifecycleOwner) {
             binding.recyclerView.scrollToPosition(0)

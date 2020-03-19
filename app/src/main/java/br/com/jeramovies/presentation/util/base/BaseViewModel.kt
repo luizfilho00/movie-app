@@ -1,5 +1,6 @@
 package br.com.jeramovies.presentation.util.base
 
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -19,11 +20,11 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
     val dialog: LiveData<DialogData> get() = _dialog
     val goTo: SingleLiveEvent<NavData> get() = _goTo
     val loading: LiveData<Boolean> get() = _loading
-    val toast: LiveData<String> get() = _toast
+    val toast: LiveData<Pair<String, Int>> get() = _toast
 
     protected val stringResource by inject<StringResource>()
     protected val _loading by lazy { MutableLiveData<Boolean>() }
-    protected val _toast by lazy { MutableLiveData<String>() }
+    protected val _toast by lazy { MutableLiveData<Pair<String, Int>>() }
     protected val config = PagedList.Config.Builder()
         .setEnablePlaceholders(true)
         .setPageSize(30)
@@ -37,8 +38,8 @@ abstract class BaseViewModel : ViewModel(), KoinComponent {
         _goTo.postValue(navData)
     }
 
-    fun showToast(message: String) {
-        _toast.postValue(message)
+    fun showToast(message: String, duration: Int = Toast.LENGTH_LONG) {
+        _toast.postValue(message to duration)
     }
 
     protected fun showDialog(

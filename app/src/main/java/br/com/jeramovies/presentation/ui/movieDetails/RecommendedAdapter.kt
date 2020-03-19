@@ -1,4 +1,4 @@
-package br.com.jeramovies.presentation.ui.movie.detail
+package br.com.jeramovies.presentation.ui.movieDetails
 
 import android.view.ViewGroup
 import androidx.paging.PagedListAdapter
