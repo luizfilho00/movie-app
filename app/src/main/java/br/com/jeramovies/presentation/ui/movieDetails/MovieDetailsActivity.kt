@@ -16,7 +16,10 @@ import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.makeStatusBarTransparent
 import br.com.jeramovies.presentation.util.extensions.setupToolbar
 import br.com.jeramovies.presentation.util.livedata.observe
-import coil.api.load
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import com.google.android.material.appbar.AppBarLayout
 import org.koin.android.viewmodel.ext.android.viewModel
 import org.koin.core.parameter.parametersOf
@@ -82,24 +85,14 @@ class MovieDetailsActivity : BaseActivity() {
 
     private fun setupToolbarImages(movie: MovieDetails) {
         with(binding) {
-            includedMovieToolbar.imageViewToolbarBackground.load(
-                movie.getPosterUrl(
-                    movie.backdropPath,
-                    W500
-                )
-            ) {
-                crossfade(true)
-                placeholder(R.drawable.movie_empty_placeholder)
-            }
-            includedMovieToolbar.imageViewPoster.load(
-                movie.getPosterUrl(
-                    movie.posterPath,
-                    W185
-                )
-            ) {
-                crossfade(true)
-                placeholder(R.drawable.poster_placeholder)
-            }
+            val glide = Glide.with(root)
+            glide.load(movie.getPosterUrl(movie.backdropPath, W500))
+                .placeholder(R.drawable.movie_empty_placeholder)
+                .into(includedMovieToolbar.imageViewToolbarBackground)
+            glide.load(movie.getPosterUrl(movie.posterPath, W185))
+                .placeholder(R.drawable.poster_placeholder)
+                .apply(RequestOptions().apply { transform(CenterCrop(), RoundedCorners(8)) })
+                .into(includedMovieToolbar.imageViewPoster)
         }
     }
 

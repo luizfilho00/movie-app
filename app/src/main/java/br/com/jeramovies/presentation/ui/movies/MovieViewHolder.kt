@@ -8,7 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ItemMovieBinding
 import br.com.jeramovies.domain.entity.Movie
-import coil.api.load
+import com.bumptech.glide.Glide
 
 class MovieViewHolder(
     private val binding: ItemMovieBinding
@@ -80,14 +80,10 @@ class MovieViewHolder(
 
     private fun loadImage(movie: Movie?) {
         with(binding.imageView) {
-            if (!movie?.backdropPath.isNullOrEmpty()) {
-                load(movie?.getBackdropUrl()) {
-                    crossfade(true)
-                    placeholder(R.drawable.movie_empty_placeholder)
-                }
-            } else {
-                background = context.getDrawable(R.drawable.movie_empty_placeholder)
-            }
+            Glide.with(this)
+                .load(movie?.getBackdropUrl())
+                .placeholder(R.drawable.movie_empty_placeholder)
+                .into(this)
         }
     }
 

@@ -7,8 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ItemMovieMyListBinding
 import br.com.jeramovies.domain.entity.MovieSaved
-import coil.api.load
-import coil.transform.RoundedCornersTransformation
+import com.bumptech.glide.Glide
 
 class MyListMovieViewHolder(
     private val binding: ItemMovieMyListBinding
@@ -19,9 +18,9 @@ class MyListMovieViewHolder(
         onClick: (MovieSaved) -> Unit
     ) {
         with(binding) {
-            imageView.load(movieSaved.posterUrl) {
-                transformations(RoundedCornersTransformation())
-            }
+            Glide.with(root)
+                .load(movieSaved.posterUrl)
+                .into(imageView)
             textViewMovieTitle.text = movieSaved.title
             root.setOnClickListener { onClick(movieSaved) }
         }

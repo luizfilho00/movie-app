@@ -24,7 +24,6 @@
                 android:id="@+id/image_view"
                 android:layout_width="140dp"
                 android:layout_height="160dp"
-                android:scaleType="centerCrop"
                 android:background="@drawable/avatar_placeholder"
                 tools:ignore="ContentDescription" />
 
