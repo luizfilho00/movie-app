@@ -30,7 +30,9 @@
     <string name="recommended">Recomendados</string>
     <string name="hour_template">%sh %smin</string>
     <string name="trailer_not_found">Trailer não encontrado</string>
-    <string name="movie_saved_to_list">Filme salvo na sua lista!</string>
+    <string name="movie_saved_to_list">Filme salvo na sua lista</string>
+    <string name="movie_removed_from_list">Filme removido da sua lista</string>
+    <string name="movie_persist_error">Ocorreu um erro por favor tente novamnete</string>
     <string name="movies">Filmes</string>
     <string name="favorites">Favoritos</string>
     <string name="my_list">Minha lista</string>

@@ -8,6 +8,9 @@ import br.com.jeramovies.data.paging.dataSource.NowPlayingMoviesDataSource
 import br.com.jeramovies.data.paging.dataSource.PopularMoviesDataSource
 import br.com.jeramovies.data.paging.dataSource.TopRatedMoviesDataSource
 import br.com.jeramovies.domain.entity.Movie
+import br.com.jeramovies.domain.entity.MoviePersistError
+import br.com.jeramovies.domain.entity.MoviePersisted
+import br.com.jeramovies.domain.entity.MovieRemoved
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.domain.repository.MyListRepository
 import br.com.jeramovies.domain.resource.StringResource
@@ -61,7 +64,10 @@ class MoviesViewModel(
     }
 
     fun onSaveClicked(movie: Movie) {
-        if (myListRepository.saveMovie(movie))
-            showToast(strings.movieSavedToList, Toast.LENGTH_SHORT)
+        when (myListRepository.saveMovie(movie)) {
+            is MoviePersisted -> showToast(strings.movieSavedToList, Toast.LENGTH_SHORT)
+            is MovieRemoved -> showToast(strings.movieRemovedFromList, Toast.LENGTH_SHORT)
+            is MoviePersistError -> showToast(strings.moviePersistError, Toast.LENGTH_SHORT)
+        }
     }
 }

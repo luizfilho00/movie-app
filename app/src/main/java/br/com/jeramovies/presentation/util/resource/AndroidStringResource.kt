@@ -12,4 +12,6 @@ class AndroidStringResource(
     override val cancel: String get() = context.getString(R.string.cancel)
     override val trailerNotFound: String get() = context.getString(R.string.trailer_not_found)
     override val movieSavedToList: String get() = context.getString(R.string.movie_saved_to_list)
+    override val movieRemovedFromList: String get() = context.getString(R.string.movie_removed_from_list)
+    override val moviePersistError: String get() = context.getString(R.string.movie_persist_error)
 }
