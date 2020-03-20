@@ -7,7 +7,7 @@ import androidx.recyclerview.widget.RecyclerView
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ItemCrewBinding
 import br.com.jeramovies.domain.entity.Actor
-import coil.api.load
+import com.bumptech.glide.Glide
 
 class MovieCrewViewHolder(
     private val binding: ItemCrewBinding
@@ -17,7 +17,10 @@ class MovieCrewViewHolder(
         with(binding) {
             textViewName.text = actor.name
             textViewCharacter.text = actor.characterName
-            imageView.load(actor.getProfileImage())
+            Glide.with(root)
+                .load(actor.getProfileImage())
+                .centerCrop()
+                .into(imageView)
         }
     }
 

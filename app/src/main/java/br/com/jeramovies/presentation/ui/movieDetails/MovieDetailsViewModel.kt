@@ -1,22 +1,21 @@
 package br.com.jeramovies.presentation.ui.movieDetails
 
-import android.content.Context
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Transformations
 import androidx.lifecycle.viewModelScope
 import androidx.paging.DataSource
 import androidx.paging.toLiveData
-import br.com.jeramovies.R
 import br.com.jeramovies.data.paging.dataSource.RecommendationsMoviesDataSource
 import br.com.jeramovies.domain.entity.*
 import br.com.jeramovies.domain.repository.MoviesRepository
+import br.com.jeramovies.domain.resource.StringResource
 import br.com.jeramovies.presentation.ui.trailer.TrailerNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 
 class MovieDetailsViewModel(
     private val movieId: Int,
-    private val appContext: Context,
+    private val strings: StringResource,
     private val repository: MoviesRepository
 ) : BaseViewModel() {
 
@@ -59,7 +58,7 @@ class MovieDetailsViewModel(
     fun playTrailer() {
         trailers?.results?.firstOrNull()?.let { trailer ->
             goTo(TrailerNavData(trailer))
-        } ?: showToast(appContext.getString(R.string.trailer_not_found))
+        } ?: showToast(strings.trailerNotFound)
     }
 
     fun onRecommendedClicked(movie: Movie) {

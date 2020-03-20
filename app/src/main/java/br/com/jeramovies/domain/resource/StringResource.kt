@@ -4,4 +4,6 @@ interface StringResource {
 
     val ok: String
     val cancel: String
+    val trailerNotFound: String
+    val movieSavedToList: String
 }

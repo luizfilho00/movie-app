@@ -10,4 +10,6 @@ class AndroidStringResource(
 
     override val ok: String get() = context.getString(R.string.ok)
     override val cancel: String get() = context.getString(R.string.cancel)
+    override val trailerNotFound: String get() = context.getString(R.string.trailer_not_found)
+    override val movieSavedToList: String get() = context.getString(R.string.movie_saved_to_list)
 }

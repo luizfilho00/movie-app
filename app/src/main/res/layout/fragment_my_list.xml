@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <variable
+            name="vModel"
+            type="br.com.jeramovies.presentation.ui.myList.MyListViewModel" />
+    </data>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="@dimen/spacing_8">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager"
+            app:spanCount="3"
+            tools:listitem="@layout/item_movie_my_list" />
+
+        <TextView
+            android:id="@+id/text_view_empty"
+            style="@style/SansProRegular18"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textColor="@color/colorGray"
+            android:layout_margin="@dimen/spacing_8"
+            android:text="@string/empty_movie_list"
+            android:textAlignment="center"
+            android:visibility="@{vModel.savedMovies.empty ? View.VISIBLE : View.GONE}" />
+    </FrameLayout>
+</layout>

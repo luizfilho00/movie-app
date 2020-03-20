@@ -9,13 +9,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ActivityMainBinding
+import br.com.jeramovies.presentation.ui.myList.MyListFragment
 import br.com.jeramovies.presentation.ui.search.SearchMoviesFragment
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.observeChanges
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import org.koin.android.viewmodel.ext.android.viewModel
 
-class MainActivity : BaseActivity() {
+class MainActivity : BaseActivity(), BottomNavigationView.OnNavigationItemSelectedListener {
 
     override val baseViewModel: BaseViewModel get() = viewModel
 
@@ -25,6 +27,7 @@ class MainActivity : BaseActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = DataBindingUtil.setContentView(this, R.layout.activity_main)
+        binding.bottomNavigation.setOnNavigationItemSelectedListener(this)
         setSupportActionBar(binding.toolbar)
         showFragment(MainFragment())
     }
@@ -42,6 +45,21 @@ class MainActivity : BaseActivity() {
             showFragment(SearchMoviesFragment(), addToBackStack = true)
             true
         } else super.onOptionsItemSelected(item)
+    }
+
+    override fun onNavigationItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.action_movies -> {
+                showFragment(MainFragment())
+                true
+            }
+            R.id.action_my_list -> {
+                showFragment(MyListFragment())
+                binding.appBarLayout.setExpanded(true)
+                true
+            }
+            else -> false
+        }
     }
 
     private fun showFragment(fragment: Fragment, addToBackStack: Boolean = false) {

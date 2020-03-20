@@ -1,6 +1,7 @@
 package br.com.jeramovies.domain.entity
 
 import br.com.jeramovies.domain.util.IMAGE_URL
+import br.com.jeramovies.domain.util.W185
 import br.com.jeramovies.domain.util.W500
 import br.com.jeramovies.domain.util.extensions.toDate
 import com.google.gson.annotations.SerializedName
@@ -21,12 +22,15 @@ data class Movie(
     @SerializedName("title") val title: String,
     @SerializedName("vote_average") val voteAverage: Double?,
     @SerializedName("overview") val overview: String,
-    @SerializedName("release_date") val releaseDate: String?
+    @SerializedName("release_date") val releaseDate: String?,
+    var saved: Boolean = false
 ) {
 
     fun userScore() = ((voteAverage ?: 0.0) * 10.0).roundToInt().toString()
 
     fun date() = releaseDate?.toDate()?.let(LocalDate::fromDateFields)
 
-    fun getPosterUrl(size: String = W500) = "$IMAGE_URL$size/$backdropPath"
+    fun getBackdropUrl(size: String = W500) = "$IMAGE_URL$size/$backdropPath"
+
+    fun getPosterUrl(size: String = W185) = "$IMAGE_URL$size/$posterPath"
 }
