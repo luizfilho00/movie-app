@@ -1,26 +1,26 @@
 package br.com.jeramovies.presentation.ui.myList
 
 import android.view.ViewGroup
-import androidx.recyclerview.widget.DiffUtil
-import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 import br.com.jeramovies.domain.entity.MovieSaved
 
 class MyListMovieAdapter(
     private val onClick: (MovieSaved) -> Unit
-) : ListAdapter<MovieSaved, MyListMovieViewHolder>(DiffUtilCallback) {
+) : RecyclerView.Adapter<MyListMovieViewHolder>() {
+
+    private var list = listOf<MovieSaved>()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MyListMovieViewHolder.inflate(parent)
 
     override fun onBindViewHolder(holder: MyListMovieViewHolder, position: Int) {
-        holder.bind(getItem(position), onClick)
+        holder.bind(list[position], onClick)
     }
 
-    companion object DiffUtilCallback : DiffUtil.ItemCallback<MovieSaved>() {
-        override fun areItemsTheSame(oldItem: MovieSaved, newItem: MovieSaved) =
-            oldItem.id == newItem.id
+    override fun getItemCount() = list.size
 
-        override fun areContentsTheSame(oldItem: MovieSaved, newItem: MovieSaved) =
-            oldItem == newItem
+    fun submitList(list: List<MovieSaved>) {
+        this.list = list
+        notifyDataSetChanged()
     }
 }

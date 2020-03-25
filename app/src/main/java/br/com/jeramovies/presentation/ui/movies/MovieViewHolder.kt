@@ -9,10 +9,11 @@ import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ItemMovieBinding
 import br.com.jeramovies.domain.entity.Movie
 import com.bumptech.glide.Glide
+import org.koin.core.KoinComponent
 
 class MovieViewHolder(
     private val binding: ItemMovieBinding
-) : RecyclerView.ViewHolder(binding.root) {
+) : RecyclerView.ViewHolder(binding.root), KoinComponent {
 
     fun bind(movie: Movie?, onClick: (Movie) -> Unit, saveToListCallback: (Movie) -> Unit) {
         setupClickListener(movie, onClick, saveToListCallback)
@@ -45,10 +46,9 @@ class MovieViewHolder(
         movie: Movie, imageView: ImageView, saveToListCallback: (Movie) -> Unit
     ) {
         with(imageView) {
-            setOnClickListener { _ ->
-                movie.saved = !movie.saved
-                setImageDrawable(movie.saved)
+            setOnClickListener {
                 saveToListCallback(movie)
+                setImageDrawable(movie.saved)
             }
         }
     }
@@ -73,7 +73,7 @@ class MovieViewHolder(
                             date.monthOfYear()?.asText,
                             date.year
                         )
-                    } ?: getString(R.string.undefined)
+                    }
                 }
         }
     }

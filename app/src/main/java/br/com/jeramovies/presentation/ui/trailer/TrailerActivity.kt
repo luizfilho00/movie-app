@@ -51,7 +51,7 @@ class TrailerActivity : AppCompatActivity() {
             binding.youtubePlayerView.addYouTubePlayerListener(object :
                 AbstractYouTubePlayerListener() {
                 override fun onReady(youTubePlayer: YouTubePlayer) {
-                    trailer.key?.let { videoId -> youTubePlayer.loadVideo(videoId, 0f) }
+                    trailer.key.let { videoId -> youTubePlayer.loadVideo(videoId, 0f) }
                 }
             })
         }

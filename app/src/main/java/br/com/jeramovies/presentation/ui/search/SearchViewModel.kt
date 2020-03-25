@@ -50,7 +50,7 @@ class SearchViewModel(
     }
 
     fun onSaveClicked(movie: Movie) {
-        when (myListRepository.saveMovie(movie)) {
+        when (myListRepository.updateSavedMovieStatus(movie)) {
             is MoviePersisted -> showToast(strings.movieSavedToList, Toast.LENGTH_SHORT)
             is MovieRemoved -> showToast(strings.movieRemovedFromList, Toast.LENGTH_SHORT)
             is MoviePersistError -> showToast(strings.moviePersistError, Toast.LENGTH_SHORT)

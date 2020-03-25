@@ -15,7 +15,8 @@ class MovieCrewAdapter : ListAdapter<Actor, MovieCrewViewHolder>(DiffUtilCallbac
     }
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<Actor>() {
-        override fun areItemsTheSame(oldItem: Actor, newItem: Actor) = oldItem.id == newItem.id
+        override fun areItemsTheSame(oldItem: Actor, newItem: Actor) =
+            oldItem.id == newItem.id
 
         override fun areContentsTheSame(oldItem: Actor, newItem: Actor) = oldItem == newItem
     }

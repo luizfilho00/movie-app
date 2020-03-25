@@ -8,9 +8,6 @@ import br.com.jeramovies.domain.util.PT_BR
 
 interface MoviesRepository {
 
-    suspend fun getPopularMovies(page: Int): MoviesResponse
-    suspend fun getTopRatedMovies(page: Int): MoviesResponse
-    suspend fun getNowPlayingMovies(page: Int): MoviesResponse
     suspend fun getRecommendations(id: Int, page: Int): MoviesResponse
     suspend fun getMovieDetails(id: Int): MovieDetails
     suspend fun searchMovies(text: String, page: Int): MoviesResponse

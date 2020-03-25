@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentPagerAdapter
 import br.com.jeramovies.R
+import br.com.jeramovies.domain.entity.MovieType
 
 class PageAdapter(
     private val context: Context,
@@ -14,10 +15,10 @@ class PageAdapter(
 
     override fun getItem(position: Int): Fragment {
         return when (position) {
-            0 -> MoviesFragment.createInstance(PopularMovies())
-            1 -> MoviesFragment.createInstance(InTheatersMovies())
-            2 -> MoviesFragment.createInstance(TopRatedMovies())
-            else -> throw Exception("That fragment not exists!")
+            0 -> MoviesFragment.createInstance(MovieType.PopularMovies)
+            1 -> MoviesFragment.createInstance(MovieType.InTheatersMovies)
+            2 -> MoviesFragment.createInstance(MovieType.TopRatedMovies)
+            else -> throw IllegalArgumentException("That fragment not exists!")
         }
     }
 

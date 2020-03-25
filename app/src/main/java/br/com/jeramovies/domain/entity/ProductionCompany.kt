@@ -1,10 +1,10 @@
 package br.com.jeramovies.domain.entity
 
-import com.google.gson.annotations.SerializedName
+import java.io.Serializable
 
 data class ProductionCompany(
-    @SerializedName("id") val id: Int?,
-    @SerializedName("logo_path") val logoPath: String?,
-    @SerializedName("name") val name: String?,
-    @SerializedName("origin_country") val originCountry: String?
-)
+    val id: Int,
+    val logoPath: String,
+    val name: String,
+    val originCountry: String
+) : Serializable

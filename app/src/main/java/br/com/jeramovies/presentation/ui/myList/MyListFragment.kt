@@ -33,6 +33,11 @@ class MyListFragment : Fragment() {
         return binding.root
     }
 
+    override fun onResume() {
+        super.onResume()
+        viewModel.loadMovies()
+    }
+
     private fun subscribeUi() {
         //TODO -> Get movies from Realm or Room
         viewModel.savedMovies.observe(this, myListMovieAdapter::submitList)

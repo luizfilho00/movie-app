@@ -10,6 +10,7 @@ import androidx.paging.PagedList
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.jeramovies.databinding.FragmentMoviesBinding
 import br.com.jeramovies.domain.entity.Movie
+import br.com.jeramovies.domain.entity.MovieType
 import br.com.jeramovies.presentation.ui.main.MainViewModel
 import br.com.jeramovies.presentation.util.livedata.observe
 import org.koin.android.ext.android.inject

@@ -4,29 +4,31 @@ import br.com.jeramovies.domain.util.IMAGE_URL
 import br.com.jeramovies.domain.util.W185
 import br.com.jeramovies.domain.util.W500
 import br.com.jeramovies.domain.util.extensions.toDate
-import com.google.gson.annotations.SerializedName
 import org.joda.time.LocalDate
+import java.io.Serializable
 import kotlin.math.roundToInt
 
 data class Movie(
-    @SerializedName("popularity") val popularity: Double,
-    @SerializedName("vote_count") val voteCount: Int,
-    @SerializedName("video") val video: Boolean,
-    @SerializedName("poster_path") val posterPath: String,
-    @SerializedName("id") val id: Int,
-    @SerializedName("adult") val adult: Boolean,
-    @SerializedName("backdrop_path") val backdropPath: String,
-    @SerializedName("original_language") val originalLanguage: String,
-    @SerializedName("original_title") val originalTitle: String,
-    @SerializedName("genre_ids") val genreIds: List<Int>,
-    @SerializedName("title") val title: String,
-    @SerializedName("vote_average") val voteAverage: Double?,
-    @SerializedName("overview") val overview: String,
-    @SerializedName("release_date") val releaseDate: String?,
-    var saved: Boolean = false
-) {
+    val popularity: Double,
+    val voteCount: Int,
+    val video: Boolean,
+    val posterPath: String,
+    val id: Int,
+    val adult: Boolean,
+    val backdropPath: String,
+    val originalLanguage: String,
+    val originalTitle: String,
+    val genreIds: List<Int>,
+    val title: String,
+    val voteAverage: Double,
+    val overview: String,
+    val releaseDate: String?,
+    val sequenceId: Long = 0,
+    var saved: Boolean = false,
+    var type: MovieType? = null
+) : Serializable {
 
-    fun userScore() = ((voteAverage ?: 0.0) * 10.0).roundToInt().toString()
+    fun userScore() = (voteAverage * 10.0).roundToInt().toString()
 
     fun date() = releaseDate?.toDate()?.let(LocalDate::fromDateFields)
 

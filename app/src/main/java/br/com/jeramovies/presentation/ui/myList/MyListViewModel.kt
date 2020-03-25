@@ -7,14 +7,21 @@ import br.com.jeramovies.domain.repository.MyListRepository
 import br.com.jeramovies.presentation.ui.movieDetails.MovieDetailsNavData
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 
-class MyListViewModel(repository: MyListRepository) : BaseViewModel() {
+class MyListViewModel(private val repository: MyListRepository) : BaseViewModel() {
 
     val savedMovies: LiveData<List<MovieSaved>> get() = _savedMovies
 
     private val _savedMovies by lazy { MutableLiveData<List<MovieSaved>>() }
 
     init {
-        _savedMovies.value = repository.getSavedMovies()
+        loadMovies()
+    }
+
+    fun loadMovies() {
+        launchAsync(
+            block = { repository.getSavedMovies() },
+            onSuccess = { savedMovies -> _savedMovies.value = savedMovies }
+        )
     }
 
     fun onMovieClicked(movieSaved: MovieSaved) {

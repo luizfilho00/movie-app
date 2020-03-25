@@ -1,8 +1,8 @@
-package br.com.jeramovies.domain.entity
+package br.com.jeramovies.data.entity
 
 import com.google.gson.annotations.SerializedName
 
-data class Error(
+data class ApiError(
     @SerializedName("status_message") val message: String?,
     val errors: List<String>?
 )

@@ -30,6 +30,18 @@ fun Realm.addToDatabase(obj: RealmObject): Boolean {
     }
 }
 
+fun Realm.addAllToDatabase(list: List<RealmObject>) {
+    list.forEach { obj ->
+        executeTransaction {
+            try {
+                copyToRealm(obj)
+            } catch (ex: Exception) {
+                /* Nothing */
+            }
+        }
+    }
+}
+
 fun Realm.addOrRemoveIfExists(
     obj: RealmObject,
     fieldName: String,

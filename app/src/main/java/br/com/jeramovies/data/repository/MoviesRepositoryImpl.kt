@@ -7,20 +7,16 @@ class MoviesRepositoryImpl(
     private val apiService: ApiService
 ) : MoviesRepository {
 
-    override suspend fun getPopularMovies(page: Int) = apiService.getPopularMovies(page)
+    override suspend fun getMovieDetails(id: Int) = apiService.getMovieDetails(id).toMovieDetails()
 
-    override suspend fun getTopRatedMovies(page: Int) = apiService.getTopRatedMovies(page)
+    override suspend fun searchMovies(text: String, page: Int) =
+        apiService.searchMovies(text, page).toMovieResponse()
 
-    override suspend fun getNowPlayingMovies(page: Int) = apiService.getNowPlayingMovies(page)
+    override suspend fun getRecommendations(id: Int, page: Int) =
+        apiService.getRecommendations(id, page).toMovieResponse()
 
-    override suspend fun getMovieDetails(id: Int) = apiService.getMovieDetails(id)
-
-    override suspend fun searchMovies(text: String, page: Int) = apiService.searchMovies(text, page)
-
-    override suspend fun getRecommendations(id: Int, page: Int) = apiService.getRecommendations(id, page)
-
-    override suspend fun getMovieCrew(id: Int) = apiService.getMovieCrew(id)
+    override suspend fun getMovieCrew(id: Int) = apiService.getMovieCrew(id).toMovieCast()
 
     override suspend fun getTrailers(id: Int, language: String) =
-        apiService.getMovieTrailers(id, language)
+        apiService.getMovieTrailers(id, language).toVideoResponse()
 }

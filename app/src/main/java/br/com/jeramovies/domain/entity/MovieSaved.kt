@@ -1,17 +1,10 @@
 package br.com.jeramovies.domain.entity
 
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+import java.io.Serializable
 
-open class MovieSaved(
-    @PrimaryKey
-    var id: Int = 0,
-    var title: String = "",
-    var voteAverage: Double? = 0.0,
-    var posterUrl: String = ""
-) : RealmObject() {
-
-    override fun equals(other: Any?): Boolean {
-        return hashCode() == other.hashCode()
-    }
-}
+data class MovieSaved(
+    val id: Int,
+    val title: String,
+    val voteAverage: Double,
+    val posterUrl: String
+) : Serializable

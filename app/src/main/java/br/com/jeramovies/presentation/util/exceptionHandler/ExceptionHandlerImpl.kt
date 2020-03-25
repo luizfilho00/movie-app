@@ -2,7 +2,7 @@ package br.com.jeramovies.presentation.util.exceptionHandler
 
 import android.content.Context
 import br.com.jeramovies.R
-import br.com.jeramovies.domain.entity.Error
+import br.com.jeramovies.data.entity.ApiError
 import com.google.gson.Gson
 import okhttp3.ResponseBody
 import retrofit2.HttpException
@@ -27,11 +27,11 @@ class ExceptionHandlerImpl(
 
     private fun extractError(body: ResponseBody?): String? {
         return body?.let {
-            toApiErrors(Gson().fromJson(body.string(), Error::class.java))
+            toApiErrors(Gson().fromJson(body.string(), ApiError::class.java))
         }
     }
 
-    private fun toApiErrors(errorEntity: Error): String? {
+    private fun toApiErrors(errorEntity: ApiError): String? {
         return if (!errorEntity.errors.isNullOrEmpty()) {
             errorEntity.errors.joinToString("\n")
         } else {
