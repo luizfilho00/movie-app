@@ -2,7 +2,6 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 apply plugin: 'kotlin-android-extensions'
-apply plugin: 'realm-android'
 
 android {
     compileSdkVersion 29
@@ -53,14 +52,15 @@ dependencies {
     implementation 'com.pierfrancescosoffritti.androidyoutubeplayer:core:10.0.5'
     implementation 'com.github.bumptech.glide:glide:4.11.0'
     implementation 'com.pandora.bottomnavigator:bottom-navigator:1.6'
-    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
-    // Koin for Android
+    implementation "androidx.room:room-runtime:2.2.5"
     implementation "org.koin:koin-android:2.0.1"
-    // Koin Android Scope feature
     implementation "org.koin:koin-android-scope:2.0.1"
-    // Koin Android ViewModel feature
     implementation "org.koin:koin-android-viewmodel:2.0.1"
+    implementation "androidx.room:room-ktx:2.2.5"
+    implementation 'com.facebook.stetho:stetho:1.5.1'
 
+    kapt "androidx.room:room-compiler:2.2.5"
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.11.0'
 
     testImplementation 'junit:junit:4.13'
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'

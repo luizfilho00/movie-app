@@ -1,47 +1,30 @@
 package br.com.jeramovies.data.entity.local
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import br.com.jeramovies.domain.entity.Movie
-import io.realm.RealmList
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+import br.com.jeramovies.domain.entity.MovieType
 
-open class DbPopularMovie(
-    @PrimaryKey override var sequenceId: Long = 0,
-    override var id: Int = 0,
-    override var popularity: Double = 0.0,
-    override var voteCount: Int = 0,
-    override var video: Boolean = false,
-    override var posterPath: String? = "",
-    override var adult: Boolean = false,
-    override var backdropPath: String? = "",
-    override var originalLanguage: String? = "",
-    override var originalTitle: String? = "",
-    override var genreIds: RealmList<Int> = RealmList(),
-    override var title: String = "",
-    override var voteAverage: Double = 0.0,
-    override var overview: String? = "",
-    override var releaseDate: String? = "",
-    override var saved: Boolean
-) : DbMovie, RealmObject() {
-
-    constructor() : this(
-        0,
-        0,
-        0.0,
-        0,
-        false,
-        "",
-        false,
-        "",
-        "",
-        "",
-        RealmList<Int>(),
-        "",
-        0.0,
-        "",
-        "",
-        false
-    )
+@Entity(tableName = "DbPopularMovie")
+data class DbPopularMovie(
+    override val id: Int,
+    @PrimaryKey override val sequenceId: Int,
+    override val popularity: Double,
+    override val voteCount: Int,
+    override val video: Boolean,
+    override val posterPath: String?,
+    override val adult: Boolean,
+    override val backdropPath: String?,
+    override val originalLanguage: String?,
+    override val originalTitle: String?,
+    override val genreIds: List<Int>,
+    override val title: String,
+    override val voteAverage: Double,
+    override val overview: String?,
+    override val releaseDate: String?,
+    override val movieType: Int,
+    override val saved: Boolean
+) : DbMovie {
 
     override fun fromMovie(movie: Movie) =
         DbPopularMovie(
@@ -54,16 +37,13 @@ open class DbPopularMovie(
             backdropPath = movie.backdropPath,
             originalLanguage = movie.originalLanguage,
             originalTitle = movie.originalTitle,
-            genreIds = RealmList<Int>().apply { addAll(movie.genreIds) },
+            genreIds = movie.genreIds,
             title = movie.title,
             voteAverage = movie.voteAverage,
             overview = movie.overview,
             releaseDate = movie.releaseDate,
             saved = movie.saved,
-            sequenceId = movie.sequenceId
+            sequenceId = movie.sequenceId,
+            movieType = MovieType.MOVIE_TYPE_POPULAR
         )
-
-    companion object {
-        fun fromMovie(movie: Movie) = DbPopularMovie().fromMovie(movie)
-    }
 }

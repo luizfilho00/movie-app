@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rounded_top_corners"
+        android:orientation="vertical">
+
+        <TextView
+            style="@style/SansProRegular18"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="@dimen/spacing_16"
+            android:text="@string/remove_movie_from_list"
+            android:textAlignment="center"
+            android:textColor="@color/colorGray" />
+
+        <Button
+            android:id="@+id/button_remove"
+            style="@style/SansProBold16"
+            android:layout_width="match_parent"
+            android:layout_height="56dp"
+            android:layout_marginStart="@dimen/spacing_40"
+            android:layout_marginEnd="@dimen/spacing_40"
+            android:layout_marginBottom="@dimen/spacing_20"
+            android:background="@drawable/rounded_corners"
+            android:backgroundTint="@color/colorRed"
+            android:foreground="?attr/selectableItemBackground"
+            android:text="@string/remove"
+            android:textAllCaps="false" />
+    </LinearLayout>
+</layout>

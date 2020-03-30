@@ -7,12 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import br.com.jeramovies.databinding.FragmentMainBinding
 import br.com.jeramovies.presentation.ui.movies.PageAdapter
+import br.com.jeramovies.presentation.util.extensions.viewLifecycle
 import com.google.android.material.tabs.TabLayout
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 
 class MainFragment : Fragment() {
 
-    private lateinit var binding: FragmentMainBinding
+    private var binding: FragmentMainBinding by viewLifecycle()
     private val activityViewModel: MainViewModel by sharedViewModel()
 
     override fun onCreateView(

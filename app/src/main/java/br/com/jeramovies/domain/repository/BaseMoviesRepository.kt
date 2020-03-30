@@ -1,11 +1,13 @@
 package br.com.jeramovies.domain.repository
 
-import br.com.jeramovies.domain.entity.Movie
+import br.com.jeramovies.data.entity.local.DbMovie
+import br.com.jeramovies.domain.entity.MoviesResponse
 
 interface BaseMoviesRepository {
 
-    suspend fun loadFromNetwork(page: Int)
-    fun loadAfterSequenceIdFromDatabase(sequenceId: Long): List<Movie>
-    fun updateLastPageLoadedFromNetwork(page: Int)
-    fun getLastPageLoadedFromNetwork(): Int
+    suspend fun loadFromNetwork(page: Int): MoviesResponse
+    suspend fun insertAll(movies: List<DbMovie>)
+    suspend fun updateLastPageLoadedFromNetwork(page: Int)
+    suspend fun getLastPageLoadedFromNetwork(): Int
+    suspend fun getLastInsertedId(): Int
 }

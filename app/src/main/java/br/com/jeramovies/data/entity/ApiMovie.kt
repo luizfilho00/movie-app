@@ -2,7 +2,6 @@ package br.com.jeramovies.data.entity
 
 import br.com.jeramovies.domain.entity.Movie
 import com.google.gson.annotations.SerializedName
-import io.realm.RealmList
 
 data class ApiMovie(
     @SerializedName("popularity") var popularity: Double = 0.0,
@@ -31,7 +30,7 @@ data class ApiMovie(
         backdropPath = backdropPath ?: "",
         originalLanguage = originalLanguage ?: "",
         originalTitle = originalTitle ?: "",
-        genreIds = RealmList<Int>().apply { addAll(genreIds) },
+        genreIds = genreIds,
         title = title,
         voteAverage = voteAverage,
         overview = overview ?: "",

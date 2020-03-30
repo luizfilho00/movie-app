@@ -37,4 +37,6 @@
     <string name="favorites">Favoritos</string>
     <string name="my_list">Minha lista</string>
     <string name="empty_movie_list">Você ainda não adicionou nenhum filme à sua lista.</string>
+    <string name="remove_movie_from_list">Remover filme da sua lista de favoritos</string>
+    <string name="remove">Remover</string>
 </resources>

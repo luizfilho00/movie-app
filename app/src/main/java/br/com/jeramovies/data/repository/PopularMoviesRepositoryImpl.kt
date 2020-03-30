@@ -1,80 +1,49 @@
 package br.com.jeramovies.data.repository
 
-import android.util.Log
+import androidx.paging.DataSource
+import br.com.jeramovies.data.dao.PageLoadedDao
+import br.com.jeramovies.data.dao.PopularMoviesDao
 import br.com.jeramovies.data.entity.local.DbLastPageLoadedFromNetwork
 import br.com.jeramovies.data.entity.local.DbMovie
 import br.com.jeramovies.data.entity.local.DbPopularMovie
 import br.com.jeramovies.data.remote.ApiService
-import br.com.jeramovies.data.util.addAllToDatabase
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.entity.MovieType
 import br.com.jeramovies.domain.repository.PopularMoviesRepository
-import io.realm.Realm
 
 class PopularMoviesRepositoryImpl(
     private val apiService: ApiService,
-    private val realm: Realm
+    private val pageLoadedDao: PageLoadedDao,
+    private val dao: PopularMoviesDao
 ) : PopularMoviesRepository {
 
-    override suspend fun loadFromNetwork(page: Int) {
-        val movies = getMoviesFromNetwork(page)
-        var lastId = realm.where(DbPopularMovie::class.java)
-            .max(DbMovie.FIELD_SEQUENCE_ID)
-            ?.toLong()
-        if (lastId == null) {
-            realm.addAllToDatabase(
-                movies.mapIndexed { index, movie ->
-                    movie.apply { sequenceId = index.toLong() }
-                }
-            )
-        } else {
-            realm.addAllToDatabase(
-                movies.map { movie -> movie.apply { sequenceId = ++lastId } }
-            )
+    override suspend fun getLastInsertedId(): Int {
+        return dao.getCount()
+    }
+
+    override suspend fun loadFromNetwork(page: Int) =
+        apiService.getPopularMovies(page).toMovieResponse(MovieType.PopularMovies)
+
+    override suspend fun insertAll(movies: List<DbMovie>) {
+        dao.insertAll(movies.map { it as DbPopularMovie })
+    }
+
+    override suspend fun updateLastPageLoadedFromNetwork(page: Int) {
+        val updatedPage = pageLoadedDao.getLastPageLoaded()?.apply { lastPopularMoviePage = page }
+        updatedPage?.let {
+            pageLoadedDao.updatePage(updatedPage)
         }
     }
 
-    override fun loadAfterSequenceIdFromDatabase(sequenceId: Long): List<Movie> {
-        return realm.where(DbPopularMovie::class.java)
-            .greaterThan(DbMovie.FIELD_SEQUENCE_ID, sequenceId)
-            .findAll()
-            .map { it.toMovie() }
+    override suspend fun getLastPageLoadedFromNetwork(): Int {
+        val lastPage = pageLoadedDao.getLastPageLoaded()
+        return if (lastPage == null) {
+            pageLoadedDao.insertPage(DbLastPageLoadedFromNetwork())
+            pageLoadedDao.getLastPageLoaded()!!.lastPopularMoviePage
+        } else lastPage.lastPopularMoviePage
     }
 
-    override fun updateLastPageLoadedFromNetwork(page: Int) {
-        try {
-            updateLastPageOnDb(page)
-        } catch (ex: Exception) {
-            Log.d("PopularRepository", ex.toString())
-        }
-    }
-
-    override fun getLastPageLoadedFromNetwork(): Int {
-        return realm.where(DbLastPageLoadedFromNetwork::class.java)
-            .findFirst()
-            ?.lastPopularMoviePage
-            ?: 1
-    }
-
-    private fun updateLastPageOnDb(page: Int) {
-        realm.executeTransaction {
-            val dbPage = realm.where(DbLastPageLoadedFromNetwork::class.java)
-                .findFirst()
-            dbPage?.let {
-                dbPage.lastPopularMoviePage = page
-            } ?: run {
-                realm.copyToRealm(DbLastPageLoadedFromNetwork(lastPopularMoviePage = page))
-            }
-        }
-    }
-
-    private suspend fun getMoviesFromNetwork(page: Int): List<DbPopularMovie> {
-        return apiService
-            .getPopularMovies(page)
-            .movies.map {
-            DbPopularMovie.fromMovie(
-                it.toMovie().apply { type = MovieType.PopularMovies }
-            )
-        }
+    override fun getAll(): DataSource.Factory<Int, Movie> {
+        return dao.getAll().map { it.toMovie() }
     }
 }

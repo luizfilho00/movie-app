@@ -1,80 +1,50 @@
 package br.com.jeramovies.data.repository
 
-import android.util.Log
+import androidx.paging.DataSource
+import br.com.jeramovies.data.dao.InTheatersMoviesDao
+import br.com.jeramovies.data.dao.PageLoadedDao
 import br.com.jeramovies.data.entity.local.DbInTheatersMovie
 import br.com.jeramovies.data.entity.local.DbLastPageLoadedFromNetwork
 import br.com.jeramovies.data.entity.local.DbMovie
 import br.com.jeramovies.data.remote.ApiService
-import br.com.jeramovies.data.util.addAllToDatabase
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.entity.MovieType
 import br.com.jeramovies.domain.repository.InTheatersMoviesRepository
-import io.realm.Realm
 
 class InTheatersMoviesRepositoryImpl(
     private val apiService: ApiService,
-    private val realm: Realm
+    private val pageLoadedDao: PageLoadedDao,
+    private val dao: InTheatersMoviesDao
 ) : InTheatersMoviesRepository {
 
-    override suspend fun loadFromNetwork(page: Int) {
-        val movies = getMoviesFromNetwork(page)
-        var lastId = realm.where(DbInTheatersMovie::class.java)
-            .max(DbMovie.FIELD_SEQUENCE_ID)
-            ?.toLong()
-        if (lastId == null) {
-            realm.addAllToDatabase(
-                movies.mapIndexed { index, movie ->
-                    movie.apply { sequenceId = index.toLong() }
-                }
-            )
-        } else {
-            realm.addAllToDatabase(
-                movies.map { movie -> movie.apply { sequenceId = ++lastId } }
-            )
+    override suspend fun getLastInsertedId(): Int {
+        return dao.getCount()
+    }
+
+    override suspend fun loadFromNetwork(page: Int) =
+        apiService.getInTheatersMovies(page).toMovieResponse(MovieType.InTheatersMovies)
+
+    override suspend fun insertAll(movies: List<DbMovie>) {
+        dao.insertAll(movies.map { it as DbInTheatersMovie })
+    }
+
+    override suspend fun updateLastPageLoadedFromNetwork(page: Int) {
+        val updatedPage =
+            pageLoadedDao.getLastPageLoaded()?.apply { lastInTheatersMoviePage = page }
+        updatedPage?.let {
+            pageLoadedDao.updatePage(updatedPage)
         }
     }
 
-    override fun loadAfterSequenceIdFromDatabase(sequenceId: Long): List<Movie> {
-        return realm.where(DbInTheatersMovie::class.java)
-            .greaterThan(DbMovie.FIELD_SEQUENCE_ID, sequenceId)
-            .findAll()
-            .map { it.toMovie() }
+    override suspend fun getLastPageLoadedFromNetwork(): Int {
+        val lastPage = pageLoadedDao.getLastPageLoaded()
+        return if (lastPage == null) {
+            pageLoadedDao.insertPage(DbLastPageLoadedFromNetwork())
+            pageLoadedDao.getLastPageLoaded()!!.lastInTheatersMoviePage
+        } else lastPage.lastInTheatersMoviePage
     }
 
-    override fun updateLastPageLoadedFromNetwork(page: Int) {
-        try {
-            updateLastPageOnDb(page)
-        } catch (ex: Exception) {
-            Log.d("InTheatersRepository", ex.toString())
-        }
-    }
-
-    override fun getLastPageLoadedFromNetwork(): Int {
-        return realm.where(DbLastPageLoadedFromNetwork::class.java)
-            .findFirst()
-            ?.lastInTheatersMoviePage
-            ?: 1
-    }
-
-    private fun updateLastPageOnDb(page: Int) {
-        realm.executeTransaction {
-            val dbPage = realm.where(DbLastPageLoadedFromNetwork::class.java)
-                .findFirst()
-            dbPage?.let {
-                dbPage.lastInTheatersMoviePage = page
-            } ?: run {
-                realm.copyToRealm(DbLastPageLoadedFromNetwork(lastInTheatersMoviePage = page))
-            }
-        }
-    }
-
-    private suspend fun getMoviesFromNetwork(page: Int): List<DbInTheatersMovie> {
-        return apiService
-            .getInTheatersMovies(page)
-            .movies.map {
-            DbInTheatersMovie.fromMovie(
-                it.toMovie().apply { type = MovieType.InTheatersMovies }
-            )
-        }
+    override fun getAll(): DataSource.Factory<Int, Movie> {
+        return dao.getAll().map { it.toMovie() }
     }
 }

@@ -1,80 +1,50 @@
 package br.com.jeramovies.data.repository
 
-import android.util.Log
+import androidx.paging.DataSource
+import br.com.jeramovies.data.dao.PageLoadedDao
+import br.com.jeramovies.data.dao.TopRatedMoviesDao
 import br.com.jeramovies.data.entity.local.DbLastPageLoadedFromNetwork
 import br.com.jeramovies.data.entity.local.DbMovie
 import br.com.jeramovies.data.entity.local.DbTopRatedMovie
 import br.com.jeramovies.data.remote.ApiService
-import br.com.jeramovies.data.util.addAllToDatabase
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.entity.MovieType
 import br.com.jeramovies.domain.repository.TopRatedMoviesRepository
-import io.realm.Realm
 
 class TopRatedMoviesRepositoryImpl(
     private val apiService: ApiService,
-    private val realm: Realm
+    private val pageLoadedDao: PageLoadedDao,
+    private val dao: TopRatedMoviesDao
 ) : TopRatedMoviesRepository {
 
-    override suspend fun loadFromNetwork(page: Int) {
-        val movies = getMoviesFromNetwork(page)
-        var lastId = realm.where(DbTopRatedMovie::class.java)
-            .max(DbMovie.FIELD_SEQUENCE_ID)
-            ?.toLong()
-        if (lastId == null) {
-            realm.addAllToDatabase(
-                movies.mapIndexed { index, movie ->
-                    movie.apply { sequenceId = index.toLong() }
-                }
-            )
-        } else {
-            realm.addAllToDatabase(
-                movies.map { movie -> movie.apply { sequenceId = ++lastId } }
-            )
+    override suspend fun getLastInsertedId(): Int {
+        return dao.getCount()
+    }
+
+    override suspend fun loadFromNetwork(page: Int) =
+        apiService.getTopRatedMovies(page).toMovieResponse(MovieType.TopRatedMovies)
+
+    override suspend fun insertAll(movies: List<DbMovie>) {
+        dao.insertAll(movies.map { it as DbTopRatedMovie })
+    }
+
+    override suspend fun updateLastPageLoadedFromNetwork(page: Int) {
+        val updatedPage =
+            pageLoadedDao.getLastPageLoaded()?.apply { lastTopRatedMoviePage = page }
+        updatedPage?.let {
+            pageLoadedDao.updatePage(updatedPage)
         }
     }
 
-    override fun loadAfterSequenceIdFromDatabase(sequenceId: Long): List<Movie> {
-        return realm.where(DbTopRatedMovie::class.java)
-            .greaterThan(DbMovie.FIELD_SEQUENCE_ID, sequenceId)
-            .findAll()
-            .map { it.toMovie() }
+    override suspend fun getLastPageLoadedFromNetwork(): Int {
+        val lastPage = pageLoadedDao.getLastPageLoaded()
+        return if (lastPage == null) {
+            pageLoadedDao.insertPage(DbLastPageLoadedFromNetwork())
+            pageLoadedDao.getLastPageLoaded()!!.lastTopRatedMoviePage
+        } else lastPage.lastTopRatedMoviePage
     }
 
-    override fun updateLastPageLoadedFromNetwork(page: Int) {
-        try {
-            updateLastPageOnDb(page)
-        } catch (ex: Exception) {
-            Log.d("TopRatedRepository", ex.toString())
-        }
-    }
-
-    override fun getLastPageLoadedFromNetwork(): Int {
-        return realm.where(DbLastPageLoadedFromNetwork::class.java)
-            .findFirst()
-            ?.lastTopRatedMoviePage
-            ?: 1
-    }
-
-    private fun updateLastPageOnDb(page: Int) {
-        realm.executeTransaction {
-            val dbPage = realm.where(DbLastPageLoadedFromNetwork::class.java)
-                .findFirst()
-            dbPage?.let {
-                dbPage.lastTopRatedMoviePage = page
-            } ?: run {
-                realm.copyToRealm(DbLastPageLoadedFromNetwork(lastTopRatedMoviePage = page))
-            }
-        }
-    }
-
-    private suspend fun getMoviesFromNetwork(page: Int): List<DbTopRatedMovie> {
-        return apiService
-            .getTopRatedMovies(page)
-            .movies.map {
-            DbTopRatedMovie.fromMovie(
-                it.toMovie().apply { type = MovieType.TopRatedMovies }
-            )
-        }
+    override fun getAll(): DataSource.Factory<Int, Movie> {
+        return dao.getAll().map { it.toMovie() }
     }
 }

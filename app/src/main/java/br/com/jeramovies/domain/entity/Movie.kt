@@ -23,7 +23,7 @@ data class Movie(
     val voteAverage: Double,
     val overview: String,
     val releaseDate: String?,
-    val sequenceId: Long = 0,
+    val sequenceId: Int = 0,
     var saved: Boolean = false,
     var type: MovieType? = null
 ) : Serializable {

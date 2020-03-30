@@ -5,6 +5,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.SearchView
+import androidx.coordinatorlayout.widget.CoordinatorLayout
 import androidx.databinding.DataBindingUtil
 import br.com.jeramovies.R
 import br.com.jeramovies.databinding.ActivityMainBinding
@@ -13,6 +14,7 @@ import br.com.jeramovies.presentation.ui.search.SearchMoviesFragment
 import br.com.jeramovies.presentation.util.base.BaseActivity
 import br.com.jeramovies.presentation.util.base.BaseViewModel
 import br.com.jeramovies.presentation.util.extensions.observeChanges
+import com.google.android.material.behavior.HideBottomViewOnScrollBehavior
 import com.pandora.bottomnavigator.BottomNavigator
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -42,6 +44,7 @@ class MainActivity : BaseActivity() {
 
     override fun onBackPressed() {
         if (!navigator.pop()) super.onBackPressed()
+        else resetLayoutBehaviors()
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
@@ -64,10 +67,18 @@ class MainActivity : BaseActivity() {
         searchView.addOnAttachStateChangeListener(object : View.OnAttachStateChangeListener {
             override fun onViewDetachedFromWindow(p0: View?) {
                 navigator.pop()
+                resetLayoutBehaviors()
             }
 
             override fun onViewAttachedToWindow(p0: View?) {/* NOTHING TO DO */
             }
         })
+    }
+
+    private fun resetLayoutBehaviors() {
+        val layoutParams = binding.bottomNavigation.layoutParams as CoordinatorLayout.LayoutParams
+        val bottomViewNavigationBehavior = layoutParams.behavior as HideBottomViewOnScrollBehavior
+        binding.appBarLayout.setExpanded(true)
+        bottomViewNavigationBehavior.slideUp(binding.bottomNavigation)
     }
 }

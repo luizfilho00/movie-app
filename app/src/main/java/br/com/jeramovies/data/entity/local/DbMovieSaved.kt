@@ -1,18 +1,18 @@
 package br.com.jeramovies.data.entity.local
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.entity.MovieSaved
 import br.com.jeramovies.domain.util.W500
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
 
-open class DbMovieSaved(
-    @PrimaryKey
-    var id: Int = 0,
-    var title: String = "",
-    var voteAverage: Double = 0.0,
-    var posterUrl: String = ""
-) : RealmObject() {
+@Entity(tableName = "DbMovieSaved")
+data class DbMovieSaved(
+    @PrimaryKey val id: Int,
+    val title: String,
+    val voteAverage: Double,
+    val posterUrl: String
+) {
 
     fun toMovieSaved() = MovieSaved(
         id = id,
@@ -22,8 +22,6 @@ open class DbMovieSaved(
     )
 
     companion object {
-        const val FIELD_ID = "id"
-
         fun fromMovie(movie: Movie) = DbMovieSaved(
             id = movie.id,
             title = movie.title,

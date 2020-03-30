@@ -1,47 +1,44 @@
 package br.com.jeramovies.data.repository
 
-import br.com.jeramovies.data.entity.local.DbInTheatersMovie
-import br.com.jeramovies.data.entity.local.DbMovieSaved
-import br.com.jeramovies.data.entity.local.DbPopularMovie
-import br.com.jeramovies.data.entity.local.DbTopRatedMovie
-import br.com.jeramovies.data.util.addOrRemoveIfExists
+import br.com.jeramovies.data.dao.InTheatersMoviesDao
+import br.com.jeramovies.data.dao.MoviesDao
+import br.com.jeramovies.data.dao.PopularMoviesDao
+import br.com.jeramovies.data.dao.TopRatedMoviesDao
+import br.com.jeramovies.data.mappers.DbMovieSavedToMovieSaved
+import br.com.jeramovies.data.mappers.MovieSavedToDbMovieSaved
+import br.com.jeramovies.data.mappers.MovieToDbMovieSaved
 import br.com.jeramovies.domain.entity.Movie
-import br.com.jeramovies.domain.entity.MovieManagedStatus
-import br.com.jeramovies.domain.entity.MovieType
+import br.com.jeramovies.domain.entity.MovieSaved
 import br.com.jeramovies.domain.repository.MyListRepository
-import io.realm.Realm
 
 class MyListRepositoryImpl(
-    private val realm: Realm
+    private val moviesDao: MoviesDao,
+    private val topRatedMoviesDao: TopRatedMoviesDao,
+    private val inTheatersMoviesDao: InTheatersMoviesDao,
+    private val popularMoviesDao: PopularMoviesDao
 ) : MyListRepository {
 
-    override fun getSavedMovies() =
-        realm.where(DbMovieSaved::class.java).findAll().map { it.toMovieSaved() }
+    override suspend fun getSavedMovies() =
+        moviesDao.getSavedList().map(DbMovieSavedToMovieSaved()::transform)
 
-    override fun updateSavedMovieStatus(movie: Movie): MovieManagedStatus {
-        updateSavedFlagForMovie(movie)
-        return realm.addOrRemoveIfExists(
-            DbMovieSaved.fromMovie(movie),
-            DbMovieSaved.FIELD_ID, movie.id
-        )
+    override suspend fun addOrRemoveFromList(movie: Movie) {
+        updateSavedMovieStatus(movie.id, movie.saved)
+        val savedMovie = moviesDao.findById(movie.id)
+        if (savedMovie != null) {
+            moviesDao.delete(savedMovie)
+        } else {
+            moviesDao.saveToMyList(MovieToDbMovieSaved().transform(movie))
+        }
     }
 
-    private fun updateSavedFlagForMovie(movie: Movie) {
-        realm.executeTransaction {
-            when (movie.type) {
-                is MovieType.PopularMovies ->
-                    realm.copyToRealmOrUpdate(
-                        DbPopularMovie.fromMovie(movie.apply { saved = !saved })
-                    )
-                is MovieType.TopRatedMovies ->
-                    realm.copyToRealmOrUpdate(
-                        DbTopRatedMovie.fromMovie(movie.apply { saved = !saved })
-                    )
-                is MovieType.InTheatersMovies ->
-                    realm.copyToRealmOrUpdate(
-                        DbInTheatersMovie.fromMovie(movie.apply { saved = !saved })
-                    )
-            }
-        }
+    override suspend fun remove(movie: MovieSaved): Boolean {
+        updateSavedMovieStatus(movie.id, false)
+        return moviesDao.delete(MovieSavedToDbMovieSaved().transform(movie)) > 0
+    }
+
+    private suspend fun updateSavedMovieStatus(id: Int, status: Boolean) {
+        topRatedMoviesDao.updateMovieSavedStatus(id, status)
+        popularMoviesDao.updateMovieSavedStatus(id, status)
+        inTheatersMoviesDao.updateMovieSavedStatus(id, status)
     }
 }

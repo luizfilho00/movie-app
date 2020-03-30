@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.jeramovies.databinding.FragmentSearchBinding
 import br.com.jeramovies.presentation.ui.main.MainViewModel
 import br.com.jeramovies.presentation.ui.movies.MoviesAdapter
+import br.com.jeramovies.presentation.util.extensions.viewLifecycle
 import br.com.jeramovies.presentation.util.livedata.observe
 import org.koin.android.viewmodel.ext.android.sharedViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
@@ -18,7 +19,7 @@ class SearchMoviesFragment : Fragment() {
     private val viewModel: SearchViewModel by viewModel()
     private val activityViewModel: MainViewModel by sharedViewModel()
     private var adapter: MoviesAdapter? = null
-    private lateinit var binding: FragmentSearchBinding
+    private var binding: FragmentSearchBinding by viewLifecycle()
 
     override fun onCreateView(
         inflater: LayoutInflater,

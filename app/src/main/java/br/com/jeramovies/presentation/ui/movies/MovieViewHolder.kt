@@ -47,6 +47,7 @@ class MovieViewHolder(
     ) {
         with(imageView) {
             setOnClickListener {
+                movie.saved = !movie.saved
                 saveToListCallback(movie)
                 setImageDrawable(movie.saved)
             }

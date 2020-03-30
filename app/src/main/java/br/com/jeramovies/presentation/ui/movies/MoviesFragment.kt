@@ -12,6 +12,7 @@ import br.com.jeramovies.databinding.FragmentMoviesBinding
 import br.com.jeramovies.domain.entity.Movie
 import br.com.jeramovies.domain.entity.MovieType
 import br.com.jeramovies.presentation.ui.main.MainViewModel
+import br.com.jeramovies.presentation.util.extensions.viewLifecycle
 import br.com.jeramovies.presentation.util.livedata.observe
 import org.koin.android.ext.android.inject
 import org.koin.android.viewmodel.ext.android.sharedViewModel
@@ -19,7 +20,7 @@ import org.koin.android.viewmodel.ext.android.viewModel
 
 class MoviesFragment : Fragment() {
 
-    private lateinit var binding: FragmentMoviesBinding
+    private var binding: FragmentMoviesBinding by viewLifecycle()
     private val moviesObserver: MoviesObserver by inject()
     private val activityViewModel: MainViewModel by sharedViewModel()
     private val viewModel: MoviesViewModel by viewModel()

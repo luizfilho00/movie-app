@@ -8,9 +8,6 @@ import androidx.paging.PagedList
 import androidx.paging.toLiveData
 import br.com.jeramovies.data.paging.factory.SearchMoviesDataSourceFactory
 import br.com.jeramovies.domain.entity.Movie
-import br.com.jeramovies.domain.entity.MoviePersistError
-import br.com.jeramovies.domain.entity.MoviePersisted
-import br.com.jeramovies.domain.entity.MovieRemoved
 import br.com.jeramovies.domain.repository.MoviesRepository
 import br.com.jeramovies.domain.repository.MyListRepository
 import br.com.jeramovies.domain.resource.StringResource
@@ -50,11 +47,17 @@ class SearchViewModel(
     }
 
     fun onSaveClicked(movie: Movie) {
-        when (myListRepository.updateSavedMovieStatus(movie)) {
-            is MoviePersisted -> showToast(strings.movieSavedToList, Toast.LENGTH_SHORT)
-            is MovieRemoved -> showToast(strings.movieRemovedFromList, Toast.LENGTH_SHORT)
-            is MoviePersistError -> showToast(strings.moviePersistError, Toast.LENGTH_SHORT)
-        }
+        launchAsync(
+            block = { myListRepository.addOrRemoveFromList(movie) },
+            onSuccess = {
+                if (movie.saved) {
+                    showToast(strings.movieSavedToList, Toast.LENGTH_SHORT)
+                } else {
+                    showToast(strings.movieRemovedFromList, Toast.LENGTH_SHORT)
+                }
+            },
+            onFailure = { showDialog(it) }
+        )
     }
 
     private fun reloadSearch() {

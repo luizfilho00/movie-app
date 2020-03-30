@@ -1,50 +1,33 @@
 package br.com.jeramovies.data.entity.local
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import br.com.jeramovies.domain.entity.Movie
-import io.realm.RealmList
-import io.realm.RealmObject
-import io.realm.annotations.PrimaryKey
+import br.com.jeramovies.domain.entity.MovieType
 
-open class DbInTheatersMovie(
-    @PrimaryKey override var sequenceId: Long,
-    override var id: Int,
-    override var popularity: Double,
-    override var voteCount: Int,
-    override var video: Boolean,
-    override var posterPath: String?,
-    override var adult: Boolean,
-    override var backdropPath: String?,
-    override var originalLanguage: String?,
-    override var originalTitle: String?,
-    override var genreIds: RealmList<Int>,
-    override var title: String,
-    override var voteAverage: Double,
-    override var overview: String?,
-    override var releaseDate: String?,
-    override var saved: Boolean
-) : DbMovie, RealmObject() {
-
-    constructor() : this(
-        0,
-        0,
-        0.0,
-        0,
-        false,
-        "",
-        false,
-        "",
-        "",
-        "",
-        RealmList<Int>(),
-        "",
-        0.0,
-        "",
-        "",
-        false
-    )
+@Entity(tableName = "DbInTheatersMovie")
+data class DbInTheatersMovie(
+    override val id: Int,
+    @PrimaryKey override val sequenceId: Int,
+    override val popularity: Double,
+    override val voteCount: Int,
+    override val video: Boolean,
+    override val posterPath: String?,
+    override val adult: Boolean,
+    override val backdropPath: String?,
+    override val originalLanguage: String?,
+    override val originalTitle: String?,
+    override val genreIds: List<Int>,
+    override val title: String,
+    override val voteAverage: Double,
+    override val overview: String?,
+    override val releaseDate: String?,
+    override val movieType: Int,
+    override val saved: Boolean
+) : DbMovie {
 
     override fun fromMovie(movie: Movie) =
-        DbInTheatersMovie(
+        DbPopularMovie(
             id = movie.id,
             popularity = movie.popularity,
             voteCount = movie.voteCount,
@@ -54,16 +37,13 @@ open class DbInTheatersMovie(
             backdropPath = movie.backdropPath,
             originalLanguage = movie.originalLanguage,
             originalTitle = movie.originalTitle,
-            genreIds = RealmList<Int>().apply { addAll(movie.genreIds) },
+            genreIds = movie.genreIds,
             title = movie.title,
             voteAverage = movie.voteAverage,
             overview = movie.overview,
             releaseDate = movie.releaseDate,
             saved = movie.saved,
-            sequenceId = movie.sequenceId
+            sequenceId = movie.sequenceId,
+            movieType = MovieType.MOVIE_TYPE_IN_THEATERS
         )
-
-    companion object {
-        fun fromMovie(movie: Movie) = DbInTheatersMovie().fromMovie(movie)
-    }
 }

@@ -1,5 +1,6 @@
 package br.com.jeramovies.data.entity
 
+import br.com.jeramovies.domain.entity.MovieType
 import br.com.jeramovies.domain.entity.MoviesResponse
 import com.google.gson.annotations.SerializedName
 
@@ -10,10 +11,14 @@ data class ApiMoviesResponse(
     @SerializedName("results") val movies: List<ApiMovie>
 ) {
 
-    fun toMovieResponse() = MoviesResponse(
+    fun toMovieResponse(movieType: MovieType? = null) = MoviesResponse(
         page = page,
         totalPages = totalPages,
         totalResults = totalResults,
-        movies = movies.map { it.toMovie() }
+        movies = movies.map { apimovie ->
+            movieType?.let {
+                apimovie.toMovie().apply { type = it }
+            } ?: apimovie.toMovie()
+        }
     )
 }

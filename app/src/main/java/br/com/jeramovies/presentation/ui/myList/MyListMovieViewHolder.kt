@@ -15,7 +15,8 @@ class MyListMovieViewHolder(
 
     fun bind(
         movieSaved: MovieSaved,
-        onClick: (MovieSaved) -> Unit
+        onClick: (MovieSaved) -> Unit,
+        onLongClick: (MovieSaved) -> Unit
     ) {
         with(binding) {
             Glide.with(root)
@@ -23,6 +24,10 @@ class MyListMovieViewHolder(
                 .into(imageView)
             textViewMovieTitle.text = movieSaved.title
             root.setOnClickListener { onClick(movieSaved) }
+            root.setOnLongClickListener {
+                onLongClick(movieSaved)
+                true
+            }
         }
     }
 

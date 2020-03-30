@@ -1,3 +1,9 @@
 package br.com.jeramovies.domain.repository
 
-interface PopularMoviesRepository : BaseMoviesRepository
+import androidx.paging.DataSource
+import br.com.jeramovies.domain.entity.Movie
+
+interface PopularMoviesRepository : BaseMoviesRepository {
+
+    fun getAll(): DataSource.Factory<Int, Movie>
+}
