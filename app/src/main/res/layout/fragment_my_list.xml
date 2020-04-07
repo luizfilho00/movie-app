@@ -9,7 +9,7 @@
 
         <variable
             name="vModel"
-            type="br.com.jeramovies.presentation.ui.myList.MyListViewModel" />
+            type="br.com.devroid.presentation.ui.myList.MyListViewModel" />
     </data>
 
     <FrameLayout

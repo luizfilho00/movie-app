@@ -9,7 +9,7 @@
 
         <variable
             name="vModel"
-            type="br.com.jeramovies.presentation.ui.search.SearchViewModel" />
+            type="br.com.devroid.presentation.ui.search.SearchViewModel" />
     </data>
 
     <FrameLayout

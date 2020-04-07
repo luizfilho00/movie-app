@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    package="br.com.jeramovies"
+    package="br.com.devroid.moviesapp"
     tools:ignore="LockedOrientationActivity">
 
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
-        android:name=".JeraMoviesApp"
+        android:name="br.com.devroid.MoviesApp"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -16,7 +16,7 @@
         tools:ignore="GoogleAppIndexingWarning">
 
         <activity
-            android:name=".presentation.ui.main.MainActivity"
+            android:name="br.com.devroid.presentation.ui.main.MainActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:windowSoftInputMode="adjustPan"
             android:screenOrientation="portrait">
@@ -27,11 +27,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="br.com.jeramovies.presentation.ui.movieDetails.MovieDetailsActivity"
+            android:name="br.com.devroid.presentation.ui.movieDetails.MovieDetailsActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="portrait" />
         <activity
-            android:name=".presentation.ui.trailer.TrailerActivity"
+            android:name="br.com.devroid.presentation.ui.trailer.TrailerActivity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:screenOrientation="fullSensor"
             android:theme="@style/AppThemeFullScreen" />

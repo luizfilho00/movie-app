@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">JeraMovies</string>
+    <string name="app_name">MoviesApp</string>
     <string name="error_network">Não conseguimos acessar nossos servidores, por favor verifique sua conexão com a internet.</string>
     <string name="unknown_error">Nosso servidor está sofrendo instabilidades, por favor tente novamente mais tarde.</string>
     <string name="http_error">Ocorreu um erro ao processar sua requisição, por favor tente novamente.</string>

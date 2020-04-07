@@ -7,7 +7,7 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
     defaultConfig {
-        applicationId "br.com.jeramovies"
+        applicationId "br.com.devroid.moviesapp"
         minSdkVersion 23
         targetSdkVersion 29
         versionCode 1

@@ -9,11 +9,11 @@
 
         <variable
             name="vModel"
-            type="br.com.jeramovies.presentation.ui.movieDetails.MovieDetailsViewModel" />
+            type="br.com.devroid.presentation.ui.movieDetails.MovieDetailsViewModel" />
 
         <variable
             name="movie"
-            type="br.com.jeramovies.domain.entity.MovieDetails" />
+            type="br.com.devroid.domain.entity.MovieDetails" />
     </data>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
