@@ -1,5 +1,6 @@
 package br.com.devroid.presentation.ui.search
 
+import android.view.View
 import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
@@ -13,6 +14,7 @@ import br.com.devroid.domain.repository.MyListRepository
 import br.com.devroid.domain.resource.StringResource
 import br.com.devroid.presentation.ui.movieDetails.MovieDetailsNavData
 import br.com.devroid.presentation.util.base.BaseViewModel
+import br.com.devroid.presentation.util.livedata.SingleLiveEvent
 
 class SearchViewModel(
     repository: MoviesRepository,
@@ -21,7 +23,9 @@ class SearchViewModel(
 ) : BaseViewModel() {
 
     val searchMovies: LiveData<PagedList<Movie>> get() = _searchMovies
+    val goToMovieDetails: LiveData<Pair<Movie, View>> get() = _goToMovieDetails
 
+    private val _goToMovieDetails by lazy { SingleLiveEvent<Pair<Movie, View>>() }
     private val _searchMovies by lazy { searchMovieFactory.toLiveData(config) }
     private val dataSourceFactory =
         SearchMoviesDataSourceFactory(
@@ -42,8 +46,8 @@ class SearchViewModel(
         }
     }
 
-    fun onMovieClicked(movie: Movie) {
-        goTo(MovieDetailsNavData(movie.id))
+    fun onMovieClicked(movie: Movie, view: View) {
+        _goToMovieDetails.postValue(movie to view)
     }
 
     fun onSaveClicked(movie: Movie) {

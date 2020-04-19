@@ -4,10 +4,12 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.devroid.moviesapp.databinding.FragmentSearchBinding
 import br.com.devroid.presentation.ui.main.MainViewModel
+import br.com.devroid.presentation.ui.movieDetails.MovieDetailsActivity
 import br.com.devroid.presentation.ui.movies.MoviesAdapter
 import br.com.devroid.presentation.util.extensions.viewLifecycle
 import br.com.devroid.presentation.util.livedata.observe
@@ -37,7 +39,9 @@ class SearchMoviesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         if (adapter == null) {
-            adapter = MoviesAdapter(viewModel::onMovieClicked, viewModel::onSaveClicked)
+            adapter = MoviesAdapter(viewModel::onMovieClicked, viewModel::onSaveClicked).apply {
+                hideSaveButton = true
+            }
         }
         with(binding) {
             recyclerView.adapter = adapter
@@ -47,7 +51,13 @@ class SearchMoviesFragment : Fragment() {
 
     private fun subscribeUi() {
         viewModel.searchMovies.observe(viewLifecycleOwner) { movies -> adapter?.submitList(movies) }
-        viewModel.goTo.observe(viewLifecycleOwner, activityViewModel::goTo)
+        viewModel.goToMovieDetails.observe(viewLifecycleOwner) { (movie, view) ->
+            MovieDetailsActivity.startWithPosterTransition(
+                requireActivity() as AppCompatActivity,
+                view,
+                movie.id
+            )
+        }
         activityViewModel.searchText.observe(viewLifecycleOwner, viewModel::searchMovies)
     }
 }

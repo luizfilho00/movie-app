@@ -1,21 +1,33 @@
 package br.com.devroid.presentation.ui.movies
 
 import android.view.LayoutInflater
+import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.devroid.domain.entity.Movie
+import br.com.devroid.domain.util.W185
 import br.com.devroid.moviesapp.R
 import br.com.devroid.moviesapp.databinding.ItemMovieBinding
+import br.com.devroid.presentation.util.extensions.setVisible
 import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.bitmap.CenterCrop
+import com.bumptech.glide.load.resource.bitmap.RoundedCorners
+import com.bumptech.glide.request.RequestOptions
 import org.koin.core.KoinComponent
 
 class MovieViewHolder(
     private val binding: ItemMovieBinding
 ) : RecyclerView.ViewHolder(binding.root), KoinComponent {
 
-    fun bind(movie: Movie?, onClick: (Movie) -> Unit, saveToListCallback: (Movie) -> Unit) {
+    fun bind(
+        movie: Movie?,
+        onClick: (Movie, View) -> Unit,
+        saveToListCallback: (Movie) -> Unit,
+        hideSaveButton: Boolean = false
+    ) {
+        binding.imageViewSave.setVisible(!hideSaveButton)
         setupClickListener(movie, onClick, saveToListCallback)
         loadImage(movie)
         setupProgressBar(movie)
@@ -24,12 +36,12 @@ class MovieViewHolder(
 
     private fun setupClickListener(
         movie: Movie?,
-        onClick: (Movie) -> Unit,
+        onClick: (Movie, View) -> Unit,
         saveToListCallback: (Movie) -> Unit
     ) {
         movie?.let {
             binding.root.setOnClickListener {
-                onClick(movie)
+                onClick(movie, binding.imageViewPoster)
             }
             with(binding.imageViewSave) {
                 setImageDrawable(movie.saved)
@@ -76,14 +88,16 @@ class MovieViewHolder(
                         )
                     }
                 }
+            textViewResume.text = movie?.overview
         }
     }
 
     private fun loadImage(movie: Movie?) {
-        with(binding.imageView) {
+        with(binding.imageViewPoster) {
             Glide.with(this)
-                .load(movie?.getBackdropUrl())
-                .placeholder(R.drawable.movie_empty_placeholder)
+                .load(movie?.getPosterUrl(movie.posterPath, W185))
+                .placeholder(R.drawable.poster_placeholder)
+                .apply(RequestOptions().apply { transform(CenterCrop(), RoundedCorners(8)) })
                 .into(this)
         }
     }

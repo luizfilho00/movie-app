@@ -1,6 +1,8 @@
 package br.com.devroid.presentation.ui.movies
 
+import android.view.View
 import android.widget.Toast
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.viewModelScope
 import androidx.paging.toLiveData
 import br.com.devroid.data.paging.callback.MovieBoundaryCallback
@@ -10,8 +12,8 @@ import br.com.devroid.domain.repository.MyListRepository
 import br.com.devroid.domain.repository.PopularMoviesRepository
 import br.com.devroid.domain.repository.TopRatedMoviesRepository
 import br.com.devroid.domain.resource.StringResource
-import br.com.devroid.presentation.ui.movieDetails.MovieDetailsNavData
 import br.com.devroid.presentation.util.base.BaseViewModel
+import br.com.devroid.presentation.util.livedata.SingleLiveEvent
 
 class MoviesViewModel(
     private val popularMoviesRepository: PopularMoviesRepository,
@@ -21,6 +23,7 @@ class MoviesViewModel(
     private val strings: StringResource
 ) : BaseViewModel() {
 
+    val goToMovieDetails: LiveData<Pair<Movie, View>> get() = _goToMovieDetails
     val popularMovies by lazy {
         popularMoviesRepository.getAll()
             .toLiveData(
@@ -58,8 +61,10 @@ class MoviesViewModel(
             )
     }
 
-    fun onMovieClick(movie: Movie) {
-        goTo(MovieDetailsNavData(movie.id))
+    private val _goToMovieDetails by lazy { SingleLiveEvent<Pair<Movie, View>>() }
+
+    fun onMovieClick(movie: Movie, view: View) {
+        _goToMovieDetails.postValue(movie to view)
     }
 
     fun onSaveClicked(movie: Movie) {

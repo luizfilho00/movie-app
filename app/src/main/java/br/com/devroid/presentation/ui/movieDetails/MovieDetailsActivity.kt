@@ -3,6 +3,10 @@ package br.com.devroid.presentation.ui.movieDetails
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.core.app.ActivityOptionsCompat
+import androidx.core.util.Pair
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -157,5 +161,13 @@ class MovieDetailsActivity : BaseActivity() {
             Intent(context, MovieDetailsActivity::class.java).apply {
                 putExtra(MOVIE_ID_EXTRA, movieId)
             }
+
+        fun startWithPosterTransition(activity: AppCompatActivity, view: View, id: Int) {
+            val transition = ActivityOptionsCompat.makeSceneTransitionAnimation(
+                activity,
+                Pair(view, "poster")
+            )
+            activity.startActivity(createIntent(activity, id), transition.toBundle())
+        }
     }
 }

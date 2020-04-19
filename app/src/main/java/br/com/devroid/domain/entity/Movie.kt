@@ -34,5 +34,5 @@ data class Movie(
 
     fun getBackdropUrl(size: String = W500) = "$IMAGE_URL$size/$backdropPath"
 
-    fun getPosterUrl(size: String = W185) = "$IMAGE_URL$size/$posterPath"
+    fun getPosterUrl(path: String?, size: String = W185) = "$IMAGE_URL$size/$path"
 }

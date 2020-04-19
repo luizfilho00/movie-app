@@ -35,13 +35,13 @@
         <ImageView
             android:id="@+id/image_view_poster"
             android:layout_width="130dp"
-            android:layout_height="200dp"
+            android:layout_height="190dp"
             android:layout_marginStart="@dimen/spacing_20"
             android:layout_marginTop="120dp"
-            android:background="@drawable/poster_placeholder"
-            android:scaleType="fitXY"
+            android:transitionName="poster"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@id/image_view_toolbar_background"
+            tools:background="@drawable/poster_placeholder"
             tools:ignore="ContentDescription" />
 
         <TextView
