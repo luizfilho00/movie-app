@@ -93,7 +93,7 @@ class MovieDetailsActivity : BaseActivity() {
             glide.load(movie.getPosterUrl(movie.backdropPath, W500))
                 .placeholder(R.drawable.movie_empty_placeholder)
                 .into(includedMovieToolbar.imageViewToolbarBackground)
-            glide.load(movie.getPosterUrl(movie.posterPath, W185))
+            glide.load(movie.getPosterUrl(movie.posterPath, W500))
                 .placeholder(R.drawable.poster_placeholder)
                 .apply(RequestOptions().apply { transform(CenterCrop(), RoundedCorners(8)) })
                 .into(includedMovieToolbar.imageViewPoster)

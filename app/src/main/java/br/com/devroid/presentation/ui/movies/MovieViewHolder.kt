@@ -8,6 +8,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.devroid.domain.entity.Movie
 import br.com.devroid.domain.util.W185
+import br.com.devroid.domain.util.W500
 import br.com.devroid.moviesapp.R
 import br.com.devroid.moviesapp.databinding.ItemMovieBinding
 import br.com.devroid.presentation.util.extensions.setVisible
@@ -95,7 +96,7 @@ class MovieViewHolder(
     private fun loadImage(movie: Movie?) {
         with(binding.imageViewPoster) {
             Glide.with(this)
-                .load(movie?.getPosterUrl(movie.posterPath, W185))
+                .load(movie?.getPosterUrl(movie.posterPath, W500))
                 .placeholder(R.drawable.poster_placeholder)
                 .apply(RequestOptions().apply { transform(CenterCrop(), RoundedCorners(8)) })
                 .into(this)
