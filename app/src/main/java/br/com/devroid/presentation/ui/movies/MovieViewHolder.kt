@@ -96,7 +96,7 @@ class MovieViewHolder(
     private fun loadImage(movie: Movie?) {
         with(binding.imageViewPoster) {
             Glide.with(this)
-                .load(movie?.getPosterUrl(movie.posterPath, W500))
+                .load(movie?.getPosterUrl(W500))
                 .placeholder(R.drawable.poster_placeholder)
                 .apply(RequestOptions().apply { transform(CenterCrop(), RoundedCorners(8)) })
                 .into(this)
