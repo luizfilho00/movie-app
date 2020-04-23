@@ -26,9 +26,7 @@ class MoviesFragment : Fragment() {
     private val moviesObserver: MoviesObserver by inject()
     private val activityViewModel: MainViewModel by sharedViewModel()
     private val viewModel: MoviesViewModel by viewModel()
-    private val adapter by lazy {
-        MoviesAdapter(viewModel::onMovieClick, viewModel::onSaveClicked)
-    }
+    private val adapter by lazy { MoviesAdapter(viewModel::onMovieClick) }
     private val movieType by lazy { arguments?.get(MOVIE_TYPE_EXTRA) as? MovieType }
 
     override fun onCreateView(

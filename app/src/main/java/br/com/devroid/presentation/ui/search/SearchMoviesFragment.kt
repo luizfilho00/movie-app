@@ -39,9 +39,7 @@ class SearchMoviesFragment : Fragment() {
 
     private fun setupRecyclerView() {
         if (adapter == null) {
-            adapter = MoviesAdapter(viewModel::onMovieClicked, viewModel::onSaveClicked).apply {
-                hideSaveButton = true
-            }
+            adapter = MoviesAdapter(viewModel::onMovieClicked)
         }
         with(binding) {
             recyclerView.adapter = adapter

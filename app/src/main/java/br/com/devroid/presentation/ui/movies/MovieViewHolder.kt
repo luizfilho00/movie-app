@@ -7,11 +7,9 @@ import android.widget.ImageView
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import br.com.devroid.domain.entity.Movie
-import br.com.devroid.domain.util.W185
 import br.com.devroid.domain.util.W500
 import br.com.devroid.moviesapp.R
 import br.com.devroid.moviesapp.databinding.ItemMovieBinding
-import br.com.devroid.presentation.util.extensions.setVisible
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.resource.bitmap.CenterCrop
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners
@@ -24,12 +22,9 @@ class MovieViewHolder(
 
     fun bind(
         movie: Movie?,
-        onClick: (Movie, View) -> Unit,
-        saveToListCallback: (Movie) -> Unit,
-        hideSaveButton: Boolean = false
+        onClick: (Movie, View) -> Unit
     ) {
-        binding.imageViewSave.setVisible(!hideSaveButton)
-        setupClickListener(movie, onClick, saveToListCallback)
+        setupClickListener(movie, onClick)
         loadImage(movie)
         setupProgressBar(movie)
         setupTexts(movie)
@@ -37,34 +32,17 @@ class MovieViewHolder(
 
     private fun setupClickListener(
         movie: Movie?,
-        onClick: (Movie, View) -> Unit,
-        saveToListCallback: (Movie) -> Unit
+        onClick: (Movie, View) -> Unit
     ) {
         movie?.let {
             binding.root.setOnClickListener {
                 onClick(movie, binding.imageViewPoster)
-            }
-            with(binding.imageViewSave) {
-                setImageDrawable(movie.saved)
-                setupImageSaveClickListener(movie, this, saveToListCallback)
             }
         }
     }
 
     private fun ImageView.setImageDrawable(saved: Boolean?) {
         setImageDrawable(context.getDrawable(if (saved == true) R.drawable.ic_saved else R.drawable.ic_save))
-    }
-
-    private fun setupImageSaveClickListener(
-        movie: Movie, imageView: ImageView, saveToListCallback: (Movie) -> Unit
-    ) {
-        with(imageView) {
-            setOnClickListener {
-                movie.saved = !movie.saved
-                saveToListCallback(movie)
-                setImageDrawable(movie.saved)
-            }
-        }
     }
 
     private fun setupProgressBar(movie: Movie?) {

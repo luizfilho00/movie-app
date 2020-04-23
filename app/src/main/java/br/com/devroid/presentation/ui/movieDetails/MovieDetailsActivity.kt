@@ -113,7 +113,7 @@ class MovieDetailsActivity : BaseActivity() {
     private fun setupUserRating(movieDetails: MovieDetails) {
         with(binding.includedMovieToolbar) {
             progressBar.progressMax = 10f
-            progressBar.setProgressWithAnimation(movieDetails.voteAverage.toFloat(), 3000L)
+            progressBar.setProgressWithAnimation(movieDetails.voteAverage.toFloat(), 2000L)
             textViewPercent.text =
                 root.context.getString(R.string.percent, movieDetails.userScore())
         }

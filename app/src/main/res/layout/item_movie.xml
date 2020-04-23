@@ -74,7 +74,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginEnd="@dimen/spacing_12"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toStartOf="@id/image_view_save"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent">
 
                         <com.mikhaellopez.circularprogressbar.CircularProgressBar
@@ -106,17 +106,6 @@
                             app:layout_constraintTop_toTopOf="@id/progress_bar"
                             tools:text="100%" />
                     </androidx.constraintlayout.widget.ConstraintLayout>
-
-                    <ImageView
-                        android:id="@+id/image_view_save"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:padding="@dimen/spacing_8"
-                        android:src="@drawable/ic_save"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"
-                        tools:ignore="ContentDescription" />
                 </androidx.constraintlayout.widget.ConstraintLayout>
             </LinearLayout>
         </LinearLayout>

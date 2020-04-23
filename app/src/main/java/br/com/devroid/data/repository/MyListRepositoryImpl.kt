@@ -4,8 +4,6 @@ import br.com.devroid.data.dao.*
 import br.com.devroid.data.mappers.DbMovieSavedToMovieSaved
 import br.com.devroid.data.mappers.MovieDetailsToDbMovieSaved
 import br.com.devroid.data.mappers.MovieSavedToDbMovieSaved
-import br.com.devroid.data.mappers.MovieToDbMovieSaved
-import br.com.devroid.domain.entity.Movie
 import br.com.devroid.domain.entity.MovieSaved
 import br.com.devroid.domain.repository.MyListRepository
 
@@ -32,16 +30,6 @@ class MyListRepositoryImpl(
             dbMovieSaved?.let { moviesDao.saveToMyList(dbMovieSaved) }
             updateSavedMovieStatus(movieDetailsId, true)
             true
-        }
-    }
-
-    override suspend fun addOrRemoveFromList(movie: Movie) {
-        updateSavedMovieStatus(movie.id, movie.saved)
-        val movieSaved = moviesDao.findById(movie.id)
-        if (movieSaved != null) {
-            moviesDao.delete(movieSaved)
-        } else {
-            moviesDao.saveToMyList(MovieToDbMovieSaved().transform(movie))
         }
     }
 

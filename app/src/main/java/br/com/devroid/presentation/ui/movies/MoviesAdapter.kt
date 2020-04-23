@@ -7,17 +7,14 @@ import androidx.recyclerview.widget.DiffUtil
 import br.com.devroid.domain.entity.Movie
 
 class MoviesAdapter(
-    private val onClick: (Movie, View) -> Unit,
-    private val saveToListCallback: (Movie) -> Unit
+    private val onClick: (Movie, View) -> Unit
 ) : PagedListAdapter<Movie, MovieViewHolder>(DiffUtilCallback) {
-
-    var hideSaveButton = false
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
         MovieViewHolder.inflate(parent)
 
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
-        holder.bind(getItem(position), onClick, saveToListCallback, hideSaveButton)
+        holder.bind(getItem(position), onClick)
     }
 
     companion object DiffUtilCallback : DiffUtil.ItemCallback<Movie>() {
