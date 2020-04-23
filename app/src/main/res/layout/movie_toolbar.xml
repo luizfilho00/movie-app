@@ -87,7 +87,8 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/image_view_poster">
+            app:layout_constraintTop_toBottomOf="@id/image_view_poster"
+            app:layout_constraintVertical_bias="0">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:id="@+id/progress_layout"
@@ -143,7 +144,7 @@
 
             <TextView
                 android:id="@+id/button_play_trailer"
-                style="@style/SansProRegular16"
+                style="@style/SansProBold16"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_play"
@@ -153,6 +154,40 @@
                 android:onClick="@{() -> vModel.playTrailer()}"
                 android:padding="@dimen/spacing_8"
                 android:text="@string/play_trailer" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="@dimen/spacing_24"
+            android:layout_marginBottom="@dimen/spacing_8"
+            android:padding="@dimen/spacing_8"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/linear_layout_rating">
+
+            <ImageView
+                android:id="@+id/image_view_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_4"
+                android:src="@drawable/ic_save" />
+
+            <ImageView
+                android:id="@+id/image_view_rate"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="@dimen/spacing_16"
+                android:layout_marginEnd="@dimen/spacing_16"
+                android:padding="@dimen/spacing_4"
+                android:src="@drawable/ic_thumb_up" />
+
+            <ImageView
+                android:id="@+id/image_view_share"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/spacing_4"
+                android:src="@drawable/ic_share" />
         </LinearLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

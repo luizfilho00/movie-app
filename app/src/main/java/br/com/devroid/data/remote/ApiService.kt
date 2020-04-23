@@ -1,12 +1,9 @@
 package br.com.devroid.data.remote
 
-import br.com.devroid.data.entity.ApiMovieCast
-import br.com.devroid.data.entity.ApiMovieDetails
-import br.com.devroid.data.entity.ApiMoviesResponse
-import br.com.devroid.data.entity.ApiVideoResponse
-import retrofit2.http.GET
-import retrofit2.http.Path
-import retrofit2.http.Query
+import br.com.devroid.data.entity.*
+import br.com.devroid.domain.entity.MovieRating
+import br.com.devroid.domain.entity.MovieRatingResponse
+import retrofit2.http.*
 
 interface ApiService {
 
@@ -42,4 +39,14 @@ interface ApiService {
         @Query("query") text: String,
         @Query("page") page: Int = 1
     ): ApiMoviesResponse
+
+    @POST("movie/{movieId}/rating")
+    suspend fun rateMovie(
+        @Path("movieId") movieId: Int,
+        @Body rating: MovieRating,
+        @Query("guest_session_id") token: String?
+    ): MovieRatingResponse
+
+    @GET("authentication/guest_session/new")
+    suspend fun getToken(): ApiTemporaryToken
 }

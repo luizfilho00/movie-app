@@ -25,6 +25,7 @@ class MovieToDbPopularMovie(
         overview = input.overview,
         releaseDate = input.releaseDate,
         saved = input.saved,
+        rateByUser = input.rateByUser,
         sequenceId = sequenceId ?: input.sequenceId,
         movieType = MovieType.MOVIE_TYPE_POPULAR
     )

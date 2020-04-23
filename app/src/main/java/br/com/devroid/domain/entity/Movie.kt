@@ -25,7 +25,8 @@ data class Movie(
     val releaseDate: String?,
     val sequenceId: Int = 0,
     var saved: Boolean = false,
-    var type: MovieType? = null
+    var type: MovieType? = null,
+    var rateByUser: Float? = null
 ) : Serializable {
 
     fun userScore() = (voteAverage * 10.0).roundToInt().toString()

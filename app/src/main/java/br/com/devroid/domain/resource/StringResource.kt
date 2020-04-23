@@ -8,4 +8,6 @@ interface StringResource {
     val movieSavedToList: String
     val movieRemovedFromList: String
     val moviePersistError: String
+    val movieRatedSuccess: String
+    val movieRatedFailure: String
 }

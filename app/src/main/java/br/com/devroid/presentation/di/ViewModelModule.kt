@@ -16,6 +16,6 @@ val viewModelModule = module {
     viewModel { MoviesViewModel(get(), get(), get(), get(), get()) }
     viewModel { SearchViewModel(get(), get(), get()) }
     viewModel { MyListViewModel(get()) }
-    viewModel { (id: Int) -> MovieDetailsViewModel(id, get(), get()) }
+    viewModel { (id: Int) -> MovieDetailsViewModel(id, get(), get(), get(), get(), get()) }
     viewModel { (movieSaved: MovieSaved) -> RemoveAlertViewModel(movieSaved, get(), get()) }
 }

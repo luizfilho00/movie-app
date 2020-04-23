@@ -13,6 +13,9 @@ interface PopularMoviesDao {
     @Query("SELECT * FROM DbPopularMovie ORDER BY sequenceId")
     fun getAll(): DataSource.Factory<Int, DbPopularMovie>
 
+    @Query("SELECT * FROM DbPopularMovie WHERE id = :id")
+    suspend fun getMovie(id: Int): DbPopularMovie
+
     @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun updateMovie(room: DbPopularMovie)
 

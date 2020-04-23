@@ -11,10 +11,10 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import br.com.devroid.domain.entity.MovieDetails
-import br.com.devroid.domain.util.W185
 import br.com.devroid.domain.util.W500
 import br.com.devroid.moviesapp.R
 import br.com.devroid.moviesapp.databinding.ActivityMovieDetailsBinding
+import br.com.devroid.presentation.ui.rating.RatingMovieFragment
 import br.com.devroid.presentation.util.base.BaseActivity
 import br.com.devroid.presentation.util.base.BaseViewModel
 import br.com.devroid.presentation.util.extensions.makeStatusBarTransparent
@@ -55,6 +55,11 @@ class MovieDetailsActivity : BaseActivity() {
         viewModel.movieDetails.observe(this, ::setupUi)
         viewModel.movieCrew.observe(this, crewAdapter::submitList)
         viewModel.recommendedMovies.observe(this, recommendedAdapter::submitList)
+        viewModel.showRatingFragment.observe(this, ::showRatingFragment)
+        viewModel.showThumbUpGreen.observe(this, ::showThumbUpGreen)
+        viewModel.showThumbUpRed.observe(this, ::showThumbUpRed)
+        viewModel.updateSavedImage.observe(this, ::updateSavedImage)
+        viewModel.openShareIntent.observe(this, ::openShareIntent)
     }
 
     private fun setupUi(movie: MovieDetails) {
@@ -66,6 +71,7 @@ class MovieDetailsActivity : BaseActivity() {
         setupInfos(movie)
         setupGenresRecyclerView(movie)
         setupRecommended()
+        setupClickListeners()
     }
 
     private fun setupToolbar(movie: MovieDetails) {
@@ -97,6 +103,10 @@ class MovieDetailsActivity : BaseActivity() {
                 .placeholder(R.drawable.poster_placeholder)
                 .apply(RequestOptions().apply { transform(CenterCrop(), RoundedCorners(8)) })
                 .into(includedMovieToolbar.imageViewPoster)
+            includedMovieToolbar.imageViewRate.setImageDrawable(
+                getDrawable(movie.getRatingImage())
+            )
+            updateSavedImage(movie.saved)
         }
     }
 
@@ -152,6 +162,46 @@ class MovieDetailsActivity : BaseActivity() {
                 false
             )
         }
+    }
+
+    private fun setupClickListeners() {
+        with(binding.includedMovieToolbar) {
+            imageViewSave.setOnClickListener { viewModel.onSaveMovieClicked() }
+            imageViewRate.setOnClickListener { viewModel.onRateMovieClicked() }
+            imageViewShare.setOnClickListener { viewModel.onShareMovieClicked() }
+        }
+    }
+
+    private fun showRatingFragment(ignore: Unit) {
+        RatingMovieFragment().show(supportFragmentManager, null)
+    }
+
+    private fun showThumbUpGreen(ignore: Unit) {
+        binding.includedMovieToolbar.imageViewRate.setImageDrawable(getDrawable(R.drawable.ic_thumb_up_green))
+    }
+
+    private fun showThumbUpRed(ignore: Unit) {
+        binding.includedMovieToolbar.imageViewRate.setImageDrawable(getDrawable(R.drawable.ic_thumb_down_red))
+    }
+
+    private fun updateSavedImage(saved: Boolean) {
+        binding.includedMovieToolbar.imageViewSave.setImageDrawable(
+            if (saved) getDrawable(R.drawable.ic_saved)
+            else getDrawable(R.drawable.ic_save)
+        )
+    }
+
+    private fun openShareIntent(text: String) {
+        startActivity(
+            Intent.createChooser(
+                Intent().apply {
+                    action = Intent.ACTION_SEND
+                    putExtra(Intent.EXTRA_TEXT, text)
+                    type = "text/plain"
+                },
+                getString(R.string.share_movie)
+            )
+        )
     }
 
     companion object {

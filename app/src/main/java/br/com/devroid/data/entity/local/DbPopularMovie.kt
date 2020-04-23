@@ -23,7 +23,8 @@ data class DbPopularMovie(
     override val overview: String?,
     override val releaseDate: String?,
     override val movieType: Int,
-    override val saved: Boolean
+    override val saved: Boolean,
+    override var rateByUser: Float?
 ) : DbMovie {
 
     override fun fromMovie(movie: Movie) =
@@ -43,6 +44,7 @@ data class DbPopularMovie(
             overview = movie.overview,
             releaseDate = movie.releaseDate,
             saved = movie.saved,
+            rateByUser = movie.rateByUser,
             sequenceId = movie.sequenceId,
             movieType = MovieType.MOVIE_TYPE_POPULAR
         )

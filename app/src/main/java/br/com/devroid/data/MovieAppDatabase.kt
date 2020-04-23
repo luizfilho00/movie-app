@@ -8,6 +8,8 @@ import androidx.room.TypeConverters
 import br.com.devroid.data.converter.*
 import br.com.devroid.data.dao.*
 import br.com.devroid.data.entity.local.*
+import br.com.devroid.domain.entity.Genre
+import br.com.devroid.domain.entity.MovieDetails
 
 @Database(
     entities = [
@@ -15,6 +17,10 @@ import br.com.devroid.data.entity.local.*
         DbTopRatedMovie::class,
         DbPopularMovie::class,
         DbLastPageLoadedFromNetwork::class,
+        DbUser::class,
+        Genre::class,
+        MovieDetailsGenreCrossRef::class,
+        MovieDetails::class,
         DbMovieSaved::class
     ], version = 1
 )
@@ -22,6 +28,7 @@ import br.com.devroid.data.entity.local.*
     DateConverter::class,
     IntConverter::class,
     DbTopRatedMovieConverter::class,
+    GenreConverter::class,
     DbPopularMovieConverter::class,
     DbInTheatersMovieConverter::class
 )
@@ -31,10 +38,13 @@ abstract class MovieAppDatabase : RoomDatabase() {
     abstract fun popularMoviesDao(): PopularMoviesDao
     abstract fun topRatedMoviesDao(): TopRatedMoviesDao
     abstract fun inTheatersMoviesDao(): InTheatersMoviesDao
+    abstract fun userDao(): UserDao
     abstract fun moviesDao(): MoviesDao
+    abstract fun movieDetailsDao(): MovieDetailsDao
+    abstract fun genreDao(): GenreDao
 
     companion object {
-        const val DATABASE_NAME = "movie-app"
+        private const val DATABASE_NAME = "movie-app"
 
         fun build(context: Context): MovieAppDatabase {
             return Room.databaseBuilder(

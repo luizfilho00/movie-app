@@ -2,6 +2,8 @@ package br.com.devroid.presentation.di
 
 import br.com.devroid.data.MovieAppDatabase
 import br.com.devroid.domain.resource.StringResource
+import br.com.devroid.domain.usecases.GetMovieShareText
+import br.com.devroid.domain.usecases.RateMovie
 import br.com.devroid.presentation.ui.movies.MoviesObserver
 import br.com.devroid.presentation.ui.movies.MoviesObserverImpl
 import br.com.devroid.presentation.util.exceptionHandler.ExceptionHandler
@@ -20,4 +22,10 @@ val appModule = module {
     single { get<MovieAppDatabase>().popularMoviesDao() }
     single { get<MovieAppDatabase>().pageLoadedDao() }
     single { get<MovieAppDatabase>().moviesDao() }
+    single { get<MovieAppDatabase>().userDao() }
+    single { get<MovieAppDatabase>().movieDetailsDao() }
+    single { get<MovieAppDatabase>().genreDao() }
+
+    factory { RateMovie(get(), get(), get()) }
+    factory { GetMovieShareText(get(), get()) }
 }

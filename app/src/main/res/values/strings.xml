@@ -33,10 +33,15 @@
     <string name="movie_saved_to_list">Filme salvo na sua lista</string>
     <string name="movie_removed_from_list">Filme removido da sua lista</string>
     <string name="movie_persist_error">Ocorreu um erro por favor tente novamnete</string>
+    <string name="movie_rated_success">Sua avaliação foi enviada</string>
+    <string name="movie_rated_failure">Ocorreu um erro ao tentar enviar sua avaliação, por favor tente novamente mais tarde</string>
     <string name="movies">Filmes</string>
+    <string name="share_movie">Compartilhar filme</string>
     <string name="favorites">Favoritos</string>
     <string name="my_list">Minha lista</string>
     <string name="empty_movie_list">Você ainda não adicionou nenhum filme à sua lista.</string>
     <string name="remove_movie_from_list">Remover filme da sua lista de favoritos</string>
     <string name="remove">Remover</string>
+    <string name="whats_your_rating">Qual a sua nota para o filme?</string>
+    <string name="label_rate">Avaliar</string>
 </resources>

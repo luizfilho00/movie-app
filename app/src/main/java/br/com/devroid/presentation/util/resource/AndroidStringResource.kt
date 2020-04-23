@@ -14,4 +14,6 @@ class AndroidStringResource(
     override val movieSavedToList: String get() = context.getString(R.string.movie_saved_to_list)
     override val movieRemovedFromList: String get() = context.getString(R.string.movie_removed_from_list)
     override val moviePersistError: String get() = context.getString(R.string.movie_persist_error)
+    override val movieRatedSuccess: String get() = context.getString(R.string.movie_rated_success)
+    override val movieRatedFailure: String get() = context.getString(R.string.movie_rated_failure)
 }

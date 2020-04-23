@@ -21,6 +21,7 @@ interface DbMovie {
     val releaseDate: String?
     val movieType: Int
     val saved: Boolean
+    val rateByUser: Float?
 
     fun fromMovie(movie: Movie): DbMovie
 
@@ -39,6 +40,7 @@ interface DbMovie {
         voteAverage = voteAverage,
         overview = overview ?: "",
         saved = saved,
+        rateByUser = rateByUser,
         sequenceId = sequenceId,
         releaseDate = releaseDate
     )
